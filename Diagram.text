@@ -1,3 +1,13 @@
 @startuml
+PlaceableObject <|-- ExteriorObject
+PlaceableObject <|-- Furniture
+ExteriorObject <|-- Structure 
+ExteriorObject <|-- GroundObject
+Furniture<|-- FloorObject
+Furniture<|-- WallObject
+PlaceableObject <|-- PlaceableWall
 
+SnappingPoint "0..1" -- "1" PlaceableObject
+PlacedObject "1" -- "0..1" SnappingPoint
+PlacedObject *-- PlaceableObject 
 @enduml
