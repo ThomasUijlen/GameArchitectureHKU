@@ -9,8 +9,8 @@ Furniture<|-- WallObject
 IPlaceableObject <|-- PlaceableWall
 
 interface ISnappingPoint
-StructureSnappingPoint <|-- ISnappingPoint
-WallSnappingPoint <|-- ISnappingPoint
+ISnappingPoint <|-- StructureSnappingPoint
+ISnappingPoint <|-- WallSnappingPoint
 ISnappingPoint "0..1" -- "1" PlacedObject
 Structure "1" -- "0..1" StructureSnappingPoint
 PlaceableWall "1" -- "0..1" WallSnappingPoint
