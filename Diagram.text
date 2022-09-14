@@ -1,5 +1,7 @@
 @startuml
 
+//Made by Bradley van Ewijk, Marc Neeleman, Thomas Uijlen
+
 class Player
 {
   Health
