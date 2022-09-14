@@ -1,3 +1,37 @@
 @startuml
 
+title Empty Diagram
+
+class Inventory{
+}
+
+class Item{
+}
+
+class CraftingRecipe {
+}
+
+class Player {
+}
+
+class Fabricator {
+}
+
+class CyclopsFabricator {
+}
+
+class MobileVehicleBay {
+}
+
+class VehicleUpgradeStation {
+}
+
+class ScannerRoomFabricator {
+}
+
+Fabricator <|--right-- CraftingRecipe: Has Many
+Item <|--up-- Inventory: Has Many
+Inventory <|--right-- Player: Has One
+CraftingRecipe <|--down--Item:Has Many
+
 @enduml
