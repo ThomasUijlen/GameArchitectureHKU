@@ -1,13 +1,17 @@
 @startuml
-PlaceableObject <|-- ExteriorObject
-PlaceableObject <|-- Furniture
+interface IPlaceableObject
+IPlaceableObject <|-- ExteriorObject
 ExteriorObject <|-- Structure 
 ExteriorObject <|-- GroundObject
+IPlaceableObject <|-- Furniture
 Furniture<|-- FloorObject
 Furniture<|-- WallObject
-PlaceableObject <|-- PlaceableWall
+IPlaceableObject <|-- PlaceableWall
 
-SnappingPoint "0..1" -- "1" PlaceableObject
-PlacedObject "1" -- "0..1" SnappingPoint
-PlacedObject *-- PlaceableObject 
-@enduml
+interface ISnappingPoint
+StructureSnappingPoint <|-- ISnappingPoint
+WallSnappingPoint <|-- ISnappingPoint
+ISnappingPoint "0..1" -- "1" IPlaceableObject
+Structure "1" -- "0..1" StructureSnappingPoint
+PlaceableWall "1" -- "0..1" WallSnappingPoint
+PlacedObject *-- IPlaceableObject@enduml
