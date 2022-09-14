@@ -2,19 +2,85 @@
 
 class Player
 {
+  Health
+  Oxygen
+  Food
+  Water
 }
 
 class Oxygen
-class Health
-class Food
-class Depth
-class OxygenRegen
+{
+ float OxygenAmount
+ void OxygenRegeneration();
+}
 
+class Health
+{
+ float HealthAmount
+ void HealthRegeneration();
+}
+class Food
+{
+ float FoodAmount
+ void FoodRegeneration();
+}
+class Water
+{
+ float WaterAmount
+ void WaterRegeneration();
+}
+
+class OxygenDepletion
+class HealthDepletion
+class WaterDepletion
+class FoodDepletion
+class Diving
+class SmokeAndFire
+
+class Death
 
 Player <|-down-Oxygen
-Oxygen <|-down-Depth
-Oxygen <|-down-OxygenRegen
 Player <|-down-Health
 Player <|-down-Food
+Player <|-down-Water
 
+Oxygen <|-down-OxygenDepletion
+Oxygen <|-down-OxygenRegen
+
+Health <|-down-HealthRegen
+Health <|-down-HealthDepletion
+
+Food <|-down-FoodDepletion
+Food <|-down-FoodRegen
+
+Water <|-down-WaterDepletion
+Water <|-down-WaterRegen
+
+OxygenRegen <|-down-Surfacing
+OxygenRegen <|-down-VechicleEntry
+OxygenRegen <|-down-ApproachPipe
+OxygenRegen <|-down-EatRawBladderfish
+
+FoodRegen <|-down-EatRawBladderfish
+FoodRegen <|-down-Eating
+
+WaterRegen <|-down-Drinking
+
+HealthRegen <|-down-FirstAidKit
+
+WaterDepletion <|-down-EatRawBladderfish
+WaterDepletion <|-down-Diving
+
+Death <|-up-WaterDepletion
+Death <|-up-FoodDepletion
+Death <|-up-HealthDepletion
+Death <|-up-OxygenDepletion
+
+OxygenDepletion <|-down-Diving
+
+FoodDepletion <|-down-Diving
+
+OxygenDepletion <|-down-SmokeAndFire
+
+HealthDepletion <|-down-SmokeAndFire
 @enduml
