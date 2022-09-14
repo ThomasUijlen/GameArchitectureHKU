@@ -11,7 +11,8 @@ IPlaceableObject <|-- PlaceableWall
 interface ISnappingPoint
 StructureSnappingPoint <|-- ISnappingPoint
 WallSnappingPoint <|-- ISnappingPoint
-ISnappingPoint "0..1" -- "1" IPlaceableObject
+ISnappingPoint "0..1" -- "1" PlacedObject
 Structure "1" -- "0..1" StructureSnappingPoint
 PlaceableWall "1" -- "0..1" WallSnappingPoint
-PlacedObject *-- IPlaceableObject@enduml
+PlacedObject *-- IPlaceableObject
+@enduml
