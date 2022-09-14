@@ -47,42 +47,48 @@ Player <|-down-Food
 Player <|-down-Water
 
 Oxygen <|-down-OxygenDepletion
-Oxygen <|-down-OxygenRegen
+Oxygen <|-down-OxygenRegeneration
 
-Health <|-down-HealthRegen
+Health <|-down-HealthRegeneration
 Health <|-down-HealthDepletion
 
 Food <|-down-FoodDepletion
-Food <|-down-FoodRegen
+Food <|-down-FoodRegeneration
 
 Water <|-down-WaterDepletion
-Water <|-down-WaterRegen
+Water <|-down-WaterRegeneration
 
-OxygenRegen <|-down-Surfacing
-OxygenRegen <|-down-VechicleEntry
-OxygenRegen <|-down-ApproachPipe
-OxygenRegen <|-down-EatRawBladderfish
+OxygenRegeneration <|-down-Surfacing
+OxygenRegeneration <|-down-VechicleEntry
+OxygenRegeneration <|-down-ApproachPipe
+OxygenRegeneration <|-down-EatRawBladderfish
 
-FoodRegen <|-down-EatRawBladderfish
-FoodRegen <|-down-Eating
+FoodRegeneration <|-down-EatRawBladderfish
+FoodRegeneration <|-down-Eating
 
-WaterRegen <|-down-Drinking
+WaterRegeneration <|-down-Drinking
 
-HealthRegen <|-down-FirstAidKit
+HealthRegeneration <|-down-FirstAidKit
 
 WaterDepletion <|-down-EatRawBladderfish
-WaterDepletion <|-down-Diving
+WaterDepletion <|-down-Time
 
 Death <|-up-WaterDepletion
 Death <|-up-FoodDepletion
 Death <|-up-HealthDepletion
 Death <|-up-OxygenDepletion
 
+WaterRegeneration <|-up-Death
+FoodRegeneration <|-up-Death
+HealthRegeneration <|-up-Death
+OxygenRegeneration <|-up-Death
+
 OxygenDepletion <|-down-Diving
-
-FoodDepletion <|-down-Diving
-
 OxygenDepletion <|-down-SmokeAndFire
 
+FoodDepletion <|-down-Time
+
 HealthDepletion <|-down-SmokeAndFire
+HealthDepletion <|-down-EnemyHit
+
 @enduml
