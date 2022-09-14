@@ -1,3 +1,20 @@
 @startuml
 
+class Player
+{
+}
+
+class Oxygen
+class Health
+class Food
+class Depth
+class OxygenRegen
+
+
+Player <|-down-Oxygen
+Oxygen <|-down-Depth
+Oxygen <|-down-OxygenRegen
+Player <|-down-Health
+Player <|-down-Food
+
 @enduml
