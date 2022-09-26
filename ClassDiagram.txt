@@ -11,6 +11,7 @@ class GameManager {
 class InputManager {
 -Dictionary<KeyCode, List<ICommand>> keyBindings
 +void RegisterKeyBinding(KeyCode _keyCode, ICommand _command)
++void UnregisterKeyBinding(KeyCode _keyCode, ICommand _command)
 }
 
 interface ICommand {
@@ -48,15 +49,63 @@ ICommand "0..*" -- InputManager
 GameManager "1" *-- "0..*" BasicObject
 
 
-
-class BaseBuilding.BaseBuildingManager #ddccff {
+package BaseBuilding {
+class BaseBuildingManager #ddccff {
 BaseBuildingManager(GameManager _gameManager)
++SetActiveState(BuildState _state)
 }
 
-class BaseBuilding.HologramStructure #ddccff {
+interface IBuildState #ddccff {
+
++ void Update(BaseBuildingManager _manager)
+}
+
+class IdleState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+class ConstructState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+class DemolishState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+struct StructureReference #eee6ff {
++ String prefabName
++ Type hologramType
+StructureReference(String _prefabName, Type _hologramType)
+}
+
+class HologramStructure #ddccff {
+-GameObject hologramObject
+-GameObject resultStructure
 +virtual void PositionStructure()
++virtual bool CanPlace()
++bool TryPlaceStructure()
 }
 
-BasicObject <|-- BaseBuilding.BaseBuildingManager
-BasicObject <|-- BaseBuilding.HologramStructure
+class ExteriorStructure #ddccff {
++override void PositionStructure()
++override bool CanPlace()
+}
+
+class InteriorStructure #ddccff {
++override void PositionStructure()
++override bool CanPlace()
+}
+
+BasicObject <|-- BaseBuildingManager
+BasicObject <|-- HologramStructure
+HologramStructure <|-- ExteriorStructure
+HologramStructure <|-- InteriorStructure
+
+StructureReference "0..*" *-- ConstructState : Has library of
+IBuildState *-- BaseBuildingManager : Active state
+IBuildState <|-- ConstructState
+IBuildState <|-- DemolishState
+IBuildState <|-- IdleState
+HologramStructure *-- ConstructState
+}
 @enduml
