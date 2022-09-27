@@ -108,4 +108,74 @@ IBuildState <|-- DemolishState
 IBuildState <|-- IdleState
 HologramStructure *-- ConstructState
 }
+
+package Crafting {
+  
+interface ICrafter #fbd4a8 {
+  - recipeList: sRecipeList
+  
+}
+
+class DefaultCrafter #fbd4a8
+
+class ItemEnhancer #fbd4a8 
+
+interface ICraftingResult #fbd4a8 {
+  
+}
+
+class ItemPickup #fbd4a8 {
+  - mesh: Mesh;
+  - item: sItem
+}
+
+class sItem #fbd4a8 {
+  + name: string
+  + sprite: Image
+}
+
+class sRecipe #fbd4a8 {
+- ingredients: Dictionary<Item, int>
+- result: ICraftingResult
+}
+
+class sRecipeList #fbd4a8 {
+  - recipes: List<sRecipe>
+}
+
+class Player #fbd4a8 {
+  + inventory: Inventory
+}
+
+class Inventory #fbd4a8 {
+  - inventorySlots : Dictionary<int, sItem>
+  - itemAmounts : Dictionary<sItem, int>
+  + AddItem (sItem item, int amount): void
+  + RemoveItem (sItem item, int amount): void
+  + HasItems (sItem item, int amount): bool
+}
+
+abstract class ItemDecorator #fbd4a8 
+
+Unity.ScriptableObject <|-- sRecipe
+Unity.ScriptableObject <|-- sRecipeList
+Unity.ScriptableObject <|-- sItem
+BasicObject <|-- ItemPickup
+
+ItemPickup o-up- sItem
+sRecipeList o-- sRecipe : "0..*"
+sRecipe o-- ICraftingResult
+sRecipe o-- sItem : "0..*"
+ICraftingResult <|.. sItem
+
+BasicObject <|-- ICrafter
+BasicObject <|- Player
+ICrafter  o-right- sRecipeList : "0..1"
+ICrafter <|.down. DefaultCrafter
+ICrafter <|.down. ItemEnhancer
+ItemEnhancer o-- ItemDecorator
+
+Player o-left- Inventory : "0..1"
+Inventory o-left- sItem : "0..*"
+}
 @enduml
