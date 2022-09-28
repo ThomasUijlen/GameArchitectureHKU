@@ -162,20 +162,20 @@ Unity.ScriptableObject <|-- sRecipeList
 Unity.ScriptableObject <|-- sItem
 BasicObject <|-- ItemPickup
 
-ItemPickup o-up- sItem
-sRecipeList o-- sRecipe : "0..*"
-sRecipe o-- ICraftingResult
-sRecipe o-- sItem : "0..*"
+ItemPickup -up-* sItem
+sRecipeList "0..*" --* sRecipe
+sRecipe --* ICraftingResult
+sRecipe "0..*" --* sItem
 ICraftingResult <|.. sItem
 
 BasicObject <|-- ICrafter
 BasicObject <|- Player
-ICrafter  o-right- sRecipeList : "0..1"
+ICrafter "0..1" -right-* sRecipeList
 ICrafter <|.down. DefaultCrafter
 ICrafter <|.down. ItemEnhancer
-ItemEnhancer o-- ItemDecorator
+ItemEnhancer --o ItemDecorator
 
-Player o-left- Inventory : "0..1"
-Inventory o-left- sItem : "0..*"
+Player "1..0" -left-* Inventory
+Inventory "*..0" -left-o sItem
 }
 @enduml
