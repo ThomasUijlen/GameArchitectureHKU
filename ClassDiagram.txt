@@ -109,6 +109,46 @@ IBuildState <|-- IdleState
 HologramStructure *-- ConstructState
 }
 
+package LocomotionAndSurvival{
+
+Interface Locomotion #abdbe3{
+  -stateCheck GoundOrWater
+  
+  +void DoMovement()
+}
+class Oxygen #abdbe3{
+-int oxygenLevel
+
++void AddOxygen(int amount)
++void SubstractOxygen(int amount)
+}
+
+class GroundMovement #abdbe3{
+-int movementSpeed
+-int turnSpeed
+-bool CanMove
+
++void DoMove()
+}
+
+class WaterMovement #abdbe3{
+-int movementSpeed
+-int turnSpeed
+-bool CanMove
+
++void DoMove()
+}
+
+Player --* Oxygen
+
+Player --* Locomotion
+InputManager <-- Locomotion
+
+GroundMovement ..|> Locomotion
+WaterMovement ..|> Locomotion
+
+}
+
 package Crafting {
   
 interface ICrafter #fbd4a8 {
