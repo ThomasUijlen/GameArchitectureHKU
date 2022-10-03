@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
 
     private List<BasicObject> objects = new List<BasicObject>();
 
+    private void Awake()
+    {
+        prefabLibrary.PrepareLibrary();
+    }
+
     private void Start() {
         if(sceneBuilder != null) sceneBuilder.BuildScene(this);
         RegisterBasicObject(new InputManager(this));

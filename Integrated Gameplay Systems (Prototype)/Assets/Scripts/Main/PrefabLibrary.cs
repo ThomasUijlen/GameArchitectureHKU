@@ -13,7 +13,7 @@ public class PrefabLibrary : ScriptableObject
     public List<PrefabReference> prefabs = new List<PrefabReference>();
     private Dictionary<string, GameObject> prefabLibrary = new Dictionary<string, GameObject>();
 
-    private void Awake() {
+    public void PrepareLibrary() {
         foreach(PrefabReference reference in prefabs) {
             prefabLibrary.Add(reference.name, reference.prefab);
         }
