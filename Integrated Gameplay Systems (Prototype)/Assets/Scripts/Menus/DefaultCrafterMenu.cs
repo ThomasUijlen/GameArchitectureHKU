@@ -4,13 +4,16 @@ using UnityEngine.UI;
 public class CrafterMenu : Menu
 {
     // Misschien later heeft elk menu een Canvas met UI
+    private ICrafter crafter;
+
     private Canvas menuCanvas;
     private Button menuButton;
 
-    public CrafterMenu(GameManager _gameManager, Canvas _menuCanvas, ICrafter crafter) : base(_gameManager)
+    public CrafterMenu(GameManager _gameManager, Canvas _menuCanvas, ICrafter _crafter) : base(_gameManager)
     {
         menuCanvas = _menuCanvas;
         menuButton = _menuCanvas.gameObject.GetComponentInChildren<Button>();
+        crafter = _crafter;
         AddButtonEvents();
         //menuCanvas = _menuCanvas;
     }
@@ -27,11 +30,6 @@ public class CrafterMenu : Menu
 
     private void AddButtonEvents()
     {
-        menuButton.onClick.AddListener(Craft);
-    }
-
-    private void Craft()
-    {
-        Debug.Log("Craft Button Clicked");
+        menuButton.onClick.AddListener(() => crafter.Craft());
     }
 }

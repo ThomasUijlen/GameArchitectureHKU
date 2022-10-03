@@ -6,4 +6,12 @@ public class sRecipe: ScriptableObject
 {
     public List<ItemAmountPair> ingredients = new List<ItemAmountPair>();
     public ICraftingResult craftingResult;
+
+    public sRecipe() { }
+
+    public sRecipe(List<ItemAmountPair> _ingredients, ICraftingResult _craftingResult)
+    {
+        ingredients = _ingredients;
+        craftingResult = _craftingResult;
+    }
 }
