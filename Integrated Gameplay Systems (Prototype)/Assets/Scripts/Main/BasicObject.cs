@@ -12,4 +12,8 @@ public abstract class BasicObject
     public virtual void Update() {}
 
     public virtual void FixedUpdate() {}
+
+    public virtual void Destroy() {
+        gameManager.DeregisterBasicObject(this);
+    }
 }
