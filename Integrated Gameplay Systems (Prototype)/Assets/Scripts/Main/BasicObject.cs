@@ -7,6 +7,7 @@ public abstract class BasicObject
     private GameManager gameManager;
     public BasicObject(GameManager _gameManager) {
         gameManager = _gameManager;
+        gameManager.RegisterBasicObject(this);
     }
 
     public virtual void Update() {}
