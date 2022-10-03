@@ -1,4 +1,6 @@
 @startuml
+title Subnautica Domain Diagram
+
 interface IPlaceableObject
 IPlaceableObject <|-- ExteriorObject
 ExteriorObject <|-- Structure 
@@ -15,55 +17,120 @@ ISnappingPoint "0..1" -- "1" PlacedObject
 Structure "1" -- "0..1" StructureSnappingPoint
 PlaceableWall "1" -- "0..1" WallSnappingPoint
 PlacedObject *-- IPlaceableObject
-title Subnautica Domain Diagram
 
-class Inventory{
-}
-
-class Item{
-}
-
-class CraftingRecipe {
-}
-
-class Player {
-}
-
-class Fabricator {
-}
-
-class CyclopsFabricator {
-}
-
-class MobileVehicleBay {
-}
-
-class VehicleUpgradeStation {
-}
-
-class ScannerRoomFabricator {
-}
-
-class Vehicle {
-}
-
-interface ICraftingResult {
-}
+interface ICraftingResult
+class Inventory
+class Item
+class CraftingRecipe
+class Fabricator
+class CyclopsFabricator
+class MobileVehicleBay
+class VehicleUpgradeStation
+class ScannerRoomFabricator
+class Vehicle
 
 Fabricator *-right-- CraftingRecipe: Has Many
 Item *-up-- Inventory: Has Many
-Inventory*-right-- Player: Has One
+Inventory*-left-- Player: Has One
 Item *-up--CraftingRecipe: Has Many
+ICraftingResult *-up-- CraftingRecipe: Has One
+Item <|--left-- ICraftingResult
+Vehicle <|--up-- ICraftingResult
 
 CyclopsFabricator <|--up-- Fabricator
 MobileVehicleBay <|--up-- Fabricator
 VehicleUpgradeStation <|--up-- Fabricator
 ScannerRoomFabricator <|--up-- Fabricator
 
-ICraftingResult *-up-- CraftingRecipe: Has One
-Item <|--left-- ICraftingResult
-Vehicle <|--up-- ICraftingResult
-
 Fabricator <|-- PlacedObject
+
+class Player
+{
+  Health
+  Oxygen
+  Food
+  Water
+}
+
+class Oxygen
+{
+ float OxygenAmount
+ void OxygenRegeneration();
+}
+
+class Health
+{
+ float HealthAmount
+ void HealthRegeneration();
+}
+class Food
+{
+ float FoodAmount
+ void FoodRegeneration();
+}
+class Water
+{
+ float WaterAmount
+ void WaterRegeneration();
+}
+
+class OxygenDepletion
+class HealthDepletion
+class WaterDepletion
+class FoodDepletion
+class Diving
+class SmokeAndFire
+
+class Death
+
+Player <|-down-Oxygen
+Player <|-down-Health
+Player <|-down-Food
+Player <|-down-Water
+
+Oxygen <|-down-OxygenDepletion
+Oxygen <|-down-OxygenRegeneration
+
+Health <|-down-HealthRegeneration
+Health <|-down-HealthDepletion
+
+Food <|-down-FoodDepletion
+Food <|-down-FoodRegeneration
+
+Water <|-down-WaterDepletion
+Water <|-down-WaterRegeneration
+
+OxygenRegeneration <|-down-Surfacing
+OxygenRegeneration <|-down-VechicleEntry
+OxygenRegeneration <|-down-ApproachPipe
+OxygenRegeneration <|-down-EatRawBladderfish
+
+FoodRegeneration <|-down-EatRawBladderfish
+FoodRegeneration <|-down-Eating
+
+WaterRegeneration <|-down-Drinking
+
+HealthRegeneration <|-down-FirstAidKit
+
+WaterDepletion <|-down-EatRawBladderfish
+WaterDepletion <|-down-Time
+
+Death <|-up-WaterDepletion
+Death <|-up-FoodDepletion
+Death <|-up-HealthDepletion
+Death <|-up-OxygenDepletion
+
+WaterRegeneration <|-up-Death
+FoodRegeneration <|-up-Death
+HealthRegeneration <|-up-Death
+OxygenRegeneration <|-up-Death
+
+OxygenDepletion <|-down-Diving
+OxygenDepletion <|-down-SmokeAndFire
+
+FoodDepletion <|-down-Time
+
+HealthDepletion <|-down-SmokeAndFire
+HealthDepletion <|-down-EnemyHit
 
 @enduml

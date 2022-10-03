@@ -1,0 +1,221 @@
+@startuml
+class Unity.MonoBehaviour
+class Unity.ScriptableObject
+
+class GameManager {
++void Update()
++void FixedUpdate()
++void RegisterBasicObject(BasicObject _object)
+}
+
+class InputManager {
+-Dictionary<KeyCode, List<ICommand>> keyBindings
++void RegisterKeyBinding(KeyCode _keyCode, ICommand _command)
++void UnregisterKeyBinding(KeyCode _keyCode, ICommand _command)
+}
+
+interface ICommand {
++void Execute()
+}
+
+abstract BasicObject {
+BasicObject(GameManager _gameManager)
++void Update()
++void FixedUpdate()
+}
+
+class PrefabLibrary {
++bool hasPrefab(String _name)
++GameObject getPrefab(String _name)
++GameObject instantiatePrefab(String _name)
+}
+
+struct PrefabReference {
++String name
++GameObject prefab
+}
+
+interface ISceneBuilder {
++void BuildScene(GameManager _gameManager)
+}
+
+Unity.MonoBehaviour <|-- GameManager
+PrefabLibrary *-- GameManager
+PrefabReference "0..*" *-- PrefabLibrary
+Unity.ScriptableObject <|-- PrefabLibrary
+InputManager *-- GameManager
+ISceneBuilder *-- GameManager
+ICommand "0..*" -- InputManager
+GameManager "1" *-- "0..*" BasicObject
+
+
+package BaseBuilding {
+class BaseBuildingManager #ddccff {
+BaseBuildingManager(GameManager _gameManager)
++SetActiveState(BuildState _state)
+}
+
+interface IBuildState #ddccff {
+
++ void Update(BaseBuildingManager _manager)
+}
+
+class IdleState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+class ConstructState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+class DemolishState #ddccff {
++ void Update(BaseBuildingManager _manager)
+}
+
+struct StructureReference #eee6ff {
++ String prefabName
++ Type hologramType
+StructureReference(String _prefabName, Type _hologramType)
+}
+
+class HologramStructure #ddccff {
+-GameObject hologramObject
+-GameObject resultStructure
++virtual void PositionStructure()
++virtual bool CanPlace()
++bool TryPlaceStructure()
+}
+
+class ExteriorStructure #ddccff {
++override void PositionStructure()
++override bool CanPlace()
+}
+
+class InteriorStructure #ddccff {
++override void PositionStructure()
++override bool CanPlace()
+}
+
+BasicObject <|-- BaseBuildingManager
+BasicObject <|-- HologramStructure
+HologramStructure <|-- ExteriorStructure
+HologramStructure <|-- InteriorStructure
+
+StructureReference "0..*" *-- ConstructState : Has library of
+IBuildState *-- BaseBuildingManager : Active state
+IBuildState <|-- ConstructState
+IBuildState <|-- DemolishState
+IBuildState <|-- IdleState
+HologramStructure *-- ConstructState
+}
+
+package LocomotionAndSurvival{
+
+Interface Locomotion #abdbe3{
+  -stateCheck GoundOrWater
+  
+  +void DoMovement()
+}
+class Oxygen #abdbe3{
+-int oxygenLevel
+
++void AddOxygen(int amount)
++void SubstractOxygen(int amount)
+}
+
+class GroundMovement #abdbe3{
+-int movementSpeed
+-int turnSpeed
+-bool CanMove
+
++void DoMove()
+}
+
+class WaterMovement #abdbe3{
+-int movementSpeed
+-int turnSpeed
+-bool CanMove
+
++void DoMove()
+}
+
+Player --* Oxygen
+
+Player --* Locomotion
+InputManager <-- Locomotion
+
+GroundMovement ..|> Locomotion
+WaterMovement ..|> Locomotion
+
+}
+
+package Crafting {
+  
+interface ICrafter #fbd4a8 {
+  - recipeList: sRecipeList
+  
+}
+
+class DefaultCrafter #fbd4a8
+
+class ItemEnhancer #fbd4a8 
+
+interface ICraftingResult #fbd4a8 {
+  
+}
+
+class ItemPickup #fbd4a8 {
+  - mesh: Mesh;
+  - item: sItem
+}
+
+class sItem #fbd4a8 {
+  + name: string
+  + sprite: Image
+}
+
+class sRecipe #fbd4a8 {
+- ingredients: Dictionary<Item, int>
+- result: ICraftingResult
+}
+
+class sRecipeList #fbd4a8 {
+  - recipes: List<sRecipe>
+}
+
+class Player #fbd4a8 {
+  + inventory: Inventory
+}
+
+class Inventory #fbd4a8 {
+  - inventorySlots : Dictionary<int, sItem>
+  - itemAmounts : Dictionary<sItem, int>
+  + AddItem (sItem item, int amount): void
+  + RemoveItem (sItem item, int amount): void
+  + HasItems (sItem item, int amount): bool
+}
+
+abstract class ItemDecorator #fbd4a8 
+
+Unity.ScriptableObject <|-- sRecipe
+Unity.ScriptableObject <|-- sRecipeList
+Unity.ScriptableObject <|-- sItem
+BasicObject <|-- ItemPickup
+
+ItemPickup -up-* sItem
+sRecipeList "0..*" --* sRecipe
+sRecipe --* ICraftingResult
+sRecipe "0..*" --* sItem
+ICraftingResult <|.. sItem
+
+BasicObject <|-- ICrafter
+BasicObject <|- Player
+ICrafter "0..1" -right-* sRecipeList
+ICrafter <|.down. DefaultCrafter
+ICrafter <|.down. ItemEnhancer
+ItemEnhancer --o ItemDecorator
+
+Player "1..0" -left-* Inventory
+Inventory "*..0" -left-o sItem
+}
+@enduml
