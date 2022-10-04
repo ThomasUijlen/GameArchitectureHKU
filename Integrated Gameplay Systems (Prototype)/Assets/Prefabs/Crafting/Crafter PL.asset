@@ -19,3 +19,5 @@ MonoBehaviour:
     prefab: {fileID: 4832160066965949706, guid: 4d3cea52055193348a0dd13e4bcda7d6, type: 3}
   - name: RecipeButton
     prefab: {fileID: 3681705604893244684, guid: 0c43fe97e96dc964cb8e61f53ac7bff3, type: 3}
+  - name: Crafter
+    prefab: {fileID: 4533966826358883829, guid: 5aa52b16d24f7b749b35f12e039c3c0e, type: 3}

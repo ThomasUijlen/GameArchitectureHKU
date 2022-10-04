@@ -87,11 +87,11 @@ public class CrafterMenu : Menu
         }
     }
 
-    private void UpdateIngedientsInfo(PointerEventData data)
+    private void UpdateIngedientsInfo(PointerEventData _pointerData)
     {
-        if (data == null) return;
+        if (_pointerData == null) return;
 
-        Button button = data.pointerEnter.GetComponent<Button>();
+        Button button = _pointerData.pointerEnter.GetComponent<Button>();
         if (recipeButtons.ContainsKey(button))
         {
             sRecipe recipe = recipeButtons[button];

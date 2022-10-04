@@ -1,13 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DefaultCrafter : BasicObject, ICrafter
 {
-    private GameManager gameManager;
-    private CrafterMenu menu;
-
-    private Inventory inventory;
-
     public sRecipeList recipes
     {
         get
@@ -42,11 +39,16 @@ public class DefaultCrafter : BasicObject, ICrafter
         }
     }
 
+    private GameManager gameManager;
+    private CrafterMenu menu;
+
+    private Inventory inventory;
+
     public DefaultCrafter(GameManager _gameManager) : base(_gameManager)
     {
         gameManager = _gameManager;
 
-        InstantiateMenu(_gameManager);
+        InstantiateCrafter();
     }
 
     public DefaultCrafter(GameManager _gameManager, Inventory _inventory) : base(_gameManager)
@@ -54,7 +56,8 @@ public class DefaultCrafter : BasicObject, ICrafter
         gameManager = _gameManager;
         inventory = _inventory;
        
-        InstantiateMenu(_gameManager);
+        InstantiateCrafter();
+        //InstantiateMenu(gameManager);
     }
 
     public bool Craft(sRecipe recipe)
@@ -89,12 +92,29 @@ public class DefaultCrafter : BasicObject, ICrafter
         return true;
     }
 
-    private void InstantiateMenu(GameManager _gameManager)
+    private void InstantiateMenu(GameManager _gameManager, PointerEventData _pointerData = null)
     {
         if (_gameManager.prefabLibrary.HasPrefab("CrafterMenuUI"))
         {
             Canvas menuUI = _gameManager.prefabLibrary.InstantiatePrefab("CrafterMenuUI").GetComponent<Canvas>();
             menu = new CrafterMenu(_gameManager, menuUI, this);
         }
+    }
+
+    private void InstantiateCrafter()
+    {
+        GameObject crafter = gameManager.prefabLibrary.InstantiatePrefab("Crafter");
+
+        EventTrigger crafterTriggers = crafter.GetComponent<EventTrigger>();
+        EventTrigger.Entry pointerClickEntry = new EventTrigger.Entry();
+        pointerClickEntry.eventID = EventTriggerType.PointerClick;
+        pointerClickEntry.callback.AddListener((data) => InstantiateMenu(gameManager, (PointerEventData)data));
+        crafterTriggers.triggers.Add(pointerClickEntry);
+
+         /* EventTrigger buttonTriggers = crafter.GetComponent<EventTrigger>();
+         EventTrigger.Entry hoverEntry = new EventTrigger.Entry();
+         hoverEntry.eventID = EventTriggerType.PointerEnter;
+         hoverEntry.callback.AddListener((data) => InstantiateMenu((PointerEventData)data, gameManager));
+         buttonTriggers.triggers.Add(hoverEntry);*/
     }
 }
