@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Menu
+public abstract class Menu : State
 {
     public bool allowMovement = false;
-    private GameManager gameManager;
-
-    public Menu(GameManager _gameManager) {
+    protected GameManager gameManager;
+    public Menu(IStateMachine _stateMachine, GameManager _gameManager) : base(_stateMachine) {
         gameManager = _gameManager;
     }
-
-    public abstract void EnableMenu();
-    public abstract void DisableMenu();
 }
