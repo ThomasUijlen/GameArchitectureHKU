@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : BasicObject, IStateMachine
+public class Player : BasicObject
 {
     Oxygen oxygen;
 
@@ -10,7 +10,7 @@ public class Player : BasicObject, IStateMachine
 
     Vector3 moveDirection;
 
-    private Menu currentMenu;
+    private MenuStateMachine menuStateMachine;
 
     public Player(GameManager _gameManager) : base(_gameManager) 
     {
@@ -21,30 +21,11 @@ public class Player : BasicObject, IStateMachine
         gameManager.inputManager.RegisterKeyBinding(KeyCode.S, new MoveCommand(this, Vector3.right));
         gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
 
-        SetState(new NoMenu(this, gameManager));
-    }
-
-    public override void Update()
-    {
-        if(currentMenu != null) currentMenu.Update();
-    }
-
-    public override void FixedUpdate()
-    {
-        if(currentMenu != null) currentMenu.FixedUpdate();
+        menuStateMachine = new MenuStateMachine(_gameManager);
     }
 
     public void DoMovement(Vector3 direction)
     {
         moveDirection = direction;
-    }
-
-    //State machine logic -----------------------------------
-    public void SetState(State _newState) {
-        if(!(_newState is Menu)) return;
-
-        if(currentMenu != null) currentMenu.DisableState();
-        currentMenu = (Menu) _newState;
-        if(currentMenu != null) currentMenu.EnableState();
     }
 }
