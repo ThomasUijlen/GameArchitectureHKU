@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public PrefabLibrary prefabLibrary;
     public SceneBuilder sceneBuilder;
+    public InputManager inputManager;
 
     private List<BasicObject> objects = new List<BasicObject>();
 
@@ -15,8 +16,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        if(sceneBuilder != null) sceneBuilder.BuildScene(this);
-        RegisterBasicObject(new InputManager(this));
+        inputManager = new InputManager(this);
+        if (sceneBuilder != null) sceneBuilder.BuildScene(this);
 
         // Crafter Things\
         Inventory inventory = new Inventory(this);
