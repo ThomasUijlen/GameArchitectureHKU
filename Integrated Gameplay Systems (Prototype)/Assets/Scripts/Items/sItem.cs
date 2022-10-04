@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
 public class sItem : ScriptableObject, ICraftingResult
 {
-    public string name;
+    public string name { get; }
     public Image sprite;
 
     public sItem() { }

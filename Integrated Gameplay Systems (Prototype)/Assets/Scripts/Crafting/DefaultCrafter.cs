@@ -24,7 +24,19 @@ public class DefaultCrafter : BasicObject, ICrafter
                 craftingResult = ItemLibrary.Stick
             };
 
+            List<ItemAmountPair> ingredients2 = new List<ItemAmountPair>
+            {
+                new ItemAmountPair(ItemLibrary.Stick, 2),
+                new ItemAmountPair(ItemLibrary.Stone, 2)
+            };
+            sRecipe otherRecipe = new sRecipe()
+            {
+                ingredients = ingredients2,
+                craftingResult = ItemLibrary.Tool
+            };
+
             list.recipes.Add(basicRecipe);
+            list.recipes.Add(otherRecipe);
 
             return list;
         }
@@ -45,17 +57,16 @@ public class DefaultCrafter : BasicObject, ICrafter
         InstantiateMenu(_gameManager);
     }
 
-    public bool Craft(sRecipe recipe = null)
+    public bool Craft(sRecipe recipe)
     {
         inventory.ShowContent();
-
-        recipe = recipes.recipes[0];
 
         // Check if inventory has the correct items
         foreach(ItemAmountPair pair in recipe.ingredients)
         {
             if (!inventory.HasItems(pair.item, pair.amount))
             {
+                Debug.Log("Player did not have the right ingredients");
                 return false;
             }
         }

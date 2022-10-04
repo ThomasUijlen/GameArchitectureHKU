@@ -9,6 +9,7 @@ public class Inventory : BasicObject
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
         items.Add(ItemLibrary.Wood, 10);
+        items.Add(ItemLibrary.Stone, 4);
     }
 
     public void AddItem(sItem _item, int _amount)
