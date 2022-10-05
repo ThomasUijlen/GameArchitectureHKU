@@ -6,12 +6,14 @@ public class sItem : ScriptableObject, ICraftingResult
 {
     public string name { get; }
     public Image sprite;
+    public float goldValue;
 
     public sItem() { }
 
-    public sItem(string _name, Image _sprite = null)
+    public sItem(string _name, float _goldValue = 0f, Image _sprite = null)
     {
         name = _name;
+        goldValue = _goldValue;
         sprite = _sprite;
     }
 

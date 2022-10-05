@@ -21,3 +21,5 @@ MonoBehaviour:
     prefab: {fileID: 3681705604893244684, guid: 0c43fe97e96dc964cb8e61f53ac7bff3, type: 3}
   - name: Crafter
     prefab: {fileID: 4533966826358883829, guid: 5aa52b16d24f7b749b35f12e039c3c0e, type: 3}
+  - name: Enhancer
+    prefab: {fileID: 4533966826358883829, guid: a69470f74e6d07545a8afca6bb9bbfbf, type: 3}

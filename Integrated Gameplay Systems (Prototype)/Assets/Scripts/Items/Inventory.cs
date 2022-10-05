@@ -8,6 +8,7 @@ public class Inventory : BasicObject
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
+        // For testing
         items.Add(ItemLibrary.Wood, 10);
         items.Add(ItemLibrary.Stone, 4);
     }
