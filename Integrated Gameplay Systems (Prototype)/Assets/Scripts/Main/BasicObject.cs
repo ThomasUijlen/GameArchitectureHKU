@@ -4,9 +4,10 @@ using UnityEngine;
 
 public abstract class BasicObject
 {
-    private GameManager gameManager;
+    public GameManager gameManager;
     public BasicObject(GameManager _gameManager) {
         gameManager = _gameManager;
+        gameManager.RegisterBasicObject(this);
     }
 
     public virtual void Update() {}
