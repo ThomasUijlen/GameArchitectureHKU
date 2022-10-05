@@ -8,32 +8,29 @@ public class CrafterMenu : Menu
 {
     // Misschien later heeft elk menu een Canvas met UI
     private Dictionary<Button, sRecipe> recipeButtons = new Dictionary<Button, sRecipe>();
-    private GameManager gameManager;
     private ICrafter crafter;
 
-    private Canvas menuCanvas;
+    private GameObject menuCanvas;
     private GameObject recipeInfo;
     private Text resultNameText;
+    private Text ingredientInfoText;
+    private IStateMachine stateMachine;
 
-    // Layout \\
-    private float buttonOffset = 85f;
-    
-
-    public CrafterMenu(GameManager _gameManager, Canvas _menuCanvas, ICrafter _crafter) : base(_gameManager)
+    public CrafterMenu(IStateMachine _stateMachine, GameManager _gameManager, ICrafter _crafter) : base(_stateMachine, _gameManager)
     {
-        gameManager = _gameManager;
-        menuCanvas = _menuCanvas;
+        stateMachine = _stateMachine;
         crafter = _crafter;
+        menuCanvas = _gameManager.prefabLibrary.InstantiatePrefab("CrafterMenuUI");
 
         AddRecipesToScrollView();
     }
 
-    public override void DisableMenu()
+    public override void DisableState()
     {
         menuCanvas.gameObject.SetActive(false);
     }
 
-    public override void EnableMenu()
+    public override void EnableState()
     {
         menuCanvas.gameObject.SetActive(true);
     }
@@ -47,6 +44,7 @@ public class CrafterMenu : Menu
 
         recipeInfo = GameObject.Find("Recipe Info");
         resultNameText = recipeInfo.GetComponentInChildren<Text>();
+        ingredientInfoText = GameObject.Find("Ingredient Info").GetComponentInChildren<Text>();
 
         UIList buttonList = new UIList(recipeButtonPrefab, scrollViewContent, 85f);
 
@@ -64,10 +62,6 @@ public class CrafterMenu : Menu
         AddButtonCraftEvent(button, _recipe);
 
         recipeButtons.Add(button, _recipe);
-
-        /*// What if I have 1 list of ingredients and use object pooling
-        GameObject ingredientInfo = gameManager.prefabLibrary.GetPrefab("IngredientInfo");
-        UIList ingredientList = new UIList(ingredientInfo, recipeInfo, 50f);*/
 
         // From Unity Documentation: EventTrigger
         EventTrigger buttonTriggers = button.GetComponent<EventTrigger>();
@@ -97,6 +91,7 @@ public class CrafterMenu : Menu
             sRecipe recipe = recipeButtons[button];
             
             resultNameText.text = recipe.craftingResult.name;
+            ingredientInfoText.text = recipe.IngredientsString();
         }
     }
 

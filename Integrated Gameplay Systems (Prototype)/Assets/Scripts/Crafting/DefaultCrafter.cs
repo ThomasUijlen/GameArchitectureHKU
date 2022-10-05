@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -39,35 +38,31 @@ public class DefaultCrafter : BasicObject, ICrafter
         }
     }
 
-    private GameManager gameManager;
     private CrafterMenu menu;
-
-    private Inventory inventory;
+    private OpenMenuCommand openMenu;
+    private Player player;
 
     public DefaultCrafter(GameManager _gameManager) : base(_gameManager)
     {
-        gameManager = _gameManager;
-
         InstantiateCrafter();
     }
 
-    public DefaultCrafter(GameManager _gameManager, Inventory _inventory) : base(_gameManager)
+    public DefaultCrafter(GameManager _gameManager, Player _player) : base(_gameManager)
     {
-        gameManager = _gameManager;
-        inventory = _inventory;
-       
+        player = _player;
+        //openMenu = new OpenMenuCommand(typeof(CrafterMenu), _player.menuStateMachine, gameManager);
+
         InstantiateCrafter();
-        //InstantiateMenu(gameManager);
     }
 
     public bool Craft(sRecipe recipe)
     {
-        inventory.ShowContent();
+        player.inventory.ShowContent();
 
         // Check if inventory has the correct items
         foreach(ItemAmountPair pair in recipe.ingredients)
         {
-            if (!inventory.HasItems(pair.item, pair.amount))
+            if (!player.inventory.HasItems(pair.item, pair.amount))
             {
                 Debug.Log("Player did not have the right ingredients");
                 return false;
@@ -77,7 +72,7 @@ public class DefaultCrafter : BasicObject, ICrafter
         // Remove all the ingredients from the inventory
         foreach (ItemAmountPair pair in recipe.ingredients)
         {
-            if (!inventory.RemoveItem(pair.item, pair.amount))
+            if (!player.inventory.RemoveItem(pair.item, pair.amount))
             {
                 Debug.Log("Removing Items from inventory went wrong ;(");
             }
@@ -85,20 +80,11 @@ public class DefaultCrafter : BasicObject, ICrafter
 
         // Add the result to the inventory
         sItem item = recipe.craftingResult as sItem;
-        inventory.AddItem(item, 1);
+        player.inventory.AddItem(item, 1);
 
-        inventory.ShowContent();
+        player.inventory.ShowContent();
 
         return true;
-    }
-
-    private void InstantiateMenu(GameManager _gameManager, PointerEventData _pointerData = null)
-    {
-        if (_gameManager.prefabLibrary.HasPrefab("CrafterMenuUI"))
-        {
-            Canvas menuUI = _gameManager.prefabLibrary.InstantiatePrefab("CrafterMenuUI").GetComponent<Canvas>();
-            menu = new CrafterMenu(_gameManager, menuUI, this);
-        }
     }
 
     private void InstantiateCrafter()
@@ -108,13 +94,13 @@ public class DefaultCrafter : BasicObject, ICrafter
         EventTrigger crafterTriggers = crafter.GetComponent<EventTrigger>();
         EventTrigger.Entry pointerClickEntry = new EventTrigger.Entry();
         pointerClickEntry.eventID = EventTriggerType.PointerClick;
-        pointerClickEntry.callback.AddListener((data) => InstantiateMenu(gameManager, (PointerEventData)data));
+        pointerClickEntry.callback.AddListener((data) => OpenCrafterMenu((PointerEventData)data));
         crafterTriggers.triggers.Add(pointerClickEntry);
+    }
 
-         /* EventTrigger buttonTriggers = crafter.GetComponent<EventTrigger>();
-         EventTrigger.Entry hoverEntry = new EventTrigger.Entry();
-         hoverEntry.eventID = EventTriggerType.PointerEnter;
-         hoverEntry.callback.AddListener((data) => InstantiateMenu((PointerEventData)data, gameManager));
-         buttonTriggers.triggers.Add(hoverEntry);*/
+    private void OpenCrafterMenu(PointerEventData _pointerData)
+    {
+        //openMenu.Execute();
+        CrafterMenu crafterMenu = new CrafterMenu(player.menuStateMachine, gameManager, this);
     }
 }

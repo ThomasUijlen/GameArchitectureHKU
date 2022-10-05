@@ -14,4 +14,16 @@ public class sRecipe: ScriptableObject
         ingredients = _ingredients;
         craftingResult = _craftingResult;
     }
+
+    public string IngredientsString()
+    {
+        string result = string.Empty;
+        foreach (ItemAmountPair ingredient in ingredients)
+        {
+            result += $"{ingredient.item.name}\n" +
+                        $"Amount: {ingredient.amount}\n\n";
+        }
+
+        return result;
+    }
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Player : BasicObject
 {
+    public Inventory inventory;
+    public MenuStateMachine menuStateMachine;
+
     Oxygen oxygen;
 
     Rigidbody rigidBody;
 
     Vector3 moveDirection;
 
-    private MenuStateMachine menuStateMachine;
 
     public Player(GameManager _gameManager) : base(_gameManager) 
     {
@@ -22,6 +24,8 @@ public class Player : BasicObject
         gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
 
         menuStateMachine = new MenuStateMachine(_gameManager);
+
+        inventory = new Inventory(_gameManager);
     }
 
     public void DoMovement(Vector3 direction)

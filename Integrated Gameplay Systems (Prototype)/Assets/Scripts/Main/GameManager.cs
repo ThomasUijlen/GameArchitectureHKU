@@ -18,11 +18,6 @@ public class GameManager : MonoBehaviour
     private void Start() {
         inputManager = new InputManager(this);
         if(sceneBuilder != null) sceneBuilder.BuildScene(this);
-
-        // Crafter Things\\
-        Inventory inventory = new Inventory(this);
-        RegisterBasicObject(inventory);
-        RegisterBasicObject(new DefaultCrafter(this, inventory));
     }
 
     public void Update()

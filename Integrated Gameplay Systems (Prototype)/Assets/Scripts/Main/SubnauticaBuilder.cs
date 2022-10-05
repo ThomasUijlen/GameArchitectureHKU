@@ -6,6 +6,7 @@ using UnityEngine;
 public class SubnauticaBuilder : SceneBuilder
 {
     public override void BuildScene(GameManager _gameManager) {
-        new Player(_gameManager);
+        Player player = new Player(_gameManager);
+        new DefaultCrafter(_gameManager, player);
     }
 }
