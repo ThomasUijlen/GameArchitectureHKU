@@ -4,12 +4,14 @@ using UnityEngine;
 // TODO: For testing it is a BasicObject, otherwise it should be an 
 public class Inventory : BasicObject
 {
+    private const int capacity = 20;
+
     private Dictionary<sItem, int> items = new Dictionary<sItem, int>();
-    private int capacity;
     private int totalItemCount;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
+        ServiceLocator.RegisterService<Inventory>(this);
         // For testing
         AddItem(ItemLibrary.Wood, 10);
         AddItem(ItemLibrary.Stone, 4);
@@ -63,6 +65,11 @@ public class Inventory : BasicObject
         {
             Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {items[item]}");
         }
+    }
+
+    public Dictionary<sItem, int> GetItems()
+    {
+        return items;
     }
 
     /*private int CalculateTotalCount()
