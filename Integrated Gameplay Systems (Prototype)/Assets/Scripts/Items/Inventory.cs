@@ -5,16 +5,24 @@ using UnityEngine;
 public class Inventory : BasicObject
 {
     private Dictionary<sItem, int> items = new Dictionary<sItem, int>();
+    private int capacity;
+    private int totalItemCount;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
         // For testing
-        items.Add(ItemLibrary.Wood, 10);
-        items.Add(ItemLibrary.Stone, 4);
+        AddItem(ItemLibrary.Wood, 10);
+        AddItem(ItemLibrary.Stone, 4);
     }
 
-    public void AddItem(sItem _item, int _amount)
+    public bool AddItem(sItem _item, int _amount)
     {
+        if (_amount + totalItemCount >= capacity)
+        {
+            Debug.Log("Inventory is full!");
+            return false;
+        }
+
         if (items.ContainsKey(_item))
         {
             items[_item] += _amount;
@@ -23,6 +31,9 @@ public class Inventory : BasicObject
         {
             items.Add(_item, _amount);
         }
+
+        totalItemCount += _amount;
+        return true;
     }
 
     public bool RemoveItem(sItem _item, int _amount)
@@ -30,6 +41,7 @@ public class Inventory : BasicObject
         if (items.ContainsKey(_item))
         {
             items[_item] -= _amount;
+            totalItemCount -= _amount;
             if (items[_item] <= 0)
             {
                 items.Remove(_item);
@@ -52,4 +64,15 @@ public class Inventory : BasicObject
             Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {items[item]}");
         }
     }
+
+    /*private int CalculateTotalCount()
+    {
+        int result = 0;
+        foreach(sItem item in items.Keys)
+        {
+            int amount = items[item];
+            result += amount;
+        }
+        return result;
+    }*/
 }

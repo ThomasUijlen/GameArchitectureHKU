@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryMenu : Menu
 {
+    private Inventory playerInventory;
     private GameObject inventoryUI;
     private OpenMenuCommand backCommand;
 
