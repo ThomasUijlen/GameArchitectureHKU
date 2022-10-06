@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class State
 {
-    private IStateMachine stateMachine;
+    protected IStateMachine stateMachine;
 
     public State(IStateMachine _stateMachine) {
         stateMachine = _stateMachine;

@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bd4e75840f3fc542837691d891af27b, type: 3}
   m_Name: PrefabLibrary
   m_EditorClassIdentifier: 
-  prefabs: []
+  prefabs:
+  - name: Hub
+    prefab: {fileID: 3978251109195038550, guid: d8550c1ec6c92b04693e227b4be11d2c, type: 3}
+  - name: HubHolo
+    prefab: {fileID: 3978251109195038550, guid: 767d20ba9ac28e741835edc29a83ad60, type: 3}
+  - name: BuildMenu
+    prefab: {fileID: 7237254941099479736, guid: 87d763032db88f04fa977e4cb99be7bc, type: 3}
+  - name: StructureButton
+    prefab: {fileID: 3681705604893244684, guid: 4ec4c5e946dbbc3418cc4dddf2ea3b94, type: 3}
