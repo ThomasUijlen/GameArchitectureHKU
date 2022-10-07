@@ -10,9 +10,15 @@ public class Player : BasicObject
 
     Vector3 moveDirection;
 
+    public ILocomotion locomotion;
+    private GroundMovement groundMovement;
+    private WaterMovement waterMovement;
+
     private MenuStateMachine menuStateMachine;
 
     private GameObject player;
+
+    int radius = 1;
 
     public Player(GameManager _gameManager) : base(_gameManager)
     {
@@ -28,7 +34,30 @@ public class Player : BasicObject
         gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
 
         menuStateMachine = new MenuStateMachine(_gameManager);
+
+        groundMovement = new GroundMovement();
+        waterMovement = new WaterMovement();
+
+        locomotion = groundMovement;
     }
+
+    void CheckTag()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, radius);
+
+        foreach (Collider collider in hitColliders)
+        {
+            if (collider.tag == "Ground")
+            {
+                locomotion = groundMovement;
+            }
+            if (collider.tag == "Water")
+            {
+                locomotion = waterMovement;
+            }
+        }
+    }
+    
 
     public void DoMovement(Vector3 direction)
     {

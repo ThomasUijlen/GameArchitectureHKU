@@ -1,10 +1,10 @@
-public class WaterMovement
+public class WaterMovement : ILocomotion
 {
     int movementSpeed;
     int turnSpeed;
     bool CanMove = true;
 
-    void DoMove()
+    public void DoMove()
     {
 
     }

@@ -15,6 +15,7 @@ public class MoveCommand : ICommand
 
     public void Execute()
     {
+        player.locomotion.DoMove();
         player.DoMovement(direction);
     }
 }
