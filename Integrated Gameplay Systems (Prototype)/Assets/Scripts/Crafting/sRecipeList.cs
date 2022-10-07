@@ -5,4 +5,14 @@ using UnityEngine;
 public class sRecipeList : ScriptableObject
 {
     public List<sRecipe> recipes;
+
+    public sRecipeList() 
+    { 
+        recipes = new List<sRecipe>();
+    }
+
+    public sRecipeList(params sRecipe[] _recipes)
+    {
+        recipes.AddRange(_recipes);
+    }
 }
