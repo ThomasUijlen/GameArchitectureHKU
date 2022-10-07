@@ -9,12 +9,13 @@ public class CrafterMenu : Menu
     // Misschien later heeft elk menu een Canvas met UI
     private Dictionary<Button, sRecipe> recipeButtons = new Dictionary<Button, sRecipe>();
     private ICrafter crafter;
+    private OpenMenuCommand backCommand;
+    private IStateMachine stateMachine;
 
     private GameObject menuCanvas;
     private GameObject recipeInfo;
     private Text resultNameText;
     private Text ingredientInfoText;
-    private IStateMachine stateMachine;
 
     public CrafterMenu(IStateMachine _stateMachine, GameManager _gameManager, ICrafter _crafter) : base(_stateMachine, _gameManager)
     {
@@ -22,17 +23,21 @@ public class CrafterMenu : Menu
         crafter = _crafter;
         menuCanvas = _gameManager.prefabLibrary.InstantiatePrefab("CrafterMenuUI");
 
+        backCommand = new OpenMenuCommand(typeof(NoMenu), _stateMachine, _gameManager);
         AddRecipesToScrollView();
-    }
-
-    public override void DisableState()
-    {
-        menuCanvas.gameObject.SetActive(false);
     }
 
     public override void EnableState()
     {
+        Debug.Log("Crafter Menu");
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
         menuCanvas.gameObject.SetActive(true);
+    }
+
+    public override void DisableState()
+    {
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        menuCanvas.gameObject.SetActive(false);
     }
 
     private void AddRecipesToScrollView()

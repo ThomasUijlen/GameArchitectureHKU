@@ -31,6 +31,7 @@ public class Player : BasicObject
         moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
+        gameManager.RegisterTag("Inventory", inventory);
     }
 
 }

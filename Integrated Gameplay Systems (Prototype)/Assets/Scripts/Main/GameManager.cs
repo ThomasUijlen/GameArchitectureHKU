@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public PrefabLibrary prefabLibrary;
+    public ScriptableObjectLibrary scriptableObjectLibrary;
     public SceneBuilder sceneBuilder;
     public InputManager inputManager;
 
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         prefabLibrary.PrepareLibrary();
+        scriptableObjectLibrary.PrepareLibrary();
     }
 
     private void Start() {
