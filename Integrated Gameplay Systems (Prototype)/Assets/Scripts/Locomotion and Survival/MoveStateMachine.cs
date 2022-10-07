@@ -19,4 +19,6 @@ public class MoveStateMachine : BasicObject, IStateMachine
         currentLocomotion = (State)_newState;
         if (currentLocomotion != null) currentLocomotion.EnableState();
     }
+
+    public void GetLocomotion(){}
 }

@@ -8,6 +8,8 @@ public class GroundMovement : State, ILocomotion
 
     int radius = 1;
 
+    Vector3 currentDirection;
+
     private Player player;
     protected GameManager gameManager;
 
@@ -31,6 +33,7 @@ public class GroundMovement : State, ILocomotion
     public override void FixedUpdate()
     {
         CheckTag();
+        DoMove();    
     }
 
     public override void EnableState()
@@ -56,6 +59,11 @@ public class GroundMovement : State, ILocomotion
         Vector3 movement = new Vector3(x, 0, z);
         movement = Vector3.ClampMagnitude(movement, 1);
         player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime);
+    }
+
+    public void AddDirection(Vector3 _direction)
+    {
+        currentDirection += _direction;
     }
 
     void CheckTag()

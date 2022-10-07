@@ -6,17 +6,21 @@ public class Player : BasicObject
 {
     public Inventory inventory;
     public MenuStateMachine menuStateMachine;
+    public MoveStateMachine moveStateMachine;
 
     Oxygen oxygen;
 
-    Rigidbody rigidBody;
+    private GameObject player;
 
-    Vector3 moveDirection;
+    int radius = 1;
+    public GameObject playerGameObject;
 
-
-    public Player(GameManager _gameManager) : base(_gameManager) 
+    public Player(GameManager _gameManager) : base(_gameManager)
     {
-        //oxygen.SetOxygenAtStart();
+        player = gameManager.prefabLibrary.InstantiatePrefab("Player");
+        playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
+
+        oxygen.SetOxygenAtStart();
 
         gameManager.inputManager.RegisterKeyBinding(KeyCode.W, new MoveCommand(this, Vector3.forward));
         gameManager.inputManager.RegisterKeyBinding(KeyCode.A, new MoveCommand(this, Vector3.left));
@@ -24,12 +28,9 @@ public class Player : BasicObject
         gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
 
         menuStateMachine = new MenuStateMachine(_gameManager);
+        moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
     }
 
-    public void DoMovement(Vector3 direction)
-    {
-        moveDirection = direction;
-    }
 }
