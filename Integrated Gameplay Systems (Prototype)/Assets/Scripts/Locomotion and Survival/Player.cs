@@ -12,9 +12,15 @@ public class Player : BasicObject
 
     private MenuStateMachine menuStateMachine;
 
-    public Player(GameManager _gameManager) : base(_gameManager) 
+    private GameObject player;
+
+    public Player(GameManager _gameManager) : base(_gameManager)
     {
-        //oxygen.SetOxygenAtStart();
+        player = gameManager.prefabLibrary.InstantiatePrefab("Player");
+
+        player.transform.position = player.transform.position + new Vector3(0,0,0);
+
+        oxygen.SetOxygenAtStart();
 
         gameManager.inputManager.RegisterKeyBinding(KeyCode.W, new MoveCommand(this, Vector3.forward));
         gameManager.inputManager.RegisterKeyBinding(KeyCode.A, new MoveCommand(this, Vector3.left));
