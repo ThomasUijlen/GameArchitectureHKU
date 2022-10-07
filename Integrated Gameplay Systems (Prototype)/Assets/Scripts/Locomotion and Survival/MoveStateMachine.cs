@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MoveStateMachine : BasicObject, IStateMachine
 {
-    private GroundMovement groundMovement;
-    private WaterMovement waterMovement;
-
     public State currentLocomotion;
     public MoveStateMachine(GameManager _gameManager) : base(_gameManager)
     {
@@ -20,5 +17,8 @@ public class MoveStateMachine : BasicObject, IStateMachine
         if (currentLocomotion != null) currentLocomotion.EnableState();
     }
 
-    public void GetLocomotion(){}
+    public ILocomotion GetLocomotion()
+    {
+        return (ILocomotion)currentLocomotion;
+    }
 }

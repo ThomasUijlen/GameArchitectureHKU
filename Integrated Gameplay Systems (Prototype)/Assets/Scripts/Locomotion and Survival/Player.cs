@@ -8,23 +8,20 @@ public class Player : BasicObject
     public MenuStateMachine menuStateMachine;
     public MoveStateMachine moveStateMachine;
 
-
-    int radius = 1;
     public GameObject playerGameObject;
 
     public Player(GameManager _gameManager) : base(_gameManager)
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
 
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.W, new MoveCommand(this, Vector3.forward));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.A, new MoveCommand(this, Vector3.left));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, new MoveCommand(this, Vector3.right));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
+        //playerGameObject.transform.position = new Vector3(0,2,0);
 
         menuStateMachine = new MenuStateMachine(_gameManager);
         moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
+
+        moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
     }
 
 }
