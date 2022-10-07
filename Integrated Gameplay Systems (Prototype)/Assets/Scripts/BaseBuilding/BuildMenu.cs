@@ -55,7 +55,7 @@ public class BuildMenu : Menu
 
     public void StructureConfirm() {
         PlaceMenu placeMenu = new PlaceMenu(stateMachine, gameManager);
-        placeMenu.SetStructure(selectedStructure);
+        placeMenu.SetStructure(selectedStructure, structureLibrary[selectedStructure].hologramType);
         stateMachine.SetState(placeMenu);
     }
 

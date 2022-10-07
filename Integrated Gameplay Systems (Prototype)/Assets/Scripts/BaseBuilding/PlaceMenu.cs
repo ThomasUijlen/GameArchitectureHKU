@@ -21,7 +21,7 @@ public class PlaceMenu : Menu
         hologramStructure.Destroy();
     }
 
-    public void SetStructure(string structureName) {
-        hologramStructure = new HologramStructure(structureName, gameManager);
+    public void SetStructure(string _structureName, Type _type) {
+        hologramStructure = (HologramStructure) Activator.CreateInstance(_type, _structureName, gameManager);
     }
 }

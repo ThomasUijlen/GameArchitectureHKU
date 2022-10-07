@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         prefabLibrary.PrepareLibrary();
     }
 
-    private void Start() {
+    public void Start() {
         inputManager = new InputManager(this);
         if(sceneBuilder != null) sceneBuilder.BuildScene(this);
     }
