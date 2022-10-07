@@ -13,7 +13,6 @@ public class GoldValueEnhancer : ItemDecorator
     {
         float oldValue = _item.goldValue;
         _item.goldValue += amount;
-        Debug.Log($"Enhanced Gold Value from {oldValue} to {_item.goldValue}");
         return _item;
     }
 }

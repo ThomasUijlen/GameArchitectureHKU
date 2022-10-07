@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Tool
   sprite: {fileID: 0}
+  baseGoldValue: 100

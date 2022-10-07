@@ -15,5 +15,6 @@ public class ItemEnhancer : ACrafter
 
     public ItemEnhancer(GameManager _gameManager, Player _player) : base(_gameManager, _player)
     {
+        CrafterObject.transform.position = new Vector3(-3, 0, 0);
     }
 }
