@@ -14,45 +14,18 @@ public class Player : BasicObject
 
     private MenuStateMachine menuStateMachine;
 
-    private GameObject player;
 
-    int radius = 1;
+    public GameObject playerGameObject;
 
     public Player(GameManager _gameManager) : base(_gameManager)
     {
-        player = gameManager.prefabLibrary.InstantiatePrefab("Player");
+        playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
 
-        player.transform.position = player.transform.position + new Vector3(0, 0, 0);
+        playerGameObject.transform.position = playerGameObject.transform.position + new Vector3(0, 0, 0);
 
         oxygen.SetOxygenAtStart();
 
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.W, new MoveCommand(this, Vector3.forward));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.A, new MoveCommand(this, Vector3.left));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, new MoveCommand(this, Vector3.right));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
-
         menuStateMachine = new MenuStateMachine(_gameManager);
-
-        groundMovement = new GroundMovement();
-        waterMovement = new WaterMovement();
-
-        locomotion = groundMovement;
     }
 
-    void CheckTag()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, radius);
-
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.tag == "Ground")
-            {
-                locomotion = groundMovement;
-            }
-            if (collider.tag == "Water")
-            {
-                locomotion = waterMovement;
-            }
-        }
-    }
 }

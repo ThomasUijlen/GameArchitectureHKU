@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveCommand : ICommand
 {
     private Player player;
-    private Vector3 direction;
+    public Vector3 direction;
 
     public MoveCommand(Player _player, Vector3 _direction)
     {
