@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class GroundMovement : ILocomotion
 {
     int movementSpeed;
@@ -6,6 +10,6 @@ public class GroundMovement : ILocomotion
 
     public void DoMove()
     {
-
+        
     }
 }

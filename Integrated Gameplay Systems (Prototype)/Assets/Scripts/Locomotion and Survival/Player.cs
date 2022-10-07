@@ -6,8 +6,6 @@ public class Player : BasicObject
 {
     Oxygen oxygen;
 
-    Rigidbody rigidBody;
-
     Vector3 moveDirection;
 
     public ILocomotion locomotion;
@@ -24,7 +22,7 @@ public class Player : BasicObject
     {
         player = gameManager.prefabLibrary.InstantiatePrefab("Player");
 
-        player.transform.position = player.transform.position + new Vector3(0,0,0);
+        player.transform.position = player.transform.position + new Vector3(0, 0, 0);
 
         oxygen.SetOxygenAtStart();
 
@@ -56,11 +54,5 @@ public class Player : BasicObject
                 locomotion = waterMovement;
             }
         }
-    }
-    
-
-    public void DoMovement(Vector3 direction)
-    {
-        moveDirection = direction;
     }
 }
