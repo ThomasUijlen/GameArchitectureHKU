@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Oxygen
 {
-    int currentOxygenLevel;
-    int maxOxygenLevel = 100;
+    public int currentOxygenLevel;
+    private int maxOxygenLevel = 100;
 
     public void SetOxygenAtStart()
     {

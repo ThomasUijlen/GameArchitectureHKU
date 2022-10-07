@@ -6,11 +6,14 @@ public class GroundMovement : State, ILocomotion
 {
     public float speed = 2;
 
-    int radius = 1;
+    private int radius = 1;
+
+    private float elapsed = 0f;
 
     Vector3 currentDirection;
 
     private Player player;
+    private Oxygen oxygen;
     protected GameManager gameManager;
 
     private MoveStateMachine moveStateMachine;
@@ -32,7 +35,15 @@ public class GroundMovement : State, ILocomotion
 
     public override void FixedUpdate()
     {
-        CheckTag();
+        elapsed += Time.deltaTime;
+        if(elapsed >= 10f)
+        {
+            elapsed = elapsed % 10f;
+            oxygen.SubstractOxygen(5);
+            Debug.Log(oxygen.currentOxygenLevel);
+        }
+
+        //CheckTag();
         DoMove();    
     }
 
@@ -66,20 +77,23 @@ public class GroundMovement : State, ILocomotion
         currentDirection += _direction;
     }
 
-    void CheckTag()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(player.playerGameObject.transform.position, radius);
+    //void CheckTag()
+    //{
+    //    Collider[] hitColliders = Physics.OverlapSphere(player.playerGameObject.transform.position, radius);
 
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.tag == "Ground")
-            {
-                moveStateMachine.SetState(groundMovement);
-            }
-            if (collider.tag == "Water")
-            {
-                moveStateMachine.SetState(waterMovement);
-            }
-        }
-    }
+    //    foreach (Collider collider in hitColliders)
+    //    {
+    //        if (collider.tag == "Ground")
+    //        {
+    //            moveStateMachine.SetState(groundMovement);
+    //            oxygen.currentOxygenLevel = 100;
+    //            Invokere
+
+    //        }
+    //        if (collider.tag == "Water")
+    //        {
+    //            moveStateMachine.SetState(waterMovement);
+    //        }
+    //    }
+    //}
 }

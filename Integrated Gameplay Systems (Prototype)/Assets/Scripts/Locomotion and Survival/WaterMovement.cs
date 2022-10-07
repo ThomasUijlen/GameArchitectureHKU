@@ -6,6 +6,8 @@ public class WaterMovement : State, ILocomotion
 {
     public float speed = 2;
 
+    Vector3 currentDirection;
+
     private Player player;
     protected GameManager gameManager;
 
@@ -37,5 +39,10 @@ public class WaterMovement : State, ILocomotion
         Vector3 horizontalMovement = camTransform.right * Input.GetAxis("Horizontal");
         Vector3 movement = Vector3.ClampMagnitude(forwardMovement + horizontalMovement, 1);
         player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime, Space.World);
+    }
+
+    public void AddDirection(Vector3 _direction)
+    {
+        currentDirection += _direction;
     }
 }
