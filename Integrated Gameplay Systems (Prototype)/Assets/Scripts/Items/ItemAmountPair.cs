@@ -1,12 +1,12 @@
 [System.Serializable]
 public class ItemAmountPair
 {
-    public sItem item;
+    public sItemBase itemBase;
     public int amount;
 
-    public ItemAmountPair(sItem _item, int _amount)
+    public ItemAmountPair(sItemBase _itemBase, int _amount)
     {
-        item = _item;
+        itemBase = _itemBase;
         amount = _amount;
     }
 }
