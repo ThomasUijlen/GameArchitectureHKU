@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public InputManager inputManager;
 
     private List<BasicObject> objects = new List<BasicObject>();
+    private Dictionary<string, object> tagList = new Dictionary<string, object>();
 
     private void Awake()
     {
@@ -37,5 +38,26 @@ public class GameManager : MonoBehaviour
 
     public void DeregisterBasicObject(BasicObject _object) {
         if(objects.Contains(_object)) objects.Remove(_object);
+    }
+
+    public void RegisterTag(string tag, object obj) {
+        if(tagList.ContainsKey(tag)) {
+            tagList[tag] = obj;
+        } else {
+            tagList.Add(tag, obj);
+        }
+    }
+
+    public void DeregisterTag(string tag) {
+        if(tagList.ContainsKey(tag)) {
+            tagList.Remove(tag);
+        }
+    }
+
+    public object GetObjectWithTag(string tag) {
+        if(tagList.ContainsKey(tag)) {
+            return tagList[tag];
+        }
+        return null;
     }
 }

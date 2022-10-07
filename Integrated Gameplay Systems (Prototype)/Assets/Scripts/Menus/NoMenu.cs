@@ -11,7 +11,6 @@ public class NoMenu : Menu
     }
 
     public override void EnableState() {
-        Debug.Log("no menu!");
         gameManager.inputManager.RegisterKeyBinding(KeyCode.B, buildMenuCommand);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, InventoryMenuCommand);
     }
