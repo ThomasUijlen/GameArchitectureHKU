@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class GroundMovement : State, ILocomotion
 {
-    public float speed = 2;
-
-    int radius = 1;
+    public float speed = 20;
 
     Vector3 currentDirection;
 
     private Player player;
-    protected GameManager gameManager;
 
-    private MoveStateMachine moveStateMachine;
+    protected GameManager gameManager;
 
     private MoveCommand command1;
     private MoveCommand command2;
     private MoveCommand command3;
     private MoveCommand command4;
 
-    public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager) : base(_stateMachine)
+    public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
         gameManager = _gameManager;
+
+        player = _player;
 
         command1 = new MoveCommand(player, Vector3.forward);
         command2 = new MoveCommand(player, Vector3.left);
@@ -32,7 +31,6 @@ public class GroundMovement : State, ILocomotion
 
     public override void FixedUpdate()
     {
-        CheckTag();
         DoMove();    
     }
 
@@ -54,11 +52,9 @@ public class GroundMovement : State, ILocomotion
 
     public void DoMove()
     {
-        float x = player.playerGameObject.transform.position.x;
-        float z = player.playerGameObject.transform.position.z;
-        Vector3 movement = new Vector3(x, 0, z);
-        movement = Vector3.ClampMagnitude(movement, 1);
+        Vector3 movement = currentDirection.normalized;
         player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime);
+        currentDirection = Vector3.zero;
     }
 
     public void AddDirection(Vector3 _direction)
@@ -66,20 +62,5 @@ public class GroundMovement : State, ILocomotion
         currentDirection += _direction;
     }
 
-    void CheckTag()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(player.playerGameObject.transform.position, radius);
 
-        foreach (Collider collider in hitColliders)
-        {
-            if (collider.tag == "Ground")
-            {
-                moveStateMachine.SetState(groundMovement);
-            }
-            if (collider.tag == "Water")
-            {
-                moveStateMachine.SetState(waterMovement);
-            }
-        }
-    }
 }
