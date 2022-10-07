@@ -6,6 +6,7 @@ public class sItemBase : ScriptableObject, ICraftingResult
 {
     public string name;
     public Image sprite;
+    public int baseGoldValue;
 
     public sItemBase() { }
 

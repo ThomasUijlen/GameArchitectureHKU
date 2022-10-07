@@ -15,7 +15,7 @@ public class InventoryMenu : Menu
 
     public override void EnableState()
     {
-        playerInventory = ServiceLocator.GetService<Inventory>();
+        playerInventory = gameManager.GetObjectWithTag("Inventory") as Inventory;
         ShowInventory();
 
         playerInventory.ShowContent();
@@ -35,14 +35,10 @@ public class InventoryMenu : Menu
 
         string text = "";
 
-        var items = playerInventory.GetItems();
-        foreach (sItemBase item in items.Keys)
+        var items = playerInventory.itemList;
+        foreach (Item item in items)
         {
-            for (int i = 0; i < items[item]; i++ )
-            {
-                text += $"{item.name}, Value: \n";
-                /*item.goldValue*/
-            }
+            text += $"{item.name}, Value: {item.goldValue}\n";
         }
 
         inventoryContent.text = text;

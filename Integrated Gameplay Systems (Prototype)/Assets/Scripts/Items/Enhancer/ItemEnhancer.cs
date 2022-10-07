@@ -7,9 +7,7 @@ public class ItemEnhancer : ACrafter
         get
         {
             sRecipeList list = new sRecipeList();
-
             list.recipes.Add(gameManager.scriptableObjectLibrary.GetScriptableObject("enhancedWoodRecipe") as sRecipe);
-
             return list;
         }
     }

@@ -7,6 +7,12 @@ public class Item : ICraftingResult
     // Modifiable variables \\
     public int goldValue;
 
+    public Item(sItemBase _itemBase)
+    {
+        itemBase = _itemBase;
+        goldValue = _itemBase.baseGoldValue;
+    }
+
     public Item(sItemBase _itemBase, int _goldValue)
     {
         itemBase = _itemBase;

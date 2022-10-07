@@ -26,6 +26,7 @@ public class Player : BasicObject
         menuStateMachine = new MenuStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
+        gameManager.RegisterTag("Inventory", inventory);
     }
 
     public void DoMovement(Vector3 direction)

@@ -3,24 +3,36 @@ using UnityEngine;
 
 public class Inventory : BasicObject
 {
+    public List<Item> itemList { get; private set; } = new List<Item>();
+    public Dictionary<sItemBase, int> itemBaseList { get; private set; } = new Dictionary<sItemBase, int>();
+
     private const int capacity = 20;
-    
-    private Dictionary<sItemBase, int> items = new Dictionary<sItemBase, int>();
     private int totalItemCount;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
-        ServiceLocator.RegisterService<Inventory>(this);
         // For testing
-        //AddItem(new Item(new sItemBase("Wood"), 50), 10);
-        //AddItem(new Item(new sItemBase("Stone"), 20), 4);
-        AddItem(gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase, 10);
-        AddItem(gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase, 4);
+        sItemBase sWood = gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase;
+        sItemBase sStone = gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase;
+
+        AddItemBase(sWood, 10);
+        AddItemBase(sStone, 4);
     }
 
-    /*public bool AddItem(Item _item, int _amount)
+    // Adds a specific Item to the inventory. Used when adding a crafted item.
+    public bool AddItem(Item _item)
     {
-        if (_item == null) return false;
+        if (_item == null || totalItemCount == capacity) return false;
+
+        itemList.Add(_item);
+        AddItemBaseToDictionary(_item.itemBase, 1);
+        return true;
+    }
+
+    // Adds an item type to the inventory with amount of _amount and generates a new item instance for each amount.
+    public bool AddItemBase(sItemBase _itemBase, int _amount)
+    {
+        if (_itemBase == null) return false;
 
         if (_amount + totalItemCount >= capacity)
         {
@@ -28,52 +40,52 @@ public class Inventory : BasicObject
             return false;
         }
 
-        if (items.ContainsKey(_item.itemBase))
+        AddItemBaseToDictionary(_itemBase, _amount);
+        for (int i = 0; i < _amount; i++)
         {
-            items[_item.itemBase] += _amount;
-        }
-        else
-        {
-            items.Add(_item.itemBase, _amount);
+            itemList.Add(new Item(_itemBase));
         }
 
-        totalItemCount += _amount;
-        return true;
-    }*/
-
-    public bool AddItem(sItemBase _item, int _amount)
-    {
-        if (_item == null) return false;
-
-        if (_amount + totalItemCount >= capacity)
-        {
-            Debug.Log("Inventory is full!");
-            return false;
-        }
-
-        if (items.ContainsKey(_item))
-        {
-            items[_item] += _amount;
-        }
-        else
-        {
-            items.Add(_item, _amount);
-        }
-
-        totalItemCount += _amount;
         return true;
     }
 
-    public bool RemoveItem(sItemBase _item, int _amount)
+    // Removes a specific item from the inventory.
+    public bool RemoveItem(Item _item)
     {
-        if (items.ContainsKey(_item))
+        if (itemBaseList.ContainsKey(_item.itemBase))
         {
-            items[_item] -= _amount;
-            totalItemCount -= _amount;
-            if (items[_item] <= 0)
+            itemList.Remove(_item);
+
+            sItemBase itemType = _item.itemBase;
+            itemBaseList[itemType] -= 1;
+            totalItemCount -= 1;
+            if (itemBaseList[itemType] <= 0)
             {
-                items.Remove(_item);
+                itemBaseList.Remove(itemType);
             }
+            return true;
+        }
+
+        return false;
+    }
+
+    // Removes an itemType from the inventory _amount of times. Then removes the item instance of that type with the lowest gold value.
+    public bool RemoveItemBase(sItemBase _itemBase, int _amount)
+    {
+        if (itemBaseList.ContainsKey(_itemBase))
+        {
+            itemBaseList[_itemBase] -= _amount;
+            totalItemCount -= _amount;
+            if (itemBaseList[_itemBase] <= 0)
+            {
+                itemBaseList.Remove(_itemBase);
+            }
+
+            for (int i = 0; i < _amount; i++)
+            {
+                itemList.Remove(FindItemWithBaseLowest(_itemBase));
+            }
+
             return true;
         }
 
@@ -82,30 +94,50 @@ public class Inventory : BasicObject
 
     public bool HasItems(sItemBase _item, int _amount)
     {
-        return (items.ContainsKey(_item) && items[_item] >= _amount);
+        return (itemBaseList.ContainsKey(_item) && itemBaseList[_item] >= _amount);
     }
 
     public void ShowContent()
     {
-        foreach (sItemBase item in items.Keys)
+        foreach (sItemBase item in itemBaseList.Keys)
         {
-            Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {items[item]}");
+            Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {itemBaseList[item]}");
         }
     }
 
-    public Dictionary<sItemBase, int> GetItems()
+    // Finds an Item with the sItemBase of _itemBase and returns the item with the lowest value.
+    public Item FindItemWithBaseLowest(sItemBase _itemBase)
     {
-        return items;
+        Item lowestValueItem = null;
+
+        foreach (Item item in itemList)
+        {
+            if (item.itemBase.Equals(_itemBase))
+            {
+                if (lowestValueItem == null)
+                {
+                    lowestValueItem = item;
+                }
+                else if (item.goldValue < lowestValueItem.goldValue) {
+                    lowestValueItem = item;
+                }
+            }
+        }
+
+        return lowestValueItem;
     }
 
-    /*private int CalculateTotalCount()
+    private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)
     {
-        int result = 0;
-        foreach(sItem item in items.Keys)
+        if (itemBaseList.ContainsKey(_itemBase))
         {
-            int amount = items[item];
-            result += amount;
+            itemBaseList[_itemBase] += _amount;
         }
-        return result;
-    }*/
+        else
+        {
+            itemBaseList.Add(_itemBase, _amount);
+        }
+
+        totalItemCount += _amount;
+    }
 }

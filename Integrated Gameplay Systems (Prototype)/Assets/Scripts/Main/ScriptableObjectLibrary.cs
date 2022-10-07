@@ -43,7 +43,7 @@ public class ScriptableObjectLibrary : ScriptableObject
         sRecipe stickRecipe = new sRecipe()
         {
             ingredients = ingredients,
-            craftingResult = new Item(GetScriptableObject("Stick") as sItemBase, 10)
+            craftingResult = new Item(GetScriptableObject("Stick") as sItemBase)
         };
 
         List<ItemAmountPair> ingredients2 = new List<ItemAmountPair>
@@ -55,7 +55,7 @@ public class ScriptableObjectLibrary : ScriptableObject
         sRecipe toolRecipe = new sRecipe()
         {
             ingredients = ingredients2,
-            craftingResult = new Item(GetScriptableObject("Tool") as sItemBase, 2)
+            craftingResult = new Item(GetScriptableObject("Tool") as sItemBase)
         };
 
         List<ItemAmountPair> ingredients3 = new List<ItemAmountPair>
@@ -64,7 +64,7 @@ public class ScriptableObjectLibrary : ScriptableObject
             new ItemAmountPair(GetScriptableObject("Stone") as sItemBase, 1)
         };
 
-        Item EnhancedWood = new GoldValueEnhancer(10).Enhance(new Item(GetScriptableObject("Wood") as sItemBase, 10));
+        Item EnhancedWood = new GoldValueEnhancer(40).Enhance(new Item(GetScriptableObject("Wood") as sItemBase));
 
         sRecipe enhancedWoodRecipe = new sRecipe()
         {

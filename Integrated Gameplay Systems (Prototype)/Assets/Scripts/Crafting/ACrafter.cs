@@ -33,7 +33,7 @@ public abstract class ACrafter : BasicObject, ICrafter
         // Remove all the ingredients from the inventory
         foreach (ItemAmountPair pair in recipe.ingredients)
         {
-            if (!player.inventory.RemoveItem(pair.itemBase, pair.amount))
+            if (!player.inventory.RemoveItemBase(pair.itemBase, pair.amount))
             {
                 Debug.Log("Removing Items from inventory went wrong ;(");
             }
@@ -41,7 +41,7 @@ public abstract class ACrafter : BasicObject, ICrafter
 
         // Add the result to the inventory
         Item item = recipe.craftingResult as Item;
-        player.inventory.AddItem(item.itemBase, 1);
+        player.inventory.AddItem(item);
 
         player.inventory.ShowContent();
 
