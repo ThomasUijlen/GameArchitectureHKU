@@ -9,24 +9,30 @@ public class InventoryMenu : Menu
 
     public InventoryMenu(IStateMachine _stateMachine, GameManager _gameManager) : base(_stateMachine, _gameManager)
     {
-        inventoryUI = gameManager.prefabLibrary.InstantiatePrefab("InventoryUI");
+        InstantiateUI();
         backCommand = new OpenMenuCommand(typeof(NoMenu), _stateMachine, _gameManager);
     }
 
     public override void EnableState()
     {
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+
         playerInventory = gameManager.GetObjectWithTag("Inventory") as Inventory;
         ShowInventory();
-
-        playerInventory.ShowContent();
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
-        inventoryUI.gameObject.SetActive(true);
     }
 
     public override void DisableState()
     {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
-        inventoryUI.gameObject.SetActive(false);
+        GameObject.Destroy(inventoryUI);
+    }
+
+    private void InstantiateUI()
+    {
+        if (inventoryUI == null)
+        {
+            inventoryUI = gameManager.prefabLibrary.InstantiatePrefab("InventoryUI");
+        }
     }
 
     public void ShowInventory()
