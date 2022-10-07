@@ -1,24 +1,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: For testing it is a BasicObject, otherwise it should be an 
 public class Inventory : BasicObject
 {
     private const int capacity = 20;
-
-    private Dictionary<sItem, int> items = new Dictionary<sItem, int>();
+    
+    private Dictionary<sItemBase, int> items = new Dictionary<sItemBase, int>();
     private int totalItemCount;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
         ServiceLocator.RegisterService<Inventory>(this);
         // For testing
-        AddItem(ItemLibrary.Wood, 10);
-        AddItem(ItemLibrary.Stone, 4);
+        //AddItem(new Item(new sItemBase("Wood"), 50), 10);
+        //AddItem(new Item(new sItemBase("Stone"), 20), 4);
+        AddItem(gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase, 10);
+        AddItem(gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase, 4);
     }
 
-    public bool AddItem(sItem _item, int _amount)
+    /*public bool AddItem(Item _item, int _amount)
     {
+        if (_item == null) return false;
+
+        if (_amount + totalItemCount >= capacity)
+        {
+            Debug.Log("Inventory is full!");
+            return false;
+        }
+
+        if (items.ContainsKey(_item.itemBase))
+        {
+            items[_item.itemBase] += _amount;
+        }
+        else
+        {
+            items.Add(_item.itemBase, _amount);
+        }
+
+        totalItemCount += _amount;
+        return true;
+    }*/
+
+    public bool AddItem(sItemBase _item, int _amount)
+    {
+        if (_item == null) return false;
+
         if (_amount + totalItemCount >= capacity)
         {
             Debug.Log("Inventory is full!");
@@ -38,7 +64,7 @@ public class Inventory : BasicObject
         return true;
     }
 
-    public bool RemoveItem(sItem _item, int _amount)
+    public bool RemoveItem(sItemBase _item, int _amount)
     {
         if (items.ContainsKey(_item))
         {
@@ -54,20 +80,20 @@ public class Inventory : BasicObject
         return false;
     }
 
-    public bool HasItems(sItem _item, int _amount)
+    public bool HasItems(sItemBase _item, int _amount)
     {
         return (items.ContainsKey(_item) && items[_item] >= _amount);
     }
 
     public void ShowContent()
     {
-        foreach (sItem item in items.Keys)
+        foreach (sItemBase item in items.Keys)
         {
             Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {items[item]}");
         }
     }
 
-    public Dictionary<sItem, int> GetItems()
+    public Dictionary<sItemBase, int> GetItems()
     {
         return items;
     }

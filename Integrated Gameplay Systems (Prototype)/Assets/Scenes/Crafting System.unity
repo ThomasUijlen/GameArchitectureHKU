@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabLibrary: {fileID: 11400000, guid: cfe543456fd955341a0ee957d81979b9, type: 2}
+  scriptableObjectLibrary: {fileID: 11400000, guid: f34651d9e199d264da895b2f1e8551e6, type: 2}
   sceneBuilder: {fileID: 11400000, guid: 7b809a8e13693b743a8411eea78a65f2, type: 2}
 --- !u!4 &1676641411
 Transform:

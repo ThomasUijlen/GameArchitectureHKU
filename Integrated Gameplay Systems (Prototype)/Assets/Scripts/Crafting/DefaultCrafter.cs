@@ -9,29 +9,8 @@ public class DefaultCrafter : ACrafter
         {
             sRecipeList list = new sRecipeList();
 
-            List<ItemAmountPair> ingredients = new List<ItemAmountPair>
-            {
-                new ItemAmountPair(ItemLibrary.Wood, 2)
-            };
-            sRecipe basicRecipe = new sRecipe()
-            {
-                ingredients = ingredients,
-                craftingResult = ItemLibrary.Stick
-            };
-
-            List<ItemAmountPair> ingredients2 = new List<ItemAmountPair>
-            {
-                new ItemAmountPair(ItemLibrary.Stick, 2),
-                new ItemAmountPair(ItemLibrary.Stone, 2)
-            };
-            sRecipe otherRecipe = new sRecipe()
-            {
-                ingredients = ingredients2,
-                craftingResult = ItemLibrary.Tool
-            };
-
-            list.recipes.Add(basicRecipe);
-            list.recipes.Add(otherRecipe);
+            list.recipes.Add(gameManager.scriptableObjectLibrary.GetScriptableObject("stickRecipe") as sRecipe);
+            list.recipes.Add(gameManager.scriptableObjectLibrary.GetScriptableObject("toolRecipe") as sRecipe);
 
             return list;
         }

@@ -20,7 +20,7 @@ public class sRecipe: ScriptableObject
         string result = string.Empty;
         foreach (ItemAmountPair ingredient in ingredients)
         {
-            result += $"{ingredient.item.name}\n" +
+            result += $"{ingredient.itemBase.name}\n" +
                         $"Amount: {ingredient.amount}\n\n";
         }
 

@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class GoldValueEnhancer : ItemDecorator
 {
-    private float amount;
+    private int amount;
 
-    public GoldValueEnhancer(float _amount)
+    public GoldValueEnhancer(int _amount)
     {
         amount = _amount;
     }
 
-    public override sItem Enhance(sItem item)
+    public override Item Enhance(Item _item)
     {
-        float oldValue = item.goldValue;
-        item.goldValue += amount;
-        Debug.Log($"Enhanced Gold Value from {oldValue} to {item.goldValue}");
-        return item;
+        float oldValue = _item.goldValue;
+        _item.goldValue += amount;
+        Debug.Log($"Enhanced Gold Value from {oldValue} to {_item.goldValue}");
+        return _item;
     }
 }

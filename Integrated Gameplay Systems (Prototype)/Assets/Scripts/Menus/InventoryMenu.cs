@@ -11,7 +11,6 @@ public class InventoryMenu : Menu
     {
         inventoryUI = gameManager.prefabLibrary.InstantiatePrefab("InventoryUI");
         backCommand = new OpenMenuCommand(typeof(NoMenu), _stateMachine, _gameManager);
-
     }
 
     public override void EnableState()
@@ -37,9 +36,13 @@ public class InventoryMenu : Menu
         string text = "";
 
         var items = playerInventory.GetItems();
-        foreach (sItem item in items.Keys)
+        foreach (sItemBase item in items.Keys)
         {
-            text += $"{item.name} x{items[item]}, Value: {item.goldValue}\n";
+            for (int i = 0; i < items[item]; i++ )
+            {
+                text += $"{item.name}, Value: \n";
+                /*item.goldValue*/
+            }
         }
 
         inventoryContent.text = text;

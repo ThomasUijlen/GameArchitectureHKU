@@ -1,4 +1,4 @@
 public abstract class ItemDecorator
 {
-    public abstract sItem Enhance(sItem item);
+    public abstract Item Enhance(Item item);
 }

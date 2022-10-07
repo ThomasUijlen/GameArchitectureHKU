@@ -23,7 +23,7 @@ public abstract class ACrafter : BasicObject, ICrafter
         // Check if inventory has the correct items
         foreach (ItemAmountPair pair in recipe.ingredients)
         {
-            if (!player.inventory.HasItems(pair.item, pair.amount))
+            if (!player.inventory.HasItems(pair.itemBase, pair.amount))
             {
                 Debug.Log("Player did not have the right ingredients");
                 return false;
@@ -33,15 +33,15 @@ public abstract class ACrafter : BasicObject, ICrafter
         // Remove all the ingredients from the inventory
         foreach (ItemAmountPair pair in recipe.ingredients)
         {
-            if (!player.inventory.RemoveItem(pair.item, pair.amount))
+            if (!player.inventory.RemoveItem(pair.itemBase, pair.amount))
             {
                 Debug.Log("Removing Items from inventory went wrong ;(");
             }
         }
 
         // Add the result to the inventory
-        sItem item = recipe.craftingResult as sItem;
-        player.inventory.AddItem(item, 1);
+        Item item = recipe.craftingResult as Item;
+        player.inventory.AddItem(item.itemBase, 1);
 
         player.inventory.ShowContent();
 
