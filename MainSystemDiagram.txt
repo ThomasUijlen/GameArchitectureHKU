@@ -1,0 +1,145 @@
+@startuml
+class Unity.MonoBehaviour
+class Unity.ScriptableObject
+
+class GameManager {
+-List<BasicObject> newObjects
+-List<BasicObject> objects
+-List<BasicObject> oldObjects
+-Dictionary<string, object> tagList
+
++void Awake()
++void Start()
++void Update()
++void FixedUpdate()
++void RegisterBasicObject(BasicObject _object)
++void DeregisterBasicObject(BasicObject _object)
++void RegisterTag(string tag, object obj)
++void DeregisterTag(string tag)
++object GetObjectWithTag(string tag)
+-void IntegrateNewObjects()
+-void RemoveOldObjects()
+}
+
+enum INPUT_MODE {
+SINGLE_PRESSED
+PRESSED
+SINGLE_RELEASED
+RELEASED
+}
+
+class InputManager {
+-Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>> keyBindings
+-Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>> newBindings
+-Dictionary<KeyCode, List<ICommand>> oldBindings
+
+-void HandleInputs()
+-void IntegrateNewKeys()
+-void RemoveOldKeys()
++void RegisterKeyBinding(KeyCode _keyCode, ICommand _command, INPUT_MODE _inputMode)
++void DeregisterKeyBinding(KeyCode _keyCode, ICommand _command)
+}
+
+interface ICommand {
++void Execute()
+}
+
+abstract BasicObject {
+BasicObject(GameManager _gameManager)
++void Update()
++void FixedUpdate()
++void Destroy()
+}
+
+class PrefabLibrary {
++void PrepareLibrary()
++bool hasPrefab(String _name)
++GameObject getPrefab(String _name)
++GameObject instantiatePrefab(String _name)
+}
+
+struct PrefabReference {
++String name
++GameObject prefab
+}
+
+class ScriptableObjectLibrary {
++void PrepareLibrary()
++bool HasScriptableObject(String _name)
++GameObject GetScriptableObject(String _name)
+}
+
+struct ScriptableObjectReference {
++String name
++ScriptableObject scriptableObject
+}
+
+interface ISceneBuilder {
++void BuildScene(GameManager _gameManager)
+}
+
+Unity.MonoBehaviour <|- GameManager
+PrefabLibrary *-- GameManager
+PrefabReference "0..*" *- PrefabLibrary
+Unity.ScriptableObject <|- PrefabLibrary
+ScriptableObjectLibrary *-- GameManager
+ScriptableObjectReference "0..*" *- ScriptableObjectLibrary 
+Unity.ScriptableObject <|- ScriptableObjectLibrary 
+InputManager *-- GameManager
+ISceneBuilder *-- GameManager
+ICommand "0..*" - InputManager
+GameManager "1" *-- "0..*" BasicObject
+InputManager -> INPUT_MODE
+
+package StateMachine {
+interface IStateMachine {
+setState(State _newState)
+}
+
+abstract State {
+#IStateMachine stateMachine
++State(IStateMachine _stateMachine)
+void EnableState()
+void DisableState()
+void Update()
+void FixedUpdate()
+}
+
+IStateMachine --> State
+}
+
+class MenuStateMachine {
++MenuStateMachine(GameManager _gameManager)
++void Update()
++void FixedUpdate()
++void SetState(State _newState)
++Menu GetState()
+}
+
+MenuStateMachine ..|> IStateMachine
+MenuStateMachine --|> BasicObject
+MenuStateMachine --* Menu : current Menu
+
+class OpenMenuCommand {
+
+}
+
+OpenMenuCommand ..|> ICommand
+
+abstract Menu {
++bool allowMovement
+#GameManager gameManager
++Menu(IStateMachine _stateMachine, GameManager _gameManager)
+}
+
+Menu --|> State
+
+class NoMenu {
++void EnableState()
++void DisableState()
+}
+
+NoMenu --* OpenMenuCommand : buildMenuCommand
+NoMenu --* OpenMenuCommand : inventoryCommand
+
+@enduml
