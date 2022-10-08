@@ -20,7 +20,6 @@ public class ScriptableObjectLibrary : ScriptableObject
         {
             scriptableObjectLibrary.Add(reference.name, reference.scriptableObject);
         }
-        AddHardCodedScriptableObjects();
     }
 
     public bool HasScriptableObject(string _name)
@@ -31,49 +30,5 @@ public class ScriptableObjectLibrary : ScriptableObject
     public ScriptableObject GetScriptableObject(string _name)
     {
         return scriptableObjectLibrary[_name];
-    }
-
-    private void AddHardCodedScriptableObjects()
-    {
-        List<ItemAmountPair> ingredients = new List<ItemAmountPair>
-        {
-            new ItemAmountPair(GetScriptableObject("Wood") as sItemBase, 2)
-        };
-
-        sRecipe stickRecipe = new sRecipe()
-        {
-            ingredients = ingredients,
-            craftingResult = new Item(GetScriptableObject("Stick") as sItemBase)
-        };
-
-        List<ItemAmountPair> ingredients2 = new List<ItemAmountPair>
-        {
-            new ItemAmountPair(GetScriptableObject("Stick") as sItemBase, 2),
-            new ItemAmountPair(GetScriptableObject("Stone") as sItemBase, 2)
-        };
-
-        sRecipe toolRecipe = new sRecipe()
-        {
-            ingredients = ingredients2,
-            craftingResult = new Item(GetScriptableObject("Tool") as sItemBase)
-        };
-
-        List<ItemAmountPair> ingredients3 = new List<ItemAmountPair>
-        {
-            new ItemAmountPair(GetScriptableObject("Tool") as sItemBase, 1),
-            new ItemAmountPair(GetScriptableObject("Wood") as sItemBase, 1)
-        };
-
-        Item EnhancedTool = new GoldValueEnhancer(100).Enhance(new Item(GetScriptableObject("Tool") as sItemBase));
-
-        sRecipe enhancedWoodRecipe = new sRecipe()
-        {
-            ingredients = ingredients3,
-            craftingResult = EnhancedTool,
-        };
-
-        scriptableObjectLibrary.Add("stickRecipe", stickRecipe);
-        scriptableObjectLibrary.Add("toolRecipe", toolRecipe);
-        scriptableObjectLibrary.Add("enhancedWoodRecipe", enhancedWoodRecipe);
     }
 }

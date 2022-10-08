@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 // This class is used to give the player resources
-public class ItemSource : BasicObject, ICraftingResult
+public class ItemSource : BasicObject
 {
     public string name => $"{itemBase.name} Source";
     private GameObject prefab;
@@ -15,12 +13,7 @@ public class ItemSource : BasicObject, ICraftingResult
     {
         itemBase = _itemBase;
         prefab = _prefab;
-    }
-
-    public void AddResultToWorld(GameManager _gameManager)
-    {
         InstantiateItemSource();
-        //sourceObject.transform.position = new Vector3(0, 0, 3);
     }
 
     private void InstantiateItemSource()

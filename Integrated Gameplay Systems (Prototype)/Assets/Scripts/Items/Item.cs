@@ -1,4 +1,6 @@
-public class Item : ICraftingResult
+using System.Collections.Generic;
+
+public class Item
 {
     // Base \\
     public string name => itemBase.name;
@@ -19,9 +21,14 @@ public class Item : ICraftingResult
         goldValue = _goldValue;
     }
 
-    public void AddResultToWorld(GameManager _gameManager)
+    public void ApplyDecorators(List<sEnhancer> enhancers)
     {
-        Inventory playerInventory = (Inventory) _gameManager.GetObjectWithTag("Inventory");
-        playerInventory.AddItem(this);
+        if (enhancers == null) return;
+
+        foreach(sEnhancer enhancer in enhancers)
+        {
+            ItemDecorator decorator = EnhancerFactory.CreateItemDecorator(enhancer);
+            decorator.Enhance(this);
+        }
     }
 }

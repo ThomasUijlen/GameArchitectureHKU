@@ -18,10 +18,10 @@ public class Inventory : BasicObject
 
         // For testing
         sItemBase sWood = gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase;
-        sItemBase sStone = gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase;
+        sItemBase sMetal = gameManager.scriptableObjectLibrary.GetScriptableObject("Metal") as sItemBase;
 
         AddItemBase(sWood, 10);
-        AddItemBase(sStone, 4);
+        AddItemBase(sMetal, 4);
     }
 
     // Adds a specific Item to the inventory. Used when adding a crafted item.
@@ -49,7 +49,7 @@ public class Inventory : BasicObject
         AddItemBaseToDictionary(_itemBase, _amount);
         for (int i = 0; i < _amount; i++)
         {
-            itemList.Add(new Item(_itemBase));
+            itemList.Add(ItemFactory.CreateItem(_itemBase));
         }
 
         SortItemListByItemName();

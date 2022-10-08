@@ -39,12 +39,9 @@ public abstract class ACrafter : BasicObject, ICrafter
             }
         }
 
-        // Add the result to the inventory
-        //Item item = recipe.craftingResult as Item;   // This is against factory
-
-        recipe.craftingResult.AddResultToWorld(gameManager);
-
-        //player.inventory.AddItem(item);
+        Item item = ItemFactory.CreateItem(recipe.craftingResult);
+        item.ApplyDecorators(recipe.itemDecorators);
+        player.inventory.AddItem(item);
 
         player.inventory.ShowContent();
 
