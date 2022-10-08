@@ -14,7 +14,7 @@ public class Player : BasicObject
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
 
-        playerGameObject.transform.position = new Vector3(0,2,0);
+        //playerGameObject.transform.position = new Vector3(0,2,0);
 
         menuStateMachine = new MenuStateMachine(_gameManager);
         moveStateMachine = new MoveStateMachine(_gameManager);

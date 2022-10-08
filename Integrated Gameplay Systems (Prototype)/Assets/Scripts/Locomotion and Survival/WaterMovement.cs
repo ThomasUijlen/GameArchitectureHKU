@@ -69,8 +69,6 @@ public class WaterMovement : State, ILocomotion
         Vector3 movement = currentDirection.normalized;
         player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime);
         currentDirection = Vector3.zero;
-
-        currentDirection = Vector3.zero;
     }
 
     public void AddDirection(Vector3 _direction)
@@ -84,9 +82,14 @@ public class WaterMovement : State, ILocomotion
 
         foreach (Collider collider in hitColliders)
         {
-            if (collider.tag != "Water")
+            if (collider.tag == "Water")
             {
                 isUnderwater = true;
+            }
+
+            if (collider.tag != "Water")
+            {
+                isUnderwater = false;
                 oxygen.currentOxygenLevel = 100;
             }
         }

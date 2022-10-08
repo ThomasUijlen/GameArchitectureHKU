@@ -46,23 +46,23 @@ public class GroundMovement : State, ILocomotion
     public override void FixedUpdate()
     {
         DoMove();
-        DoCamera();
+        //DoCamera();
     }
 
     public override void EnableState()
     {
         gameManager.inputManager.RegisterKeyBinding(KeyCode.W, command1);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.A, command2);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command3);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command4);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command4);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command3);
     }
 
     public override void DisableState()
     {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.W, command1);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.A, command2);
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.S, command3);
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.D, command4);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.S, command4);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.D, command3);
     }
 
     public void DoMove()
@@ -77,8 +77,8 @@ public class GroundMovement : State, ILocomotion
         rotation.x += Input.GetAxis(xAxis) * sensitivity;
         rotation.y += Input.GetAxis(yAxis) * sensitivity;
         rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
-        var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-        var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+        Quaternion xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+        Quaternion yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
         player.playerGameObject.transform.localRotation = xQuat * yQuat;
 
