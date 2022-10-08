@@ -22,6 +22,7 @@ public class Player : BasicObject
         inventory = new Inventory(_gameManager);
 
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
+        Debug.Log(moveStateMachine.currentLocomotion);
     }
 
 }

@@ -10,7 +10,7 @@ public class WaterMovement : State, ILocomotion
 
     private float elapsed = 0f;
 
-    bool isUnderwater = false;
+    private bool isUnderwater = false;
 
     Vector3 currentDirection;
 
@@ -23,6 +23,8 @@ public class WaterMovement : State, ILocomotion
     private MoveCommand command2;
     private MoveCommand command3;
     private MoveCommand command4;
+
+    public Collider[] hitColliders;
 
     public WaterMovement(IStateMachine _stateMachine, GameManager _gameManager) : base(_stateMachine)
     {
@@ -78,7 +80,7 @@ public class WaterMovement : State, ILocomotion
 
     void CheckTag()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(player.playerGameObject.transform.position, radius);
+        hitColliders = Physics.OverlapSphere(player.playerGameObject.transform.position, radius);
 
         foreach (Collider collider in hitColliders)
         {
@@ -93,6 +95,7 @@ public class WaterMovement : State, ILocomotion
                 oxygen.currentOxygenLevel = 100;
             }
         }
+
 
         if (isUnderwater)
         {

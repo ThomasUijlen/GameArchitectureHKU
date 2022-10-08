@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundMovement : State, ILocomotion
-{
-    public float speed = 20;
-
-    Vector3 currentDirection;
-
+{ 
     private Player player;
 
     protected GameManager gameManager;
@@ -30,6 +26,9 @@ public class GroundMovement : State, ILocomotion
     const string xAxis = "Mouse X";
     const string yAxis = "Mouse Y";
 
+    public float speed = 20;
+
+    Vector3 currentDirection;
 
     public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
@@ -46,7 +45,7 @@ public class GroundMovement : State, ILocomotion
     public override void FixedUpdate()
     {
         DoMove();
-        //DoCamera();
+        DoCamera();
     }
 
     public override void EnableState()
