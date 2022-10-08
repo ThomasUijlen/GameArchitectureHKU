@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : BasicObject
 {
@@ -8,15 +10,18 @@ public class Inventory : BasicObject
 
     private const int capacity = 20;
     private int totalItemCount;
+    private SimpleAnimations animationPlayer;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
+        animationPlayer = new SimpleAnimations();
+
         // For testing
         sItemBase sWood = gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase;
-        sItemBase sStone = gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase;
+        sItemBase sMetal = gameManager.scriptableObjectLibrary.GetScriptableObject("Metal") as sItemBase;
 
         AddItemBase(sWood, 10);
-        AddItemBase(sStone, 4);
+        AddItemBase(sMetal, 4);
     }
 
     // Adds a specific Item to the inventory. Used when adding a crafted item.
@@ -26,6 +31,7 @@ public class Inventory : BasicObject
 
         itemList.Add(_item);
         AddItemBaseToDictionary(_item.itemBase, 1);
+        SortItemListByItemName();
         return true;
     }
 
@@ -43,9 +49,10 @@ public class Inventory : BasicObject
         AddItemBaseToDictionary(_itemBase, _amount);
         for (int i = 0; i < _amount; i++)
         {
-            itemList.Add(new Item(_itemBase));
+            itemList.Add(ItemFactory.CreateItem(_itemBase));
         }
 
+        SortItemListByItemName();
         return true;
     }
 
@@ -66,6 +73,7 @@ public class Inventory : BasicObject
             return true;
         }
 
+        SortItemListByItemName();
         return false;
     }
 
@@ -89,6 +97,7 @@ public class Inventory : BasicObject
             return true;
         }
 
+        SortItemListByItemName();
         return false;
     }
 
@@ -103,6 +112,21 @@ public class Inventory : BasicObject
         {
             Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {itemBaseList[item]}");
         }
+    }
+
+    private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)
+    {
+        if (itemBaseList.ContainsKey(_itemBase))
+        {
+            itemBaseList[_itemBase] += _amount;
+        }
+        else
+        {
+            itemBaseList.Add(_itemBase, _amount);
+        }
+
+        PlayItemPickupAnimation(_itemBase);
+        totalItemCount += _amount;
     }
 
     // Finds an Item with the sItemBase of _itemBase and returns the item with the lowest value.
@@ -127,17 +151,18 @@ public class Inventory : BasicObject
         return lowestValueItem;
     }
 
-    private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)
+    private void SortItemListByItemName()
     {
-        if (itemBaseList.ContainsKey(_itemBase))
-        {
-            itemBaseList[_itemBase] += _amount;
-        }
-        else
-        {
-            itemBaseList.Add(_itemBase, _amount);
-        }
+        itemList = itemList.OrderBy(x => x.itemBase.name).ThenByDescending(x => x.goldValue).ToList();
+    }
 
-        totalItemCount += _amount;
+    private void PlayItemPickupAnimation(sItemBase _itemBase)
+    {
+        GameObject imageObject = gameManager.prefabLibrary.InstantiatePrefab("TestImage");
+        Image image = imageObject.GetComponentInChildren<Image>();
+        image.sprite = _itemBase.sprite;
+        animationPlayer.ItemPickupAnimation(image.gameObject, 2f, .5f,
+                                            () => GameObject.Destroy(imageObject));
+        
     }
 }

@@ -1,4 +1,6 @@
-public class Item : ICraftingResult
+using System.Collections.Generic;
+
+public class Item
 {
     // Base \\
     public string name => itemBase.name;
@@ -17,5 +19,16 @@ public class Item : ICraftingResult
     {
         itemBase = _itemBase;
         goldValue = _goldValue;
+    }
+
+    public void ApplyDecorators(List<sEnhancer> enhancers)
+    {
+        if (enhancers == null) return;
+
+        foreach(sEnhancer enhancer in enhancers)
+        {
+            ItemDecorator decorator = EnhancerFactory.CreateItemDecorator(enhancer);
+            decorator.Enhance(this);
+        }
     }
 }

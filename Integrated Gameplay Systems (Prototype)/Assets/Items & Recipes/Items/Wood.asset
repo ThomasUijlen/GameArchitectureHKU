@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cad2b3e4e5bda314d8a9fe18df7a0b71, type: 3}
-  m_Name: Tool
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  name: Tool
-  sprite: {fileID: 0}
+  name: Wood
+  sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  baseGoldValue: 10
