@@ -2,15 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
-public class sItemBase : ScriptableObject, ICraftingResult
+public class sItemBase : ScriptableObject
 {
     public string name;
-    public Image sprite;
+    public Sprite sprite;
     public int baseGoldValue;
 
     public sItemBase() { }
 
-    public sItemBase(string _name, Image _sprite = null)
+    public sItemBase(string _name, Sprite _sprite = null)
     {
         name = _name;
         sprite = _sprite;

@@ -5,11 +5,12 @@ using UnityEngine;
 public class sRecipe: ScriptableObject
 {
     public List<ItemAmountPair> ingredients = new List<ItemAmountPair>();
-    public ICraftingResult craftingResult;
+    public sItemBase craftingResult;
+    public List<sEnhancer> itemDecorators;
 
     public sRecipe() { }
 
-    public sRecipe(List<ItemAmountPair> _ingredients, ICraftingResult _craftingResult)
+    public sRecipe(List<ItemAmountPair> _ingredients, sItemBase _craftingResult)
     {
         ingredients = _ingredients;
         craftingResult = _craftingResult;

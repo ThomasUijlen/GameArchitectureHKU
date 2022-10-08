@@ -14,11 +14,15 @@ public class PlaceMenu : Menu
 
     public override void EnableState() {
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void DisableState() {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
         hologramStructure.Destroy();
+        
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void SetStructure(string _structureName, Type _type) {

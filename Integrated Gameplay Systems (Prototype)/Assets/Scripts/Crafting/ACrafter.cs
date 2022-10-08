@@ -39,8 +39,8 @@ public abstract class ACrafter : BasicObject, ICrafter
             }
         }
 
-        // Add the result to the inventory
-        Item item = recipe.craftingResult as Item;
+        Item item = ItemFactory.CreateItem(recipe.craftingResult);
+        item.ApplyDecorators(recipe.itemDecorators);
         player.inventory.AddItem(item);
 
         player.inventory.ShowContent();
@@ -52,11 +52,8 @@ public abstract class ACrafter : BasicObject, ICrafter
     {
         CrafterObject = GameObject.Instantiate(CrafterPrefab);
 
-        EventTrigger crafterTriggers = CrafterObject.GetComponent<EventTrigger>();
-        EventTrigger.Entry pointerClickEntry = new EventTrigger.Entry();
-        pointerClickEntry.eventID = EventTriggerType.PointerClick;
-        pointerClickEntry.callback.AddListener((data) => OpenCrafterMenu((PointerEventData)data));
-        crafterTriggers.triggers.Add(pointerClickEntry);
+        EventTriggerDecorator.AddTrigger(CrafterObject, EventTriggerType.PointerClick, 
+                                            (data) => OpenCrafterMenu((PointerEventData)data));
     }
 
     protected virtual void OpenCrafterMenu(PointerEventData _pointerData)

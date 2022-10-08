@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 599dd82ec5f78334ba433e25a5cf2cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabLibrary: {fileID: 11400000, guid: cfe543456fd955341a0ee957d81979b9, type: 2}
+  prefabLibrary: {fileID: 11400000, guid: 9a595b6d315465f44aa4f177dc8df8fe, type: 2}
   scriptableObjectLibrary: {fileID: 11400000, guid: f34651d9e199d264da895b2f1e8551e6, type: 2}
   sceneBuilder: {fileID: 11400000, guid: 7b809a8e13693b743a8411eea78a65f2, type: 2}
 --- !u!4 &1676641411

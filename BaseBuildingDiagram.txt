@@ -1,0 +1,89 @@
+@startuml
+package main {
+abstract State
+interface ICommand
+class OpenMenuCommand
+class Menu
+abstract BasicObject
+}
+
+package BaseBuilding {
+class BuildMenu #ddccff {
+{static} -Dictionary<string, StructureInformation> structureLibrary
+-string selectedStructure
+
++BuildMenu(IStateMachine _stateMachine, GameManager _gameManager)
++void EnableState()
++void DisableState()
++void StructureSelected(string structure)
++void StructureConfirm()
++void DemolishConfirm()
+-void CreateStructureList()
+}
+
+BuildMenu --|> Menu
+BuildMenu --* OpenMenuCommand : backCommand
+
+class DemolishMenu #ddccff {
+-GameObject playerCamera
++void EnableState()
++void DisableState()
++void Execute()
+}
+
+DemolishMenu  --|> Menu
+DemolishMenu  ..|> ICommand
+DemolishMenu  --* OpenMenuCommand : backCommand
+
+struct StructureInformation #eee6ff {
++ Type hologramType
++string description
++StructureInformation(Type _hologramType, string _description)
+}
+
+class HologramStructure #ddccff {
+#float PLACE_DISTANCE
+#GameObject hologramObject
+#GameObject resultStructure
+#GameObject playerCamera
+-GameObject greenMesh
+-GameObject redMesh
+
++HologramStructure(string _structureName, GameManager _gameManager)
++void FixedUpdate()
++void PositionStructure()
++bool CanPlace()
++void Execute()
++bool TryPlaceStructure()
++void Destroy()
+-void SetHoloColor()
+}
+
+HologramStructure ..|> ICommand
+
+class ExteriorStructure #ddccff {
+-bool touchingTerrain
++ExteriorStructure(string _structureName, GameManager _gameManager)
++void PositionStructure()
++bool CanPlace()
+}
+
+class InteriorStructure #ddccff {
+-bool touchingTerrain
+-bool isInside
++InteriorStructure(string _structureName, GameManager _gameManager)
++void PositionStructure()
++bool CanPlace()
+}
+
+BasicObject <|-- HologramStructure
+HologramStructure <|-- ExteriorStructure
+HologramStructure <|-- InteriorStructure
+
+StructureInformation "0..*" *-- BuildMenu : Has library of
+State <|-- BuildMenu
+State <|-- DemolishMenu
+HologramStructure *-- BuildMenu
+}
+
+@enduml

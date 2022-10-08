@@ -25,12 +25,7 @@ MonoBehaviour:
     prefab: {fileID: 4533966826358883829, guid: a69470f74e6d07545a8afca6bb9bbfbf, type: 3}
   - name: InventoryUI
     prefab: {fileID: 7237254941099479736, guid: 90c8113e82744434193536f921956a06, type: 3}
-  scriptableObjects:
-  - name: Wood
-    scriptableObject: {fileID: 11400000, guid: 6f24b09ed8b3610409c8c7b679ae509f, type: 2}
-  - name: Stick
-    scriptableObject: {fileID: 11400000, guid: 0609c94706590ee428cfc860548b4094, type: 2}
-  - name: Stone
-    scriptableObject: {fileID: 11400000, guid: e820485ee34b34642bac47e479445283, type: 2}
-  - name: Tool
-    scriptableObject: {fileID: 11400000, guid: eebccf159111a8f48bcdc3aaebe30b36, type: 2}
+  - name: WoodSource
+    prefab: {fileID: 6947140316356836970, guid: db65f4422703abc42bd653941a879843, type: 3}
+  - name: TestImage
+    prefab: {fileID: 8686585137698106249, guid: dd05849e02e6bb94d90fcccf23ac111d, type: 3}

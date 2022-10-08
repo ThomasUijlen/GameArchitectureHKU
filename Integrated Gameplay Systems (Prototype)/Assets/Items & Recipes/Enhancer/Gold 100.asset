@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad2b3e4e5bda314d8a9fe18df7a0b71, type: 3}
-  m_Name: Stick
+  m_Script: {fileID: 11500000, guid: 9f4e910323f99934193e17aafa7b3209, type: 3}
+  m_Name: Gold 100
   m_EditorClassIdentifier: 
-  name: Stick
-  sprite: {fileID: 0}
+  enhancerType: 0
+  amount: 100
