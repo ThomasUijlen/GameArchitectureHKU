@@ -1,7 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 public class Oxygen
 {
-    int currentOxygenLevel;
-    int maxOxygenLevel = 100;
+    public int currentOxygenLevel;
+    private int maxOxygenLevel = 100;
 
     public void SetOxygenAtStart()
     {
@@ -16,5 +20,14 @@ public class Oxygen
     public void SubstractOxygen(int amount)
     {
         currentOxygenLevel -= amount;
+    }
+
+    private IEnumerator OxygenDepletion(float waitTime)
+    {
+
+        yield return new WaitForSeconds(waitTime);
+
+        currentOxygenLevel--;
+
     }
 }

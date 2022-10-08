@@ -6,31 +6,23 @@ public class Player : BasicObject
 {
     public Inventory inventory;
     public MenuStateMachine menuStateMachine;
+    public MoveStateMachine moveStateMachine;
 
-    Oxygen oxygen;
+    public GameObject playerGameObject;
 
-    Rigidbody rigidBody;
-
-    Vector3 moveDirection;
-
-
-    public Player(GameManager _gameManager) : base(_gameManager) 
+    public Player(GameManager _gameManager) : base(_gameManager)
     {
-        //oxygen.SetOxygenAtStart();
+        playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
 
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.W, new MoveCommand(this, Vector3.forward));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.A, new MoveCommand(this, Vector3.left));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, new MoveCommand(this, Vector3.right));
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, new MoveCommand(this, Vector3.back));
+        //playerGameObject.transform.position = new Vector3(0,2,0);
 
         menuStateMachine = new MenuStateMachine(_gameManager);
+        moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
         gameManager.RegisterTag("Inventory", inventory);
+
+        moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
     }
 
-    public void DoMovement(Vector3 direction)
-    {
-        moveDirection = direction;
-    }
 }

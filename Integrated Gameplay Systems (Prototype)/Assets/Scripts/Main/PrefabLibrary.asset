@@ -21,3 +21,17 @@ MonoBehaviour:
     prefab: {fileID: 7237254941099479736, guid: 87d763032db88f04fa977e4cb99be7bc, type: 3}
   - name: StructureButton
     prefab: {fileID: 3681705604893244684, guid: 4ec4c5e946dbbc3418cc4dddf2ea3b94, type: 3}
+  - name: Player
+    prefab: {fileID: 351619036868604739, guid: 358adf45208ecee4591651c5e2651b63, type: 3}
+  - name: Crafter
+    prefab: {fileID: 4533966826358883829, guid: 5aa52b16d24f7b749b35f12e039c3c0e, type: 3}
+  - name: Enhancer
+    prefab: {fileID: 4533966826358883829, guid: a69470f74e6d07545a8afca6bb9bbfbf, type: 3}
+  - name: CrafterMenuUI
+    prefab: {fileID: 7237254941099479736, guid: 6515e17ce474c39409329d2f72d23369, type: 3}
+  - name: IngredientInfo
+    prefab: {fileID: 4832160066965949706, guid: 4d3cea52055193348a0dd13e4bcda7d6, type: 3}
+  - name: RecipeButton
+    prefab: {fileID: 3681705604893244684, guid: 0c43fe97e96dc964cb8e61f53ac7bff3, type: 3}
+  - name: InventoryUI
+    prefab: {fileID: 7237254941099479736, guid: 90c8113e82744434193536f921956a06, type: 3}
