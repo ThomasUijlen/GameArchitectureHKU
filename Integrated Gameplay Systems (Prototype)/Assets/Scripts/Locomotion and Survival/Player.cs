@@ -7,6 +7,7 @@ public class Player : BasicObject
     public Inventory inventory;
     public MenuStateMachine menuStateMachine;
     public MoveStateMachine moveStateMachine;
+    public PlayerRotator playerRotator;
 
     public GameObject playerGameObject;
 
@@ -17,6 +18,7 @@ public class Player : BasicObject
 
         //playerGameObject.transform.position = new Vector3(0,2,0);
 
+        playerRotator = new PlayerRotator(_gameManager, this);
         menuStateMachine = new MenuStateMachine(_gameManager);
         moveStateMachine = new MoveStateMachine(_gameManager);
 
@@ -25,5 +27,4 @@ public class Player : BasicObject
 
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
     }
-
 }

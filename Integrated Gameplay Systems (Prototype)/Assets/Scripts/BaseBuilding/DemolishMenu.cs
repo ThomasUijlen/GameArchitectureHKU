@@ -18,11 +18,15 @@ public class DemolishMenu : Menu, ICommand
     public override void EnableState() {
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Mouse0, this);
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void DisableState() {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Mouse0, this);
+
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Execute() {
