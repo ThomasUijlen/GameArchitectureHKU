@@ -8,13 +8,15 @@ public class GameManager : MonoBehaviour
     public SceneBuilder sceneBuilder;
     public InputManager inputManager;
 
+    private List<BasicObject> newObjects = new List<BasicObject>();
     private List<BasicObject> objects = new List<BasicObject>();
+    private List<BasicObject> oldObjects = new List<BasicObject>();
     private Dictionary<string, object> tagList = new Dictionary<string, object>();
 
     private void Awake()
     {
         prefabLibrary.PrepareLibrary();
-        scriptableObjectLibrary.PrepareLibrary();
+        scriptableObjectLibrary?.PrepareLibrary();
     }
 
     public void Start() {
@@ -24,20 +26,34 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        IntegrateNewObjects();
         foreach(BasicObject obj in objects) obj.Update();
+        RemoveOldObjects();
     }
 
     public void FixedUpdate()
     {
+        IntegrateNewObjects();
         foreach(BasicObject obj in objects) obj.FixedUpdate();
+        RemoveOldObjects();
+    }
+
+    private void IntegrateNewObjects() {
+        objects.AddRange(newObjects);
+        newObjects.Clear();
+    }
+
+    private void RemoveOldObjects() {
+        foreach(BasicObject obj in oldObjects) objects.Remove(obj);
+        oldObjects.Clear();
     }
 
     public void RegisterBasicObject(BasicObject _object) {
-        objects.Add(_object);
+        newObjects.Add(_object);
     }
 
     public void DeregisterBasicObject(BasicObject _object) {
-        if(objects.Contains(_object)) objects.Remove(_object);
+        oldObjects.Add(_object);
     }
 
     public void RegisterTag(string tag, object obj) {

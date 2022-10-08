@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class BuildMenu : Menu
 {
     private static Dictionary<string, StructureInformation> structureLibrary = new Dictionary<string, StructureInformation> {
-        {"Hub", new StructureInformation(typeof(ExteriorStructure), "A large structure. Has a decent amount of interior space")}
+        {"Hub", new StructureInformation(typeof(ExteriorStructure), "A large structure. Has a decent amount of interior space")},
+        {"Storage Container", new StructureInformation(typeof(InteriorStructure), "A storage container. Can only be placed inside.")}
     };
 
     private OpenMenuCommand backCommand;
