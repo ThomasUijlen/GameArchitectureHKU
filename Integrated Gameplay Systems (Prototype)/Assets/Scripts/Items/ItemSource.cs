@@ -9,17 +9,17 @@ public class ItemSource : BasicObject
     private GameObject sourceObject;
     private sItemBase itemBase;
 
-    public ItemSource(GameManager _gameManager, sItemBase _itemBase, GameObject _prefab) : base(_gameManager)
+    public ItemSource(GameManager _gameManager, sItemBase _itemBase, GameObject _prefab, Vector3 _startingPos = default) : base(_gameManager)
     {
         itemBase = _itemBase;
         prefab = _prefab;
-        InstantiateItemSource();
+        InstantiateItemSource(_startingPos);
     }
 
-    private void InstantiateItemSource()
+    private void InstantiateItemSource(Vector3 _startingPos = default)
     {
         sourceObject = GameObject.Instantiate(prefab);
-        sourceObject.transform.position = new Vector3(3, 0, 0);
+        sourceObject.transform.position = _startingPos;
 
         EventTriggerDecorator.AddTrigger(sourceObject, EventTriggerType.PointerClick,
                                             (data) => OnPlayerInteract((PointerEventData) data));

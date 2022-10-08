@@ -12,6 +12,12 @@ public class SubnauticaBuilder : SceneBuilder
 
         new ItemSource(_gameManager, 
                         (sItemBase) _gameManager.scriptableObjectLibrary.GetScriptableObject("Wood"), 
-                        _gameManager.prefabLibrary.GetPrefab("WoodSource"));
+                        _gameManager.prefabLibrary.GetPrefab("WoodSource"),
+                        new Vector3(3, 0, 0));
+
+        new ItemSource(_gameManager,
+                        (sItemBase)_gameManager.scriptableObjectLibrary.GetScriptableObject("Metal"),
+                        _gameManager.prefabLibrary.GetPrefab("WoodSource"),
+                        new Vector3(6, 0, 0));
     }
 }
