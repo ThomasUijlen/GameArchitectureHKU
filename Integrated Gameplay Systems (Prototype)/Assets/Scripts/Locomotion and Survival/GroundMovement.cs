@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundMovement : State, ILocomotion
-{
-    public float speed = 20;
-
-    Vector3 currentDirection;
-
+{ 
     private Player player;
 
     protected GameManager gameManager;
+
+    public Collider[] hitColliders;
+
+    private Oxygen oxygen;
 
     private MoveCommand command1;
     private MoveCommand command2;
@@ -24,12 +24,16 @@ public class GroundMovement : State, ILocomotion
     }
 
     [Range(0.1f, 9f)] [SerializeField] float sensitivity = 2f;
-    [Range(0f, 90f)] [SerializeField] float yRotationLimit = 88f;
 
     Vector2 rotation = Vector2.zero;
     const string xAxis = "Mouse X";
     const string yAxis = "Mouse Y";
 
+    public float speed = 20;
+
+    Vector3 currentDirection;
+
+    private int radius = 1;
 
     public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
@@ -46,15 +50,16 @@ public class GroundMovement : State, ILocomotion
     public override void FixedUpdate()
     {
         DoMove();
-        //DoCamera();
+        DoCamera();
+        CheckTag();
     }
 
     public override void EnableState()
     {
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.W, command1);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.A, command2);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command4);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command3);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.W, command1, InputManager.INPUT_MODE.PRESSED);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.A, command2, InputManager.INPUT_MODE.PRESSED);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command4, InputManager.INPUT_MODE.PRESSED);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command3, InputManager.INPUT_MODE.PRESSED);
     }
 
     public override void DisableState()
@@ -75,12 +80,9 @@ public class GroundMovement : State, ILocomotion
     public void DoCamera()
     {
         rotation.x += Input.GetAxis(xAxis) * sensitivity;
-        rotation.y += Input.GetAxis(yAxis) * sensitivity;
-        rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
         Quaternion xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-        Quaternion yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
-        player.playerGameObject.transform.localRotation = xQuat * yQuat;
+        player.playerGameObject.transform.localRotation = xQuat;
 
         Cursor.visible = false;
     }
@@ -90,5 +92,26 @@ public class GroundMovement : State, ILocomotion
         currentDirection += _direction;
     }
 
+    void CheckTag()
+    {
+        bool isUnderwater = false;
 
+
+        foreach (Collider collider in Physics.OverlapSphere(player.playerGameObject.transform.position, 10f))
+        {
+            if (collider.bounds.Contains(player.playerGameObject.transform.position))
+            {
+                if (collider.tag == "Water")
+                {
+                    isUnderwater = true;
+                }
+                break;
+            }
+        }
+
+        if (isUnderwater)
+        {
+            player.moveStateMachine.SetState(new WaterMovement(player.moveStateMachine, gameManager, player));
+        }
+    }
 }

@@ -13,6 +13,7 @@ public class Player : BasicObject
     public Player(GameManager _gameManager) : base(_gameManager)
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
+        _gameManager.RegisterTag("Camera", GameObject.Find("MainCamera"));
 
         //playerGameObject.transform.position = new Vector3(0,2,0);
 
