@@ -24,7 +24,6 @@ public class Player : BasicObject
         gameManager.RegisterTag("Inventory", inventory);
 
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
-        Debug.Log(moveStateMachine.currentLocomotion);
     }
 
 }
