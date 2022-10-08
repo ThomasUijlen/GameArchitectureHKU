@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class InputManager : BasicObject
 {
-    private Dictionary<KeyCode, List<ICommand>> keyBindings = new Dictionary<KeyCode, List<ICommand>>();
-    private Dictionary<KeyCode, List<ICommand>> newBindings = new Dictionary<KeyCode, List<ICommand>>();
+    public enum INPUT_MODE {
+        SINGLE_PRESSED,
+        PRESSED,
+        SINGLE_RELEASED,
+        RELEASED
+    }
+    private Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>> keyBindings = new Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>>();
+    private Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>> newBindings = new Dictionary<KeyCode, Dictionary<ICommand, INPUT_MODE>>();
     private Dictionary<KeyCode, List<ICommand>> oldBindings = new Dictionary<KeyCode, List<ICommand>>();
 
     public InputManager(GameManager _gameManager) : base(_gameManager) {}
@@ -19,18 +25,30 @@ public class InputManager : BasicObject
 
     private void HandleInputs() {
         foreach(KeyCode key in keyBindings.Keys) {
-            if(Input.GetKeyDown(key)) {
-                foreach(ICommand command in keyBindings[key]) {
-                    command.Execute();
+            foreach(KeyValuePair<ICommand, INPUT_MODE> keyValuePair in keyBindings[key]) {
+                switch(keyValuePair.Value) {
+                    case INPUT_MODE.SINGLE_PRESSED:
+                    if(Input.GetKeyDown(key)) keyValuePair.Key.Execute();
+                    break;
+                    case INPUT_MODE.PRESSED:
+                    if(Input.GetKey(key)) keyValuePair.Key.Execute();
+                    break;
+                    case INPUT_MODE.SINGLE_RELEASED:
+                    if(Input.GetKeyUp(key)) keyValuePair.Key.Execute();
+                    break;
+                    case INPUT_MODE.RELEASED:
+                    if(!Input.GetKey(key)) keyValuePair.Key.Execute();
+                    break;
                 }
+                
             }
         }
     }
 
     private void IntegrateNewKeys() {
         foreach(KeyCode key in newBindings.Keys) {
-            if(!keyBindings.ContainsKey(key)) keyBindings.Add(key, new List<ICommand>());
-            keyBindings[key].AddRange(newBindings[key]);
+            if(!keyBindings.ContainsKey(key)) keyBindings.Add(key, new Dictionary<ICommand, INPUT_MODE>());
+            foreach(KeyValuePair<ICommand, INPUT_MODE> keyValuePair in newBindings[key]) keyBindings[key].Add(keyValuePair.Key, keyValuePair.Value);
         }
         newBindings.Clear();
     }
@@ -44,9 +62,9 @@ public class InputManager : BasicObject
         oldBindings.Clear();
     }
 
-    public void RegisterKeyBinding(KeyCode _keyCode, ICommand _command) {
-        if(!newBindings.ContainsKey(_keyCode)) newBindings.Add(_keyCode, new List<ICommand>());
-        newBindings[_keyCode].Add(_command);
+    public void RegisterKeyBinding(KeyCode _keyCode, ICommand _command, INPUT_MODE _inputMode = INPUT_MODE.SINGLE_PRESSED) {
+        if(!newBindings.ContainsKey(_keyCode)) newBindings.Add(_keyCode, new Dictionary<ICommand, INPUT_MODE>());
+        newBindings[_keyCode].Add(_command, _inputMode);
     }
 
     public void DeregisterKeyBinding(KeyCode _keyCode, ICommand _command) {
