@@ -53,16 +53,16 @@ public class GroundMovement : State, ILocomotion
     {
         gameManager.inputManager.RegisterKeyBinding(KeyCode.W, command1);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.A, command2);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command4);
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command3);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.S, command3);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command4);
     }
 
     public override void DisableState()
     {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.W, command1);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.A, command2);
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.S, command4);
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.D, command3);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.S, command3);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.D, command4);
     }
 
     public void DoMove()
