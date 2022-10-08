@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   name: Stone
-  sprite: {fileID: 0}
+  sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   baseGoldValue: 25

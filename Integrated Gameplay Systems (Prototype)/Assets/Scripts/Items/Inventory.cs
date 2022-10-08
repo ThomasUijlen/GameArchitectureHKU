@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : BasicObject
 {
@@ -9,9 +10,12 @@ public class Inventory : BasicObject
 
     private const int capacity = 20;
     private int totalItemCount;
+    private SimpleAnimations animationPlayer;
 
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
+        animationPlayer = new SimpleAnimations();
+
         // For testing
         sItemBase sWood = gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase;
         sItemBase sStone = gameManager.scriptableObjectLibrary.GetScriptableObject("Stone") as sItemBase;
@@ -121,6 +125,7 @@ public class Inventory : BasicObject
             itemBaseList.Add(_itemBase, _amount);
         }
 
+        PlayItemPickupAnimation(_itemBase);
         totalItemCount += _amount;
     }
 
@@ -149,5 +154,14 @@ public class Inventory : BasicObject
     private void SortItemListByItemName()
     {
         itemList = itemList.OrderBy(x => x.itemBase.name).ThenByDescending(x => x.goldValue).ToList();
+    }
+
+    private void PlayItemPickupAnimation(sItemBase _itemBase)
+    {
+        Image image = gameManager.prefabLibrary.InstantiatePrefab("TestImage").GetComponentInChildren<Image>();
+        image.sprite = _itemBase.sprite;
+        animationPlayer.ItemPickupAnimation(image.gameObject, 2f, .5f,
+                                            () => GameObject.Destroy(image.gameObject));
+        
     }
 }

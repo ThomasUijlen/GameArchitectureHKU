@@ -5,12 +5,12 @@ using UnityEngine.UI;
 public class sItemBase : ScriptableObject, ICraftingResult
 {
     public string name;
-    public Image sprite;
+    public Sprite sprite;
     public int baseGoldValue;
 
     public sItemBase() { }
 
-    public sItemBase(string _name, Image _sprite = null)
+    public sItemBase(string _name, Sprite _sprite = null)
     {
         name = _name;
         sprite = _sprite;
