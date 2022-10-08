@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : BasicObject
@@ -26,6 +27,7 @@ public class Inventory : BasicObject
 
         itemList.Add(_item);
         AddItemBaseToDictionary(_item.itemBase, 1);
+        SortItemListByItemName();
         return true;
     }
 
@@ -46,6 +48,7 @@ public class Inventory : BasicObject
             itemList.Add(new Item(_itemBase));
         }
 
+        SortItemListByItemName();
         return true;
     }
 
@@ -66,6 +69,7 @@ public class Inventory : BasicObject
             return true;
         }
 
+        SortItemListByItemName();
         return false;
     }
 
@@ -89,6 +93,7 @@ public class Inventory : BasicObject
             return true;
         }
 
+        SortItemListByItemName();
         return false;
     }
 
@@ -103,6 +108,20 @@ public class Inventory : BasicObject
         {
             Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {itemBaseList[item]}");
         }
+    }
+
+    private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)
+    {
+        if (itemBaseList.ContainsKey(_itemBase))
+        {
+            itemBaseList[_itemBase] += _amount;
+        }
+        else
+        {
+            itemBaseList.Add(_itemBase, _amount);
+        }
+
+        totalItemCount += _amount;
     }
 
     // Finds an Item with the sItemBase of _itemBase and returns the item with the lowest value.
@@ -127,17 +146,8 @@ public class Inventory : BasicObject
         return lowestValueItem;
     }
 
-    private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)
+    private void SortItemListByItemName()
     {
-        if (itemBaseList.ContainsKey(_itemBase))
-        {
-            itemBaseList[_itemBase] += _amount;
-        }
-        else
-        {
-            itemBaseList.Add(_itemBase, _amount);
-        }
-
-        totalItemCount += _amount;
+        itemList = itemList.OrderBy(x => x.itemBase.name).ThenByDescending(x => x.goldValue).ToList();
     }
 }

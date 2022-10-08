@@ -60,16 +60,16 @@ public class ScriptableObjectLibrary : ScriptableObject
 
         List<ItemAmountPair> ingredients3 = new List<ItemAmountPair>
         {
-            new ItemAmountPair(GetScriptableObject("Wood") as sItemBase, 1),
-            new ItemAmountPair(GetScriptableObject("Stone") as sItemBase, 1)
+            new ItemAmountPair(GetScriptableObject("Tool") as sItemBase, 1),
+            new ItemAmountPair(GetScriptableObject("Wood") as sItemBase, 1)
         };
 
-        Item EnhancedWood = new GoldValueEnhancer(40).Enhance(new Item(GetScriptableObject("Wood") as sItemBase));
+        Item EnhancedTool = new GoldValueEnhancer(100).Enhance(new Item(GetScriptableObject("Tool") as sItemBase));
 
         sRecipe enhancedWoodRecipe = new sRecipe()
         {
             ingredients = ingredients3,
-            craftingResult = EnhancedWood,
+            craftingResult = EnhancedTool,
         };
 
         scriptableObjectLibrary.Add("stickRecipe", stickRecipe);
