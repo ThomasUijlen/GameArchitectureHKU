@@ -21,6 +21,7 @@ public class Player : BasicObject
         moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
+        gameManager.RegisterTag("Inventory", inventory);
 
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
     }

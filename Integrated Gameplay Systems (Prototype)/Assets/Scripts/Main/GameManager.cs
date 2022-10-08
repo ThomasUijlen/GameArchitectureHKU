@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        prefabLibrary.PrepareLibrary();
+        prefabLibrary?.PrepareLibrary();
         scriptableObjectLibrary?.PrepareLibrary();
     }
 

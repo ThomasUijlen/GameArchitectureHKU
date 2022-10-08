@@ -17,6 +17,16 @@ public class MoveStateMachine : BasicObject, IStateMachine
         if (currentLocomotion != null) currentLocomotion.EnableState();
     }
 
+    public override void Update()
+    {
+        if (currentLocomotion != null) currentLocomotion.Update();
+    }
+
+    public override void FixedUpdate()
+    {
+        if (currentLocomotion != null) currentLocomotion.FixedUpdate();
+    }
+
     public ILocomotion GetLocomotion()
     {
         return (ILocomotion)currentLocomotion;
