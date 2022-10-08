@@ -17,3 +17,7 @@ MonoBehaviour:
     scriptableObject: {fileID: 11400000, guid: 331c78f9a89fac64590152e04fea89e8, type: 2}
   - name: EnhancerRecipeList
     scriptableObject: {fileID: 11400000, guid: 47ba6044feba96e46b6432b1465f3c6d, type: 2}
+  - name: Wood
+    scriptableObject: {fileID: 11400000, guid: 6f24b09ed8b3610409c8c7b679ae509f, type: 2}
+  - name: Metal
+    scriptableObject: {fileID: 11400000, guid: e820485ee34b34642bac47e479445283, type: 2}
