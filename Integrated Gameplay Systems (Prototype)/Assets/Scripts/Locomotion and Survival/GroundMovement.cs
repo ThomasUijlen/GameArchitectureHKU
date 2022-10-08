@@ -27,13 +27,10 @@ public class GroundMovement : State, ILocomotion
 
     Vector2 rotation = Vector2.zero;
     const string xAxis = "Mouse X";
-    const string yAxis = "Mouse Y";
 
     public float speed = 20;
 
     Vector3 currentDirection;
-
-    private int radius = 1;
 
     public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {

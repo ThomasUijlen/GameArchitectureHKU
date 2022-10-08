@@ -20,7 +20,7 @@ public class WaterMovement : State, ILocomotion
     private MoveCommand command3;
     private MoveCommand command4;
 
-    private float radius = .1f;
+    private float elapsed;
 
     public float Sensitivity
     {
@@ -49,13 +49,12 @@ public class WaterMovement : State, ILocomotion
 
     public override void FixedUpdate()
     {
-        //elapsed += Time.deltaTime;
-        //if (elapsed >= 10f)
-        //{
-        //    elapsed = elapsed % 10f;
-        //    oxygen.SubstractOxygen(5);
-
-        //}
+        elapsed += Time.deltaTime;
+        if (elapsed >= 10f)
+        {
+            elapsed = elapsed % 10f;
+            oxygen.SubstractOxygen(5);
+        }
 
         DoMove();
         DoCamera();
@@ -115,7 +114,7 @@ public class WaterMovement : State, ILocomotion
                 if (collider.tag != "Water")
                 {
                     isUnderwater = false;
-                    //oxygen.currentOxygenLevel = 100;
+                    oxygen.currentOxygenLevel = 100;
                 }
                 break;
             }

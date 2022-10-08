@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Oxygen
 {
+    private Player player;
+
     public int currentOxygenLevel;
     private int maxOxygenLevel = 100;
+
+    public Oxygen(GameManager _gameManager)
+    {
+
+    }
 
     public void SetOxygenAtStart()
     {
@@ -22,12 +29,4 @@ public class Oxygen
         currentOxygenLevel -= amount;
     }
 
-    private IEnumerator OxygenDepletion(float waitTime)
-    {
-
-        yield return new WaitForSeconds(waitTime);
-
-        currentOxygenLevel--;
-
-    }
 }
