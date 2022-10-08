@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
-public class sItemBase : ScriptableObject, ICraftingResult
+public class sItemBase : ScriptableObject
 {
     public string name;
     public Sprite sprite;

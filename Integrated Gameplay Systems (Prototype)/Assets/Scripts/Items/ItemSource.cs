@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 // This class is used to give the player resources
-public class ItemSource : BasicObject
+public class ItemSource : BasicObject, ICraftingResult
 {
+    public string name => $"{itemBase.name} Source";
     private GameObject prefab;
     private GameObject sourceObject;
     private sItemBase itemBase;
@@ -14,7 +15,12 @@ public class ItemSource : BasicObject
     {
         itemBase = _itemBase;
         prefab = _prefab;
+    }
+
+    public void AddResultToWorld(GameManager _gameManager)
+    {
         InstantiateItemSource();
+        //sourceObject.transform.position = new Vector3(0, 0, 3);
     }
 
     private void InstantiateItemSource()
@@ -22,7 +28,6 @@ public class ItemSource : BasicObject
         sourceObject = GameObject.Instantiate(prefab);
         sourceObject.transform.position = new Vector3(3, 0, 0);
 
-        // Add eventTrigger?
         EventTriggerDecorator.AddTrigger(sourceObject, EventTriggerType.PointerClick,
                                             (data) => OnPlayerInteract((PointerEventData) data));
     }

@@ -31,13 +31,12 @@ public class CrafterMenu : Menu
     {
         Debug.Log("Crafter Menu");
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
-        menuCanvas.gameObject.SetActive(true);
     }
 
     public override void DisableState()
     {
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
-        menuCanvas.gameObject.SetActive(false);
+        GameObject.Destroy(menuCanvas);
     }
 
     private void AddRecipesToScrollView()
@@ -68,12 +67,8 @@ public class CrafterMenu : Menu
 
         recipeButtons.Add(button, _recipe);
 
-        // From Unity Documentation: EventTrigger
-        EventTrigger buttonTriggers = button.GetComponent<EventTrigger>();
-        EventTrigger.Entry hoverEntry = new EventTrigger.Entry();
-        hoverEntry.eventID = EventTriggerType.PointerEnter;
-        hoverEntry.callback.AddListener((data) => UpdateIngedientsInfo((PointerEventData)data));
-        buttonTriggers.triggers.Add(hoverEntry);
+        EventTriggerDecorator.AddTrigger(_recipeButton, EventTriggerType.PointerEnter, 
+                                        (data) => UpdateIngedientsInfo((PointerEventData) data));
     }
 
     private static void DisplayRecipeUI(GameObject _recipeButton, sRecipe _recipe)

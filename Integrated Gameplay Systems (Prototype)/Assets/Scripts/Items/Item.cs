@@ -18,4 +18,10 @@ public class Item : ICraftingResult
         itemBase = _itemBase;
         goldValue = _goldValue;
     }
+
+    public void AddResultToWorld(GameManager _gameManager)
+    {
+        Inventory playerInventory = (Inventory) _gameManager.GetObjectWithTag("Inventory");
+        playerInventory.AddItem(this);
+    }
 }

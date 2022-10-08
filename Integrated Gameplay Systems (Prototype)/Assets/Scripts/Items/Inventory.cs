@@ -158,10 +158,11 @@ public class Inventory : BasicObject
 
     private void PlayItemPickupAnimation(sItemBase _itemBase)
     {
-        Image image = gameManager.prefabLibrary.InstantiatePrefab("TestImage").GetComponentInChildren<Image>();
+        GameObject imageObject = gameManager.prefabLibrary.InstantiatePrefab("TestImage");
+        Image image = imageObject.GetComponentInChildren<Image>();
         image.sprite = _itemBase.sprite;
         animationPlayer.ItemPickupAnimation(image.gameObject, 2f, .5f,
-                                            () => GameObject.Destroy(image.gameObject));
+                                            () => GameObject.Destroy(imageObject));
         
     }
 }
