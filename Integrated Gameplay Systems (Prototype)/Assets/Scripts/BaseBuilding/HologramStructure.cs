@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HologramStructure : BasicObject, ICommand
 {
-    protected const float PLACE_DISTANCE = 10f;
+    protected const float PLACE_DISTANCE = 40f;
     protected GameObject hologramObject;
     protected GameObject resultStructure;
     protected GameObject playerCamera;
@@ -50,7 +50,7 @@ public class HologramStructure : BasicObject, ICommand
 
     public bool TryPlaceStructure() {
         if(CanPlace()) {
-            GameObject.Instantiate(resultStructure, hologramObject.transform.position, hologramObject.transform.rotation);
+            GameObject.Instantiate(resultStructure, greenMesh.transform.position, greenMesh.transform.rotation);
             return true;
         }
 

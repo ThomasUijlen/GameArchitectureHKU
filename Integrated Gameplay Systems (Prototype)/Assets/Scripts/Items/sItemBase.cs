@@ -2,14 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
-public class sItem : ScriptableObject, ICraftingResult
+public class sItemBase : ScriptableObject, ICraftingResult
 {
-    public string name { get; }
+    public string name;
     public Image sprite;
+    public int baseGoldValue;
 
-    public sItem() { }
+    public sItemBase() { }
 
-    public sItem(string _name, Image _sprite = null)
+    public sItemBase(string _name, Image _sprite = null)
     {
         name = _name;
         sprite = _sprite;
@@ -17,9 +18,9 @@ public class sItem : ScriptableObject, ICraftingResult
 
     public override bool Equals(object other)
     {
-        if (other is sItem)
+        if (other is sItemBase)
         {
-            return name == ((sItem)other).name;
+            return name == ((sItemBase)other).name;
         }
         return false;
     }

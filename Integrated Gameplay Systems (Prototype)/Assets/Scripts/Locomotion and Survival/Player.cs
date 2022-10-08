@@ -13,6 +13,7 @@ public class Player : BasicObject
     public Player(GameManager _gameManager) : base(_gameManager)
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
+        _gameManager.RegisterTag("Camera", GameObject.Find("MainCamera"));
 
         //playerGameObject.transform.position = new Vector3(0,2,0);
 
@@ -20,6 +21,7 @@ public class Player : BasicObject
         moveStateMachine = new MoveStateMachine(_gameManager);
 
         inventory = new Inventory(_gameManager);
+        gameManager.RegisterTag("Inventory", inventory);
 
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
         Debug.Log(moveStateMachine.currentLocomotion);
