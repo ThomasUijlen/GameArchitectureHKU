@@ -16,24 +16,11 @@ public class GroundMovement : State, ILocomotion
     private MoveCommand command2;
     private MoveCommand command3;
     private MoveCommand command4;
-
-    public float Sensitivity
-    {
-        get { return sensitivity; }
-        set { sensitivity = value; }
-    }
-
-    [Range(0.1f, 9f)] [SerializeField] float sensitivity = 2f;
-
-    Vector2 rotation = Vector2.zero;
-    const string xAxis = "Mouse X";
-    const string yAxis = "Mouse Y";
-
-    public float speed = 20;
+    public float speed = 15;
 
     Vector3 currentDirection;
 
-    private int radius = 1;
+    private Rigidbody rigidbody;
 
     public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
@@ -45,12 +32,12 @@ public class GroundMovement : State, ILocomotion
         command2 = new MoveCommand(player, Vector3.left);
         command3 = new MoveCommand(player, Vector3.right);
         command4 = new MoveCommand(player, Vector3.back);
+        rigidbody = player.playerGameObject.GetComponent<Rigidbody>();
     }
 
     public override void FixedUpdate()
     {
-        DoMove();
-        DoCamera();
+        if(player.menuStateMachine.GetState().allowMovement) DoMove();
         CheckTag();
     }
 
@@ -72,19 +59,13 @@ public class GroundMovement : State, ILocomotion
 
     public void DoMove()
     {
-        Vector3 movement = currentDirection.normalized;
-        player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime);
+        Vector3 movementDirection = currentDirection.normalized;
         currentDirection = Vector3.zero;
-    }
 
-    public void DoCamera()
-    {
-        rotation.x += Input.GetAxis(xAxis) * sensitivity;
-        Quaternion xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-
-        player.playerGameObject.transform.localRotation = xQuat;
-
-        Cursor.visible = false;
+        Vector3 velocityX = movementDirection.x * player.playerGameObject.transform.right * speed;
+        Vector3 velocityY = Vector3.down*9.81f;
+        Vector3 velocityZ = movementDirection.z * player.playerGameObject.transform.forward * speed;
+        rigidbody.velocity = velocityX+velocityY+velocityZ;
     }
 
     public void AddDirection(Vector3 _direction)
@@ -96,7 +77,6 @@ public class GroundMovement : State, ILocomotion
     {
         bool isUnderwater = false;
 
-
         foreach (Collider collider in Physics.OverlapSphere(player.playerGameObject.transform.position, 10f))
         {
             if (collider.bounds.Contains(player.playerGameObject.transform.position))
@@ -104,7 +84,16 @@ public class GroundMovement : State, ILocomotion
                 if (collider.tag == "Water")
                 {
                     isUnderwater = true;
+                    break;
                 }
+            }
+        }
+
+        foreach (Collider collider in Physics.OverlapSphere(player.playerGameObject.transform.position, 10f, LayerMask.GetMask("Interior")))
+        {
+            if (collider.bounds.Contains(player.playerGameObject.transform.position))
+            {
+                isUnderwater = false;
                 break;
             }
         }
