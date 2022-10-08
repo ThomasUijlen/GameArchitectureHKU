@@ -45,7 +45,7 @@ public class WaterMovement : State, ILocomotion
 
     public override void FixedUpdate()
     {
-        DoMove();
+        if(player.menuStateMachine.GetState().allowMovement) DoMove();
         CheckTag();
     }
 

@@ -31,6 +31,15 @@ class DemolishMenu #ddccff {
 +void Execute()
 }
 
+class PlaceMenu #ddccff {
++PlaceMenu(IStateMachine _stateMachine, GameManager _gameManager)
++void EnableState()
++void DisableState()
++void SetStructure(string _structureName, Type _type)
+}
+
+PlaceMenu  --* OpenMenuCommand : backCommand
+
 DemolishMenu  --|> Menu
 DemolishMenu  ..|> ICommand
 DemolishMenu  --* OpenMenuCommand : backCommand
@@ -83,7 +92,7 @@ HologramStructure <|-- InteriorStructure
 StructureInformation "0..*" *-- BuildMenu : Has library of
 State <|-- BuildMenu
 State <|-- DemolishMenu
-HologramStructure *-- BuildMenu
+HologramStructure *-- PlaceMenu
 }
 
 @enduml
