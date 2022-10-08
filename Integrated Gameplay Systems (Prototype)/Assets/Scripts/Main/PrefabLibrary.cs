@@ -19,6 +19,8 @@ public class PrefabLibrary : ScriptableObject
 
     public void PrepareLibrary()
     {
+        prefabLibrary.Clear();
+
         foreach (PrefabReference reference in prefabs)
         {
             prefabLibrary.Add(reference.name, reference.prefab);

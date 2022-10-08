@@ -22,8 +22,6 @@ public class WaterMovement : State, ILocomotion
     private MoveCommand command5;
     private MoveCommand command6;
 
-    private float radius = .1f;
-
     private Rigidbody rigidbody;
     private GameObject playerCamera;
 
@@ -32,6 +30,8 @@ public class WaterMovement : State, ILocomotion
         gameManager = _gameManager;
 
         player = _player;
+
+        oxygen = new Oxygen(_gameManager);
 
         command1 = new MoveCommand(player, Vector3.forward);
         command2 = new MoveCommand(player, Vector3.left);
@@ -47,6 +47,7 @@ public class WaterMovement : State, ILocomotion
     {
         DoMove();
         CheckTag();
+        oxygen.CheckOxygen();
     }
 
     public override void EnableState()
@@ -96,6 +97,8 @@ public class WaterMovement : State, ILocomotion
                 if (collider.tag == "Water")
                 {
                     isUnderwater = true;
+                    //oxygen.TimerOxygen();
+                    Debug.Log(oxygen.currentOxygenLevel);
                     break;
                 }
             }
@@ -113,6 +116,8 @@ public class WaterMovement : State, ILocomotion
         if (!isUnderwater)
         {
             player.moveStateMachine.SetState(new GroundMovement(player.moveStateMachine, gameManager, player));
+            oxygen.SetOxygenAtStart();
+            Debug.Log(oxygen.currentOxygenLevel);
         }
     }
 }

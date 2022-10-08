@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LocomotionSurvival.unity
+    guid: 435321b7402c5044f83e430fe733a5f7
   m_configObjects: {}
