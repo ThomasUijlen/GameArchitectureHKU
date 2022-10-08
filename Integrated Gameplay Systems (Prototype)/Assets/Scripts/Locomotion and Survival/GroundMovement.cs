@@ -17,6 +17,20 @@ public class GroundMovement : State, ILocomotion
     private MoveCommand command3;
     private MoveCommand command4;
 
+    public float Sensitivity
+    {
+        get { return sensitivity; }
+        set { sensitivity = value; }
+    }
+
+    [Range(0.1f, 9f)] [SerializeField] float sensitivity = 2f;
+    [Range(0f, 90f)] [SerializeField] float yRotationLimit = 88f;
+
+    Vector2 rotation = Vector2.zero;
+    const string xAxis = "Mouse X";
+    const string yAxis = "Mouse Y";
+
+
     public GroundMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
         gameManager = _gameManager;
@@ -31,7 +45,8 @@ public class GroundMovement : State, ILocomotion
 
     public override void FixedUpdate()
     {
-        DoMove();    
+        DoMove();
+        DoCamera();
     }
 
     public override void EnableState()
@@ -55,6 +70,19 @@ public class GroundMovement : State, ILocomotion
         Vector3 movement = currentDirection.normalized;
         player.playerGameObject.transform.Translate(movement * speed * Time.deltaTime);
         currentDirection = Vector3.zero;
+    }
+
+    public void DoCamera()
+    {
+        rotation.x += Input.GetAxis(xAxis) * sensitivity;
+        rotation.y += Input.GetAxis(yAxis) * sensitivity;
+        rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
+        var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+        var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+
+        player.playerGameObject.transform.localRotation = xQuat * yQuat;
+
+        Cursor.visible = false;
     }
 
     public void AddDirection(Vector3 _direction)
