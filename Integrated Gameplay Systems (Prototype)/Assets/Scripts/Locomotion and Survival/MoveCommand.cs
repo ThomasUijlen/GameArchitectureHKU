@@ -15,6 +15,6 @@ public class MoveCommand : ICommand
 
     public void Execute()
     {
-        player.moveStateMachine.GetLocomotion();
+        player.moveStateMachine.GetLocomotion().AddDirection(direction);
     }
 }
