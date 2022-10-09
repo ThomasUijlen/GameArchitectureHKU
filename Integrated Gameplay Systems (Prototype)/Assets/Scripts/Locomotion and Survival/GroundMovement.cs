@@ -10,8 +10,6 @@ public class GroundMovement : State, ILocomotion
 
     public Collider[] hitColliders;
 
-    private Oxygen oxygen;
-
     private MoveCommand command1;
     private MoveCommand command2;
     private MoveCommand command3;

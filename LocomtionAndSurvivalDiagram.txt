@@ -1,0 +1,164 @@
+@startuml
+
+package main
+{
+interface ICommand
+abstract BasicObject
+class ScriptableObjectLibrary
+class PrefabLibrary
+class GameManager
+class InputManager
+class MenuStateMachine
+class State
+}
+
+PrefabLibrary *-- GameManager
+InputManager *-- GameManager
+ICommand "0..*" - InputManager
+GameManager "1" *-- "0..*" BasicObject
+
+package LocomotionAndSurvival{
+
+Interface ILocomotion #abdbe3 {
+
++abstract void AddDirection(Vector3 _direction)
+
+}
+
+class Oxygen #abdbe3 {
++int currentOxygenLevel
+-int maxOxygenLevel
+-float elapsed
+
+public Oxygen(GameManager _gameManager)
++void SetOxygenAtStart()
++void CheckOxygen()
++void TimerOxygen()
++void OxygenDepletion(int amount)
+}
+
+class GroundMovement #abdbe3 {
+
+-Player player
+#Gamemanager gameManager
++Colliders[] hitColliders
+-private MoveCommand command1
+-private MoveCommand command2
+-private MoveCommand command3
+-private MoveCommand command4
++float speed
+-vector3 currentDirection
+-private Rigidbody rigidbody
+
++GroundMovement(IStatemachine _stateMachine, Gamemanager _gamemanager, Player _player)
++void FixedUpdate()
++override void EnableState()
++override void DisableState()
++void DoMove()
++void AddDirection(Vector3 _direction)
++void CheckTag()
+}
+
+class WaterMovement #abdbe3 {
+
+-int speed
+-vector3 currentDirection
+-Player player
+#Gamemanager gameManager
++Colliders[] hitColliders
+-private MoveCommand command1
+-private MoveCommand command2
+-private MoveCommand command3
+-private MoveCommand command4
+-private MoveCommand command5
+-private MoveCommand command6
+-private Rigidbody rigidbody
+-private GameObject playerCamera
+
++WaterMovement(IStatemachine _stateMachine, Gamemanager _gamemanager, Player _player)
++void FixedUpdate()
++override void EnableState()
++override void DisableState()
++void DoMove()
++void AddDirection(Vector3 _direction)
++void CheckTag()
+}
+
+class MoveCommand #abdbe3 {
+
+-Player player
++Vector3 direction
+
++MoveCommand(Player _player, Vector3 _direction)
++void Execute()
+
+}
+
+class MoveStateMachine #abdbe3 {
+
++State currentLocomotion
+
++MoveStateMachine(GameManager _gameManager)
++void SetState(State _newState)
++override void Update()
++override void FixedUpdate()
++ILocomotion GetLocomotion()
++State GetState()
+
+}
+
+class PlayerRotation #abdbe3 {
+
+-float sensitivity
+-Vector2 rotation = Vector2.zero
+-const string X_AXIS = "Mouse X"
+-const string Y_AXIS = "Mouse Y"
+-const float Y_ROTATION_LIMIT
+
++Player player
++GameObject playerObject
++GameObject camera
+
++PlayerRotator(GameManager _gameManager, Player _player) : base(_gameManager)
++override void Update()
++void DoCamera()
+}
+
+class Player #fbd4a8 {
+
++Inventory inventory
++MenuStateMachine menuStateMachine
++MoveStateMachine moveStateMachine
++PlayerRotator playerRotator
+-Oxygen oxygen
++GameObject playerGameObject
++GameObject oxygenUI
+
++Player(GameManager _gameManager)
++override void Update()
+
+}
+
+Player --* Oxygen
+Player --* PlayerRotation
+
+MoveStateMachine --* ILocomotion
+Player --* MoveStateMachine
+Player --* MenuStateMachine
+
+GroundMovement ..|> ILocomotion
+WaterMovement ..|> ILocomotion
+
+MoveCommand *-- GroundMovement
+MoveCommand *-- WaterMovement
+
+State <|-- GroundMovement
+State <|-- WaterMovement
+
+BasicObject <|-- Player
+
+MoveCommand ..|> ICommand
+
+}
+
+@enduml

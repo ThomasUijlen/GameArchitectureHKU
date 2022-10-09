@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaterMovement : State, ILocomotion
 {
-    public float speed = 10;
+    private float speed = 10;
 
     Vector3 currentDirection;
 
@@ -81,7 +81,7 @@ public class WaterMovement : State, ILocomotion
         currentDirection += _direction;
     }
 
-    void CheckTag()
+    public void CheckTag()
     {
         bool isUnderwater = false;
 

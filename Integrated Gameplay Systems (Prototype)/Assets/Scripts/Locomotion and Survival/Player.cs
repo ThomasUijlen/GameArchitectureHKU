@@ -9,9 +9,6 @@ public class Player : BasicObject
     public MenuStateMachine menuStateMachine;
     public MoveStateMachine moveStateMachine;
 
-    private GroundMovement moveGround;
-    private WaterMovement moveWater;
-
     public PlayerRotator playerRotator;
     private Oxygen oxygen;
 
