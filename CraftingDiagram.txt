@@ -1,0 +1,136 @@
+@startuml
+
+package main {
+abstract State
+interface ICommand
+class OpenMenuCommand
+class Menu
+abstract BasicObject
+class ScriptableObjectLibrary
+class PrefabLibrary
+}
+
+package Crafting {
+  
+interface ICrafter #fbd4a8 {
+  # recipeList: sRecipeList
+
+  + bool Craft(sRecipe recipe)
+}
+
+abstract ACrafter #fbd4a8  {
+    + abstract sRecipeList recipes { get }
+    #abstract GameObject CrafterPrefab { get }
+    #abstract string CrafterTag { get }
+    #GameObject CrafterObject
+    #Player player
+    + ACrafter(GameManager, Vector3, Quaternion)
+    + void CheckRaycastHit(RaycastHit _hit)
+    + void InstantiateCrafter()
+    + void OpenCrafterMenu()
+}
+
+class DefaultCrafter #fbd4a8
+class ItemEnhancer #fbd4a8 
+
+class ItemSource #fbd4a8 {
+  + string name
+  - GameObject sourcePrefab
+  - GameObject sourceObject
+  - sItemBase itemBase
+  
+  + ItemSource(GameManager, sItemBase, GameObject)
+  
+  - void InstantiateItemSource()
+  - void CheckRaycastHit(RaycastHit hit)
+  - void OnPlayerInteract()
+}
+
+class Item #fbd4a8 {
+  + sItemBase itemBase
+  + int goldValue
+  + Item(sItemBase)
+  + void ApplyDecorators(List<sEnhancer>)
+}
+
+class sItemBase #fbd4a8 {
+  + string name
+  + Sprite sprite
+  + int baseGoldValue
+  + override bool Equals(object)
+}
+
+class ItemAmountPair #fbd4a8  {
+  + sItemBase itemBase
+  + int amount
+  + ItemAmountPair(sItemBase, int)
+}
+
+class ItemFactory #fbd4a8 {
+  + static CreateNewItem(sItemBase)
+}
+
+class sRecipe #fbd4a8 {
++ Dictionary<sItemBase, int> ingredients
++ sItemBase result
++ List<sEnhancer> itemDecorators
++ string IngredientsStirng()
+}
+
+class sRecipeList #fbd4a8 {
+  - List<sRecipe> recipes
+  + sRecipeList()
+  + sRecipeList(params sRecipe[])
+}
+
+class Inventory #fbd4a8 {
+  - List<Item> itemList
+  - Dictionary<sItemBase, int> itemBaseList
+  - const int capacity;
+  - int totalItemCount;
+  - SimpleAnimations animationPlayer;
+  + bool AddItem (Item item)
+  + bool AddItemBase(sItemBase _itemBase, int _amount)
+  + bool RemoveItem (Item item, int amount)
+  + bool RemoveItemBase(sItemBase _itemBase, int _amount)
+  + bool HasItems (sItem item, int amount)
+}
+
+abstract ItemDecorator #fbd4a8 
+
+class sEnhancer #fbd4a8 {
+  + EnhancerType type
+}
+
+class EnhancerFactory #fbd4a8 {
+  + static ItemDecorator CreateItemDecorator(sEnhancer _enhancer)
+}
+
+class GoldValueDecorator #fbd4a8 
+
+class SimpleAnimations #fbd4a8 
+
+class RaycastCommand #fbd4a8 {
+}
+
+Unity.ScriptableObject <|-- sRecipe
+Unity.ScriptableObject <|-- sRecipeList
+Unity.ScriptableObject <|-- sItemBase
+
+sRecipeList "0..*" --* sRecipe
+sRecipe --* ICraftingResult
+sRecipe "0..*" --* sItemBase
+
+BasicObject <|-- ICrafter
+BasicObject <|- Player
+ICrafter "0..1" --* sRecipeList
+ICrafter <|.. ACrafter
+ACrafter <|-- DefaultCrafter
+ACrafter <|-- ItemEnhancer
+ItemEnhancer --o ItemDecorator
+
+Player "1..0" --* Inventory
+Inventory "*..0" --o sItem
+}
+
+@enduml
