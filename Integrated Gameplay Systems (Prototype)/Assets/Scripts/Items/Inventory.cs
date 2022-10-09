@@ -158,7 +158,7 @@ public class Inventory : BasicObject
 
     private void PlayItemPickupAnimation(sItemBase _itemBase)
     {
-        GameObject imageObject = gameManager.prefabLibrary.InstantiatePrefab("TestImage");
+        GameObject imageObject = gameManager.prefabLibrary.InstantiatePrefab("PickupSprite");
         Image image = imageObject.GetComponentInChildren<Image>();
         image.sprite = _itemBase.sprite;
         animationPlayer.ItemPickupAnimation(image.gameObject, 2f, .5f,
