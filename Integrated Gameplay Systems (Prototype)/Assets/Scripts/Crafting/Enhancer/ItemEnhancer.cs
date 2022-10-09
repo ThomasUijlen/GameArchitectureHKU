@@ -4,12 +4,11 @@ using UnityEngine;
 public class ItemEnhancer : ACrafter
 {
     public override sRecipeList recipes => (sRecipeList) gameManager.scriptableObjectLibrary.GetScriptableObject("EnhancerRecipeList");
-    protected override GameObject CrafterPrefab => gameManager.prefabLibrary.GetPrefab("Enhancer");
+    protected override GameObject CrafterPrefab => gameManager.prefabLibrary.GetPrefab("ClassItemEnhancer");
     protected override string CrafterTag => "Enhancer";
 
 
-    public ItemEnhancer(GameManager _gameManager, Player _player) : base(_gameManager, _player)
+    public ItemEnhancer(GameManager _gameManager, Vector3 _position, Quaternion _rotation) : base(_gameManager, _position, _rotation)
     {
-        CrafterObject.transform.position = new Vector3(-3, 0, 0);
     }
 }

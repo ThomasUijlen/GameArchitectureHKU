@@ -21,6 +21,7 @@ public class Player : BasicObject
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
         oxygenUI  = gameManager.prefabLibrary.InstantiatePrefab("OXYGENUI");
+        _gameManager.RegisterTag("Player", this);
         _gameManager.RegisterTag("Camera", GameObject.Find("MainCamera"));
 
         oxygen = new Oxygen(_gameManager);

@@ -13,10 +13,10 @@ public class CameraRaycastCommand : ICommand
 
     public void Execute()
     {
+        int layerMask = LayerMask.GetMask("Terrain", "Structure", "Interactable");
         RaycastHit hit;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 50f))
         {
-            Debug.Log("Raycast!!");
             onRaycastHit?.Invoke(hit);
         }
     }

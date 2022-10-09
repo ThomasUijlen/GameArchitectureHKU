@@ -23,7 +23,7 @@ MonoBehaviour:
     prefab: {fileID: 3681705604893244684, guid: 4ec4c5e946dbbc3418cc4dddf2ea3b94, type: 3}
   - name: Player
     prefab: {fileID: 351619036868604739, guid: 358adf45208ecee4591651c5e2651b63, type: 3}
-  - name: Crafter
+  - name: ClassDefaultCrafter
     prefab: {fileID: 4533966826358883829, guid: 5aa52b16d24f7b749b35f12e039c3c0e, type: 3}
   - name: Enhancer
     prefab: {fileID: 4533966826358883829, guid: a69470f74e6d07545a8afca6bb9bbfbf, type: 3}
@@ -39,9 +39,17 @@ MonoBehaviour:
     prefab: {fileID: 3978251109195038550, guid: f056048d4a7a5554da9f3824ba307ce0, type: 3}
   - name: Storage ContainerHolo
     prefab: {fileID: 3978251109195038550, guid: cb73b72b1c896234d8ab4ff121a42c0a, type: 3}
-  - name: WoodSource
+  - name: MetalSource
     prefab: {fileID: 6947140316356836970, guid: db65f4422703abc42bd653941a879843, type: 3}
-  - name: TestImage
+  - name: PickupSprite
     prefab: {fileID: 8686585137698106249, guid: dd05849e02e6bb94d90fcccf23ac111d, type: 3}
   - name: OXYGENUI
     prefab: {fileID: 7237254941099479736, guid: f95671157df66fb4e8e2da89471973d4, type: 3}
+  - name: WoodSource
+    prefab: {fileID: 6947140316356836970, guid: eaa07a1a628f3da4cbfe6035f0fdff08, type: 3}
+  - name: ClassDefaultCrafterHolo
+    prefab: {fileID: 3978251109195038550, guid: 0c4b840bdb662254aa871b762ee1ac60, type: 3}
+  - name: ClassItemEnhancerHolo
+    prefab: {fileID: 3978251109195038550, guid: 0c4b840bdb662254aa871b762ee1ac60, type: 3}
+  - name: ClassItemEnhancer
+    prefab: {fileID: 4533966826358883829, guid: ed7f95bb7da079d42ba5abbb310bd6ae, type: 3}

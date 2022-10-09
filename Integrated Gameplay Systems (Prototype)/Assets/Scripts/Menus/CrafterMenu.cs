@@ -30,12 +30,12 @@ public class CrafterMenu : Menu
     public override void EnableState()
     {
         Debug.Log("Crafter Menu");
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
     }
 
     public override void DisableState()
     {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         GameObject.Destroy(menuCanvas);
     }
 

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   name: Wood
-  sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  sprite: {fileID: 21300000, guid: 77c10f9527bcf5c4d9bf4231e38dc97f, type: 3}
   baseGoldValue: 10

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Metal
   m_EditorClassIdentifier: 
   name: Metal
-  sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  sprite: {fileID: 21300000, guid: 1e4654e0aa1e52f48a17cdeedb28cca5, type: 3}
   baseGoldValue: 25

@@ -40,5 +40,5 @@ public class PrefabLibrary : ScriptableObject
     public GameObject InstantiatePrefab(string _name)
     {
         return GameObject.Instantiate(prefabLibrary[_name]);
-    }    
+    }
 }

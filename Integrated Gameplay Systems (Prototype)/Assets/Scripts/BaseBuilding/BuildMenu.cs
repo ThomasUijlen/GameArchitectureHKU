@@ -8,7 +8,9 @@ public class BuildMenu : Menu
 {
     private static Dictionary<string, StructureInformation> structureLibrary = new Dictionary<string, StructureInformation> {
         {"Hub", new StructureInformation(typeof(ExteriorStructure), "A large structure. Has a decent amount of interior space")},
-        {"Storage Container", new StructureInformation(typeof(InteriorStructure), "A storage container. Can only be placed inside.")}
+        {"Storage Container", new StructureInformation(typeof(InteriorStructure), "A storage container. Can only be placed inside.")},
+        {"ClassDefaultCrafter", new StructureInformation(typeof(InteriorStructure), "A crafter. Can be used to convert items into complexer ones.")},
+        {"ClassItemEnhancer", new StructureInformation(typeof(InteriorStructure), "An item enhancer.")}
     };
 
     private OpenMenuCommand backCommand;
@@ -21,7 +23,7 @@ public class BuildMenu : Menu
     }
 
     public override void EnableState() {
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
         CreateStructureList();
 
         GameObject.Find("BuildButton").GetComponent<Button>().onClick.AddListener(() => StructureConfirm());
@@ -29,7 +31,7 @@ public class BuildMenu : Menu
     }
 
     public override void DisableState() {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         GameObject.Destroy(buildMenu);
     }
 
@@ -42,8 +44,8 @@ public class BuildMenu : Menu
             StructureInformation structureInformation = keyValuePair.Value;
                         
             GameObject structureButton = structureList.AddElement();
-            structureButton.GetComponentInChildren<Text>().text = structureName;
             structureButton.GetComponent<Button>().onClick.AddListener(() => StructureSelected(structureName));
+            structureButton.GetComponentInChildren<Text>().text = (structureName.Length > 6 && structureName.Substring(0,5) == "Class") ? structureName.Substring(5) : structureName;
             if(selectedStructure == null) StructureSelected(structureName);
         }
     }

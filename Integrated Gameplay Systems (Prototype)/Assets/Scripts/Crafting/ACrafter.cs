@@ -12,13 +12,11 @@ public abstract class ACrafter : BasicObject, ICrafter
 
     private GameObject playerCamera;
 
-    public ACrafter(GameManager _gameManager, Player _player) : base(_gameManager)
+    public ACrafter(GameManager _gameManager, Vector3 _position, Quaternion _rotation) : base(_gameManager)
     {
-        player = _player;
+        player = (Player) gameManager.GetObjectWithTag("Player");
         CameraRaycastCommand.onRaycastHit += CheckRaycastHit;
-        //playerCamera = (GameObject) _gameManager.GetObjectWithTag("Camera");
-
-        InstantiateCrafter();
+        InstantiateCrafter(_position, _rotation);
     }
 
     public virtual bool Craft(sRecipe _recipe)
@@ -61,9 +59,9 @@ public abstract class ACrafter : BasicObject, ICrafter
         }
     }
 
-    protected virtual void InstantiateCrafter()
+    protected virtual void InstantiateCrafter(Vector3 _position, Quaternion _rotation)
     {
-        CrafterObject = GameObject.Instantiate(CrafterPrefab);
+        CrafterObject = GameObject.Instantiate(CrafterPrefab, _position, _rotation);
 
         /*EventTriggerDecorator.AddTrigger(CrafterObject, EventTriggerType.PointerClick, 
                                             (data) => OpenCrafterMenu((PointerEventData)data));*/

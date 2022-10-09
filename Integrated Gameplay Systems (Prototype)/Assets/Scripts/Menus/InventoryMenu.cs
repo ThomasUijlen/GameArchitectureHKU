@@ -15,7 +15,7 @@ public class InventoryMenu : Menu
 
     public override void EnableState()
     {
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
 
         playerInventory = gameManager.GetObjectWithTag("Inventory") as Inventory;
         ShowInventory();
@@ -23,7 +23,7 @@ public class InventoryMenu : Menu
 
     public override void DisableState()
     {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         GameObject.Destroy(inventoryUI);
     }
 
