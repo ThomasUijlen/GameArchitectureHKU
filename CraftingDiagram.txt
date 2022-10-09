@@ -1,22 +1,21 @@
 @startuml
 
+
 package main {
-abstract State
 interface ICommand
-class OpenMenuCommand
+class NoMenu
 class Menu
 abstract BasicObject
-class ScriptableObjectLibrary
-class PrefabLibrary
 }
+
 
 package Crafting {
-  
+
 interface ICrafter #fbd4a8 {
   # recipeList: sRecipeList
-
   + bool Craft(sRecipe recipe)
 }
+
 
 abstract ACrafter #fbd4a8  {
     + abstract sRecipeList recipes { get }
@@ -38,9 +37,7 @@ class ItemSource #fbd4a8 {
   - GameObject sourcePrefab
   - GameObject sourceObject
   - sItemBase itemBase
-  
   + ItemSource(GameManager, sItemBase, GameObject)
-  
   - void InstantiateItemSource()
   - void CheckRaycastHit(RaycastHit hit)
   - void OnPlayerInteract()
@@ -53,6 +50,7 @@ class Item #fbd4a8 {
   + void ApplyDecorators(List<sEnhancer>)
 }
 
+
 class sItemBase #fbd4a8 {
   + string name
   + Sprite sprite
@@ -60,15 +58,18 @@ class sItemBase #fbd4a8 {
   + override bool Equals(object)
 }
 
+
 class ItemAmountPair #fbd4a8  {
   + sItemBase itemBase
   + int amount
   + ItemAmountPair(sItemBase, int)
 }
 
+
 class ItemFactory #fbd4a8 {
   + static CreateNewItem(sItemBase)
 }
+
 
 class sRecipe #fbd4a8 {
 + Dictionary<sItemBase, int> ingredients
@@ -77,11 +78,13 @@ class sRecipe #fbd4a8 {
 + string IngredientsStirng()
 }
 
+
 class sRecipeList #fbd4a8 {
   - List<sRecipe> recipes
   + sRecipeList()
   + sRecipeList(params sRecipe[])
 }
+
 
 class Inventory #fbd4a8 {
   - List<Item> itemList
@@ -89,48 +92,123 @@ class Inventory #fbd4a8 {
   - const int capacity;
   - int totalItemCount;
   - SimpleAnimations animationPlayer;
-  + bool AddItem (Item item)
-  + bool AddItemBase(sItemBase _itemBase, int _amount)
-  + bool RemoveItem (Item item, int amount)
-  + bool RemoveItemBase(sItemBase _itemBase, int _amount)
+  + bool AddItem (Item)
+  + bool AddItemBase(sItemBase, int)
+  + bool RemoveItem (Item)
+  + bool RemoveItemBase(sItemBase, int)
   + bool HasItems (sItem item, int amount)
+ -void SortItemListByName()
+ -Item GetItemWithLowestValue(sItemBase)
+ - void PlayItemPickupAnimation(sItemBase)
 }
 
-abstract ItemDecorator #fbd4a8 
+
+abstract ItemDecorator #fbd4a8 {
+  +  Item Enhance(Item);
+}
 
 class sEnhancer #fbd4a8 {
-  + EnhancerType type
+  + enum EnhancerType
+  + EnhancerType enhancerType
+  + int amount
 }
 
 class EnhancerFactory #fbd4a8 {
   + static ItemDecorator CreateItemDecorator(sEnhancer _enhancer)
 }
 
-class GoldValueDecorator #fbd4a8 
+class GoldValueEnhancer #fbd4a8 {
+    - int amount
+    + GoldValueDecorator(int)
+}
 
-class SimpleAnimations #fbd4a8 
+class SimpleAnimations #fbd4a8 {
+  + static async void ItemPickup(GameObject, Vector3, float)
+  + static async Task ScaleToInSeconds(GameObject, Vector3, float)
+}
+
+class EventTriggerDecorator #fbd4a8 {
+  + static GameObject AddTrigger(GameObject, EventTriggerType, UnityAction<BaseEventData>)
+}
 
 class RaycastCommand #fbd4a8 {
+    - GameObject playerCamera
+    + static event Action<RaycastHit> OnRaycastHit
+    + RaycastCommand()
+    + static ClearEvent()
+}
+
+class CrafterMenu #fbd4a8 {
+    - Dictionary<Button, sRecipe> recipeButtons = new Dictionary<Button, sRecipe>;
+    - ICrafter crafter;
+    - OpenMenuCommand backCommand;
+    - GameObject menuCanvas;
+    - GameObject recipeInfo;
+    - Text resultNameText;
+    - Text ingredientInfoText;
+    + CrafterMenu(IStateMachine, GameManager, ICrafter)
+    - void AddRecipesToScrollView()
+    - void DisplayRecipeUI(GameObject, sRecipe)
+    - void AddRecipeButtonEvents(GameObject, sRecipe)
+    - void UpdateIngedientsInfo(PointerEventData)
+    - private void AddButtonCraftEvent(Button, sRecipe)
+}
+
+class InventoryMenu #fbd4a8 {
+  - Inventory playerInventory;
+  - GameObject inventoryUI;
+  - OpenMenuCommand backCommand;
+  + InventoryMenu(IStateMachine, GameManager)
+  + void ShowInventory()
+  - void InstantiateUI()
 }
 
 Unity.ScriptableObject <|-- sRecipe
 Unity.ScriptableObject <|-- sRecipeList
 Unity.ScriptableObject <|-- sItemBase
+Unity.ScriptableObject <|-- sEnhancer
 
-sRecipeList "0..*" --* sRecipe
-sRecipe --* ICraftingResult
-sRecipe "0..*" --* sItemBase
+BasicObject <|-- ACrafter
+BasicObject <|-- ItemSource
+BasicObject <|-- Inventory
 
-BasicObject <|-- ICrafter
-BasicObject <|- Player
-ICrafter "0..1" --* sRecipeList
+Menu <|-- CrafterMenu
+Menu <|-- InventoryMenu
+
+ICommand <|.. RaycastCommand
+
+Item --* sItemBase
+Locomotion.Player  --* Inventory
+Inventory --o Item
+Inventory --o sItemBase
+Inventory --> SimpleAnimations
+ItemFactory "Creates" --> Item
+ItemFactory "Uses"--> sItemBase
+ItemSource --o Inventory
+
+sRecipeList  --* sRecipe
+sRecipe  --* sItemBase
+
+ICrafter  --o sRecipeList
 ICrafter <|.. ACrafter
 ACrafter <|-- DefaultCrafter
 ACrafter <|-- ItemEnhancer
-ItemEnhancer --o ItemDecorator
+ACrafter --o Inventory
+ACrafter .. RaycastCommand
 
-Player "1..0" --* Inventory
-Inventory "*..0" --o sItem
+ACrafter --o CrafterMenu
+NoMenu --> InventoryMenu
+CrafterMenu --> EventTriggerDecorator
+
+ItemSource --> RaycastCommand
+ACrafter --> RaycastCommand
+
+ItemEnhancer --> ItemDecorator
+ItemDecorator --> Item
+ItemDecorator <|-- GoldValueEnhancer
+EnhancerFactory "Creates"--> ItemDecorator
+EnhancerFactory "Uses" --> sEnhancer
+
 }
 
 @enduml
