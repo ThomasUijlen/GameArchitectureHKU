@@ -8,6 +8,10 @@ public class Player : BasicObject
     public Inventory inventory;
     public MenuStateMachine menuStateMachine;
     public MoveStateMachine moveStateMachine;
+
+    private GroundMovement moveGround;
+    private WaterMovement moveWater;
+
     public PlayerRotator playerRotator;
     private Oxygen oxygen;
 
@@ -29,16 +33,27 @@ public class Player : BasicObject
         inventory = new Inventory(_gameManager);
         gameManager.RegisterTag("Inventory", inventory);
 
-        oxygen.SetOxygenAtStart();
-        Debug.Log(oxygen.currentOxygenLevel);
-
         moveStateMachine.SetState(new GroundMovement(moveStateMachine, _gameManager, this));
+
+        oxygen.SetOxygenAtStart();
     }
 
     public override void Update()
     {
         base.Update();
 
+        oxygen.CheckOxygen();
+
+        if (moveStateMachine.GetState().GetType() == typeof(GroundMovement))
+        {
+            oxygen.SetOxygenAtStart();
+        }
+        if (moveStateMachine.GetState().GetType() == typeof(WaterMovement))
+        {
+            oxygen.TimerOxygen();
+        }
+
+        //Debug.Log(oxygen.currentOxygenLevel);
         oxygenUI.GetComponentInChildren<Text>().text = "Oxygen: " + oxygen.currentOxygenLevel.ToString();
     }
 }

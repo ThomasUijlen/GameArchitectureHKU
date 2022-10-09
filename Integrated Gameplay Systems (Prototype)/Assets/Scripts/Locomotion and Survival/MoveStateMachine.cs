@@ -31,4 +31,9 @@ public class MoveStateMachine : BasicObject, IStateMachine
     {
         return (ILocomotion)currentLocomotion;
     }
+
+    public State GetState()
+    {
+        return currentLocomotion;
+    }
 }

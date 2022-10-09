@@ -6,13 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Oxygen
 {
-    private Player player;
-
-
     public int currentOxygenLevel;
-    private int maxOxygenLevel = 100;
+    private int maxOxygenLevel = 50;
     private float elapsed;
-
 
     public Oxygen(GameManager _gameManager)
     {
@@ -35,11 +31,12 @@ public class Oxygen
 
     public void TimerOxygen()
     {
+        //Debug.Log(elapsed);
         elapsed += Time.deltaTime;
-        if (elapsed >= 10f)
+        if (elapsed >= 5f)
         {
-            elapsed -= 10f;
-            //OxygenDepletion(1);
+            elapsed -= 5f;
+            OxygenDepletion(5);
         }
     }
 
