@@ -20,4 +20,9 @@ public class CameraRaycastCommand : ICommand
             onRaycastHit?.Invoke(hit);
         }
     }
+
+    public static void ClearEvent()
+    {
+        onRaycastHit = null;
+    }
 }

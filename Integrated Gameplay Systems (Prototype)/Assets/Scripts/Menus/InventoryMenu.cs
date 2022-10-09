@@ -27,14 +27,6 @@ public class InventoryMenu : Menu
         GameObject.Destroy(inventoryUI);
     }
 
-    private void InstantiateUI()
-    {
-        if (inventoryUI == null)
-        {
-            inventoryUI = gameManager.prefabLibrary.InstantiatePrefab("InventoryUI");
-        }
-    }
-
     public void ShowInventory()
     {
         Text inventoryContent = GameObject.Find("Result Description").GetComponent<Text>();
@@ -48,5 +40,13 @@ public class InventoryMenu : Menu
         }
 
         inventoryContent.text = text;
+    }
+
+    private void InstantiateUI()
+    {
+        if (inventoryUI == null)
+        {
+            inventoryUI = gameManager.prefabLibrary.InstantiatePrefab("InventoryUI");
+        }
     }
 }

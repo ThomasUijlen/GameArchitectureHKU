@@ -58,7 +58,7 @@ public abstract class ACrafter : BasicObject, ICrafter
         CrafterObject = GameObject.Instantiate(CrafterPrefab, _position, _rotation);
     }
 
-    protected virtual void OpenCrafterMenu(PointerEventData _pointerData = null)
+    protected virtual void OpenCrafterMenu()
     {
         CrafterMenu crafterMenu = new CrafterMenu(player.menuStateMachine, gameManager, this);
         player.menuStateMachine.SetState(crafterMenu);

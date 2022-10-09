@@ -68,7 +68,7 @@ public class CrafterMenu : Menu
                                         (data) => UpdateIngedientsInfo((PointerEventData) data));
     }
 
-    private static void DisplayRecipeUI(GameObject _recipeButton, sRecipe _recipe)
+    private void DisplayRecipeUI(GameObject _recipeButton, sRecipe _recipe)
     {
         Text recipeNameText = _recipeButton.GetComponentInChildren<Text>();
         if (recipeNameText != null)
