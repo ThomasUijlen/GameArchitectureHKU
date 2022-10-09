@@ -133,6 +133,7 @@ abstract Menu {
 }
 
 Menu --|> State
+NoMenu --|> Menu
 
 class NoMenu {
 +void EnableState()
