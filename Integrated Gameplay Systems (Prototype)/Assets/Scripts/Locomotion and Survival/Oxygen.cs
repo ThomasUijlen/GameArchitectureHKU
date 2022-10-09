@@ -1,33 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Oxygen
 {
+    private Player player;
+
+
     public int currentOxygenLevel;
     private int maxOxygenLevel = 100;
+    private float elapsed;
+
+
+    public Oxygen(GameManager _gameManager)
+    {
+
+    }
 
     public void SetOxygenAtStart()
     {
         currentOxygenLevel = maxOxygenLevel;
     }
 
-    public void AddOxygen(int amount)
+    public void CheckOxygen()
     {
-        currentOxygenLevel += amount;
+        if(currentOxygenLevel <= 0)
+        {
+            currentOxygenLevel = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
-    public void SubstractOxygen(int amount)
+    public void TimerOxygen()
     {
-        currentOxygenLevel -= amount;
+        elapsed += Time.deltaTime;
+        if (elapsed >= 10f)
+        {
+            elapsed -= 10f;
+            //OxygenDepletion(1);
+        }
     }
 
-    private IEnumerator OxygenDepletion(float waitTime)
+    void OxygenDepletion(int amount)
     {
-
-        yield return new WaitForSeconds(waitTime);
-
-        currentOxygenLevel--;
-
+        currentOxygenLevel = currentOxygenLevel - amount;
     }
 }

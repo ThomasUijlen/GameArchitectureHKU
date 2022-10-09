@@ -16,6 +16,8 @@ public class ScriptableObjectLibrary : ScriptableObject
 
     public void PrepareLibrary()
     {
+        scriptableObjectLibrary.Clear();
+
         foreach (ScriptableObjectReference reference in scriptableObjects)
         {
             scriptableObjectLibrary.Add(reference.name, reference.scriptableObject);
