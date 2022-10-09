@@ -53,3 +53,5 @@ MonoBehaviour:
     prefab: {fileID: 3978251109195038550, guid: 0c4b840bdb662254aa871b762ee1ac60, type: 3}
   - name: ClassItemEnhancer
     prefab: {fileID: 4533966826358883829, guid: ed7f95bb7da079d42ba5abbb310bd6ae, type: 3}
+  - name: WaterEffect
+    prefab: {fileID: 7237254941099479736, guid: ebb01834c55239448ace32cdcc5fda5c, type: 3}

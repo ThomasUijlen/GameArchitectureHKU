@@ -22,6 +22,7 @@ public class WaterMovement : State, ILocomotion
 
     private Rigidbody rigidbody;
     private GameObject playerCamera;
+    private GameObject waterEffect;
 
     public WaterMovement(IStateMachine _stateMachine, GameManager _gameManager, Player _player) : base(_stateMachine)
     {
@@ -53,6 +54,7 @@ public class WaterMovement : State, ILocomotion
         gameManager.inputManager.RegisterKeyBinding(KeyCode.D, command3, InputManager.INPUT_MODE.PRESSED);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Q, command5, InputManager.INPUT_MODE.PRESSED);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.E, command6, InputManager.INPUT_MODE.PRESSED);
+        waterEffect = gameManager.prefabLibrary.InstantiatePrefab("WaterEffect");
     }
 
     public override void DisableState()
@@ -63,6 +65,7 @@ public class WaterMovement : State, ILocomotion
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.D, command3);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Q, command5);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.E, command6);
+        GameObject.Destroy(waterEffect);
     }
 
     public void DoMove()
