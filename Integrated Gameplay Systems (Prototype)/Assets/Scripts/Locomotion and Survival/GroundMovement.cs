@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class GroundMovement : State, ILocomotion
 { 
-    private Player player;
+    public Collider[] hitColliders;
+    public float speed = 15;
 
     protected GameManager gameManager;
 
-    public Collider[] hitColliders;
+    private Player player;
 
     private MoveCommand command1;
     private MoveCommand command2;
     private MoveCommand command3;
     private MoveCommand command4;
-    public float speed = 15;
 
-    Vector3 currentDirection;
+    private const float gravity = 9.81f;
+    private float gravityMultiplier = 2f;
+
+    private Vector3 currentDirection;
 
     private Rigidbody rigidbody;
 
@@ -60,8 +63,10 @@ public class GroundMovement : State, ILocomotion
         Vector3 movementDirection = currentDirection.normalized;
         currentDirection = Vector3.zero;
 
+        float currentGravity = player.GroundCheck() ? 0.1f : gravity * gravityMultiplier;
+
         Vector3 velocityX = movementDirection.x * player.playerGameObject.transform.right * speed;
-        Vector3 velocityY = Vector3.down*9.81f;
+        Vector3 velocityY = Vector3.down*currentGravity;
         Vector3 velocityZ = movementDirection.z * player.playerGameObject.transform.forward * speed;
         rigidbody.velocity = velocityX+velocityY+velocityZ;
     }
@@ -71,7 +76,7 @@ public class GroundMovement : State, ILocomotion
         currentDirection += _direction;
     }
 
-    void CheckTag()
+    private void CheckTag()
     {
         bool isUnderwater = false;
 

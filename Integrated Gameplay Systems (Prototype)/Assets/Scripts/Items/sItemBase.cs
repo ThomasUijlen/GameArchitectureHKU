@@ -16,11 +16,11 @@ public class sItemBase : ScriptableObject
         sprite = _sprite;
     }
 
-    public override bool Equals(object other)
+    public override bool Equals(object _other)
     {
-        if (other is sItemBase)
+        if (_other is sItemBase)
         {
-            return name == ((sItemBase)other).name;
+            return name == ((sItemBase)_other).name;
         }
         return false;
     }

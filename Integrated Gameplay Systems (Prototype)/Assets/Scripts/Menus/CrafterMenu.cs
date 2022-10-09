@@ -6,11 +6,9 @@ using UnityEngine.UI;
 
 public class CrafterMenu : Menu
 {
-    // Misschien later heeft elk menu een Canvas met UI
     private Dictionary<Button, sRecipe> recipeButtons = new Dictionary<Button, sRecipe>();
     private ICrafter crafter;
     private OpenMenuCommand backCommand;
-    private IStateMachine stateMachine;
 
     private GameObject menuCanvas;
     private GameObject recipeInfo;
@@ -29,13 +27,12 @@ public class CrafterMenu : Menu
 
     public override void EnableState()
     {
-        Debug.Log("Crafter Menu");
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
     }
 
     public override void DisableState()
     {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         GameObject.Destroy(menuCanvas);
     }
 
@@ -43,8 +40,8 @@ public class CrafterMenu : Menu
     {
         sRecipeList recipeList = crafter.recipes;
 
-        GameObject scrollViewContent = GameObject.Find("Content");      // BAD 
-        GameObject recipeButtonPrefab = gameManager.prefabLibrary.GetPrefab("RecipeButton");    // Should add an overload for InstantiatePrefab in prefablibrary
+        GameObject scrollViewContent = GameObject.Find("Content");
+        GameObject recipeButtonPrefab = gameManager.prefabLibrary.GetPrefab("RecipeButton");
 
         recipeInfo = GameObject.Find("Recipe Info");
         resultNameText = recipeInfo.GetComponentInChildren<Text>();
@@ -73,7 +70,6 @@ public class CrafterMenu : Menu
 
     private static void DisplayRecipeUI(GameObject _recipeButton, sRecipe _recipe)
     {
-        // If more texts, I should use tags to distinguish them?
         Text recipeNameText = _recipeButton.GetComponentInChildren<Text>();
         if (recipeNameText != null)
         {

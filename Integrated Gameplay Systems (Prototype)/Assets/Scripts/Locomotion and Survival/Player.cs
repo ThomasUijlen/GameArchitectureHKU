@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +18,10 @@ public class Player : BasicObject
     {
         playerGameObject = gameManager.prefabLibrary.InstantiatePrefab("Player");
         oxygenUI  = gameManager.prefabLibrary.InstantiatePrefab("OXYGENUI");
+        _gameManager.RegisterTag("Player", this);
         _gameManager.RegisterTag("Camera", GameObject.Find("MainCamera"));
 
-        oxygen = new Oxygen(_gameManager);
+        oxygen = new Oxygen();
 
         playerRotator = new PlayerRotator(_gameManager, this);
         menuStateMachine = new MenuStateMachine(_gameManager);
@@ -50,7 +50,11 @@ public class Player : BasicObject
             oxygen.TimerOxygen();
         }
 
-        //Debug.Log(oxygen.currentOxygenLevel);
         oxygenUI.GetComponentInChildren<Text>().text = "Oxygen: " + oxygen.currentOxygenLevel.ToString();
+    }
+
+    public bool GroundCheck()
+    {
+        return Physics.Raycast(playerGameObject.transform.position, Vector3.down, 2f, LayerMask.GetMask("Terrain", "Interior", "Structure"));
     }
 }

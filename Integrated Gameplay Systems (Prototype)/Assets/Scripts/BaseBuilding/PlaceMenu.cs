@@ -13,13 +13,13 @@ public class PlaceMenu : Menu
     }
 
     public override void EnableState() {
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void DisableState() {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         hologramStructure.Destroy();
         
         Cursor.lockState = CursorLockMode.None;

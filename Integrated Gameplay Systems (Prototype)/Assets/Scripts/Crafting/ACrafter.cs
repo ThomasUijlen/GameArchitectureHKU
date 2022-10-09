@@ -6,22 +6,21 @@ public abstract class ACrafter : BasicObject, ICrafter
     public abstract sRecipeList recipes { get; }
 
     protected abstract GameObject CrafterPrefab { get; }
+    protected abstract string CrafterTag { get; }
     protected GameObject CrafterObject;
     protected Player player;
 
-    public ACrafter(GameManager _gameManager, Player _player) : base(_gameManager)
+    public ACrafter(GameManager _gameManager, Vector3 _position, Quaternion _rotation) : base(_gameManager)
     {
-        player = _player;
-
-        InstantiateCrafter();
+        player = (Player) gameManager.GetObjectWithTag("Player");
+        CameraRaycastCommand.onRaycastHit += CheckRaycastHit;
+        InstantiateCrafter(_position, _rotation);
     }
 
-    public virtual bool Craft(sRecipe recipe)
+    public virtual bool Craft(sRecipe _recipe)
     {
-        player.inventory.ShowContent();
-
         // Check if inventory has the correct items
-        foreach (ItemAmountPair pair in recipe.ingredients)
+        foreach (ItemAmountPair pair in _recipe.ingredients)
         {
             if (!player.inventory.HasItems(pair.itemBase, pair.amount))
             {
@@ -31,32 +30,35 @@ public abstract class ACrafter : BasicObject, ICrafter
         }
 
         // Remove all the ingredients from the inventory
-        foreach (ItemAmountPair pair in recipe.ingredients)
+        foreach (ItemAmountPair pair in _recipe.ingredients)
         {
             if (!player.inventory.RemoveItemBase(pair.itemBase, pair.amount))
             {
-                Debug.Log("Removing Items from inventory went wrong ;(");
+                Debug.Log("Removing Items from inventory went wrong");
             }
         }
 
-        Item item = ItemFactory.CreateItem(recipe.craftingResult);
-        item.ApplyDecorators(recipe.itemDecorators);
+        Item item = ItemFactory.CreateItem(_recipe.craftingResult);
+        item.ApplyDecorators(_recipe.itemDecorators);
         player.inventory.AddItem(item);
-
-        player.inventory.ShowContent();
 
         return true;
     }
 
-    protected virtual void InstantiateCrafter()
+    public void CheckRaycastHit(RaycastHit _hit)
     {
-        CrafterObject = GameObject.Instantiate(CrafterPrefab);
-
-        EventTriggerDecorator.AddTrigger(CrafterObject, EventTriggerType.PointerClick, 
-                                            (data) => OpenCrafterMenu((PointerEventData)data));
+        if (_hit.collider.tag == CrafterTag)
+        {
+            OpenCrafterMenu();
+        }
     }
 
-    protected virtual void OpenCrafterMenu(PointerEventData _pointerData)
+    protected virtual void InstantiateCrafter(Vector3 _position, Quaternion _rotation)
+    {
+        CrafterObject = GameObject.Instantiate(CrafterPrefab, _position, _rotation);
+    }
+
+    protected virtual void OpenCrafterMenu(PointerEventData _pointerData = null)
     {
         CrafterMenu crafterMenu = new CrafterMenu(player.menuStateMachine, gameManager, this);
         player.menuStateMachine.SetState(crafterMenu);

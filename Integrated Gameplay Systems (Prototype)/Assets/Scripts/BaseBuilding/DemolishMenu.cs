@@ -16,21 +16,21 @@ public class DemolishMenu : Menu, ICommand
     }
 
     public override void EnableState() {
-        gameManager.inputManager.RegisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Mouse0, this);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void DisableState() {
-        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Escape, backCommand);
+        gameManager.inputManager.DeregisterKeyBinding(KeyCode.Tab, backCommand);
         gameManager.inputManager.DeregisterKeyBinding(KeyCode.Mouse0, this);
 
         Cursor.lockState = CursorLockMode.None;
     }
 
     public void Execute() {
-        int layerMask = LayerMask.GetMask("Structure");
+        int layerMask = LayerMask.GetMask("Structure", "Interactable");
 
         RaycastHit hit;
         if (Physics.Raycast (playerCamera.transform.position, playerCamera.transform.forward, out hit, 50f, layerMask)) {
