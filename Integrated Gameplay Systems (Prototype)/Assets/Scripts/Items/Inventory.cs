@@ -15,13 +15,6 @@ public class Inventory : BasicObject
     public Inventory(GameManager _gameManager) : base(_gameManager)
     {
         animationPlayer = new SimpleAnimations();
-
-        // For testing
-        sItemBase sWood = gameManager.scriptableObjectLibrary.GetScriptableObject("Wood") as sItemBase;
-        sItemBase sMetal = gameManager.scriptableObjectLibrary.GetScriptableObject("Metal") as sItemBase;
-
-        AddItemBase(sWood, 10);
-        AddItemBase(sMetal, 4);
     }
 
     // Adds a specific Item to the inventory. Used when adding a crafted item.
@@ -104,14 +97,6 @@ public class Inventory : BasicObject
     public bool HasItems(sItemBase _item, int _amount)
     {
         return (itemBaseList.ContainsKey(_item) && itemBaseList[_item] >= _amount);
-    }
-
-    public void ShowContent()
-    {
-        foreach (sItemBase item in itemBaseList.Keys)
-        {
-            Debug.Log($"[INVENTORY] Item: {item.name}, Amount: {itemBaseList[item]}");
-        }
     }
 
     private void AddItemBaseToDictionary(sItemBase _itemBase, int _amount)

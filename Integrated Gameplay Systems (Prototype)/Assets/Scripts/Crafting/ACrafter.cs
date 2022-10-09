@@ -10,8 +10,6 @@ public abstract class ACrafter : BasicObject, ICrafter
     protected GameObject CrafterObject;
     protected Player player;
 
-    private GameObject playerCamera;
-
     public ACrafter(GameManager _gameManager, Vector3 _position, Quaternion _rotation) : base(_gameManager)
     {
         player = (Player) gameManager.GetObjectWithTag("Player");
@@ -21,8 +19,6 @@ public abstract class ACrafter : BasicObject, ICrafter
 
     public virtual bool Craft(sRecipe _recipe)
     {
-        player.inventory.ShowContent();
-
         // Check if inventory has the correct items
         foreach (ItemAmountPair pair in _recipe.ingredients)
         {
@@ -38,15 +34,13 @@ public abstract class ACrafter : BasicObject, ICrafter
         {
             if (!player.inventory.RemoveItemBase(pair.itemBase, pair.amount))
             {
-                Debug.Log("Removing Items from inventory went wrong ;(");
+                Debug.Log("Removing Items from inventory went wrong");
             }
         }
 
         Item item = ItemFactory.CreateItem(_recipe.craftingResult);
         item.ApplyDecorators(_recipe.itemDecorators);
         player.inventory.AddItem(item);
-
-        player.inventory.ShowContent();
 
         return true;
     }
@@ -62,9 +56,6 @@ public abstract class ACrafter : BasicObject, ICrafter
     protected virtual void InstantiateCrafter(Vector3 _position, Quaternion _rotation)
     {
         CrafterObject = GameObject.Instantiate(CrafterPrefab, _position, _rotation);
-
-        /*EventTriggerDecorator.AddTrigger(CrafterObject, EventTriggerType.PointerClick, 
-                                            (data) => OpenCrafterMenu((PointerEventData)data));*/
     }
 
     protected virtual void OpenCrafterMenu(PointerEventData _pointerData = null)

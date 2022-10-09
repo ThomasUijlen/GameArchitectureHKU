@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaterMovement : State, ILocomotion
 {
-    public float speed = 10;
+    public float speed = 15;
 
     Vector3 currentDirection;
 

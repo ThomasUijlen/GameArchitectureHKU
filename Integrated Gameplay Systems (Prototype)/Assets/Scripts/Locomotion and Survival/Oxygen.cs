@@ -10,10 +10,7 @@ public class Oxygen
     private int maxOxygenLevel = 50;
     private float elapsed;
 
-    public Oxygen(GameManager _gameManager)
-    {
-
-    }
+    public Oxygen() { }
 
     public void SetOxygenAtStart()
     {
@@ -31,7 +28,6 @@ public class Oxygen
 
     public void TimerOxygen()
     {
-        //Debug.Log(elapsed);
         elapsed += Time.deltaTime;
         if (elapsed >= 5f)
         {

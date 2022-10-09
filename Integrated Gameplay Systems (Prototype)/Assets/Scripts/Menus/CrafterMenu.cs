@@ -6,11 +6,9 @@ using UnityEngine.UI;
 
 public class CrafterMenu : Menu
 {
-    // Misschien later heeft elk menu een Canvas met UI
     private Dictionary<Button, sRecipe> recipeButtons = new Dictionary<Button, sRecipe>();
     private ICrafter crafter;
     private OpenMenuCommand backCommand;
-    private IStateMachine stateMachine;
 
     private GameObject menuCanvas;
     private GameObject recipeInfo;
@@ -29,7 +27,6 @@ public class CrafterMenu : Menu
 
     public override void EnableState()
     {
-        Debug.Log("Crafter Menu");
         gameManager.inputManager.RegisterKeyBinding(KeyCode.Tab, backCommand);
     }
 

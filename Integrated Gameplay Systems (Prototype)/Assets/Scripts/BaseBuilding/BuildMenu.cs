@@ -9,8 +9,8 @@ public class BuildMenu : Menu
     private static Dictionary<string, StructureInformation> structureLibrary = new Dictionary<string, StructureInformation> {
         {"Hub", new StructureInformation(typeof(ExteriorStructure), "A large structure. Has a decent amount of interior space")},
         {"Storage Container", new StructureInformation(typeof(InteriorStructure), "A storage container. Can only be placed inside.")},
-        {"ClassDefaultCrafter", new StructureInformation(typeof(InteriorStructure), "A crafter. Can be used to convert items into complexer ones.")},
-        {"ClassItemEnhancer", new StructureInformation(typeof(InteriorStructure), "An item enhancer.")}
+        {"ClassDefaultCrafter", new StructureInformation(typeof(InteriorStructure), "A crafter. Can be used to convert items into complexer ones. Should be placed inside.")},
+        {"ClassItemEnhancer", new StructureInformation(typeof(InteriorStructure), "An item enhancer. Enhanced the gold value of items. Should be placed inside.")}
     };
 
     private OpenMenuCommand backCommand;
@@ -44,16 +44,18 @@ public class BuildMenu : Menu
             StructureInformation structureInformation = keyValuePair.Value;
                         
             GameObject structureButton = structureList.AddElement();
+            string structureNameText = (structureName.Length > 6 && structureName.Substring(0, 5) == "Class") ? structureName.Substring(5) : structureName;
             structureButton.GetComponent<Button>().onClick.AddListener(() => StructureSelected(structureName));
-            structureButton.GetComponentInChildren<Text>().text = (structureName.Length > 6 && structureName.Substring(0,5) == "Class") ? structureName.Substring(5) : structureName;
+            structureButton.GetComponentInChildren<Text>().text = structureNameText;
             if(selectedStructure == null) StructureSelected(structureName);
         }
     }
 
-    public void StructureSelected(string structure) {
-        selectedStructure = structure;
-        GameObject.Find("StructureName").GetComponent<Text>().text = structure;
-        GameObject.Find("StructureDescription").GetComponent<Text>().text = structureLibrary[structure].description;
+    public void StructureSelected(string _structure) {
+        selectedStructure = _structure;
+        string structureNameText = (_structure.Length > 6 && _structure.Substring(0, 5) == "Class") ? _structure.Substring(5) : _structure;
+        GameObject.Find("StructureName").GetComponent<Text>().text = structureNameText;
+        GameObject.Find("StructureDescription").GetComponent<Text>().text = structureLibrary[_structure].description;
     }
 
     public void StructureConfirm() {

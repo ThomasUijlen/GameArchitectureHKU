@@ -8,9 +8,6 @@ public class Player : BasicObject
     public MenuStateMachine menuStateMachine;
     public MoveStateMachine moveStateMachine;
 
-    private GroundMovement moveGround;
-    private WaterMovement moveWater;
-
     public PlayerRotator playerRotator;
     private Oxygen oxygen;
 
@@ -24,7 +21,7 @@ public class Player : BasicObject
         _gameManager.RegisterTag("Player", this);
         _gameManager.RegisterTag("Camera", GameObject.Find("MainCamera"));
 
-        oxygen = new Oxygen(_gameManager);
+        oxygen = new Oxygen();
 
         playerRotator = new PlayerRotator(_gameManager, this);
         menuStateMachine = new MenuStateMachine(_gameManager);
@@ -53,7 +50,11 @@ public class Player : BasicObject
             oxygen.TimerOxygen();
         }
 
-        //Debug.Log(oxygen.currentOxygenLevel);
         oxygenUI.GetComponentInChildren<Text>().text = "Oxygen: " + oxygen.currentOxygenLevel.ToString();
+    }
+
+    public bool GroundCheck()
+    {
+        return Physics.Raycast(playerGameObject.transform.position, Vector3.down, 2f, LayerMask.GetMask("Terrain", "Interior", "Structure"));
     }
 }
