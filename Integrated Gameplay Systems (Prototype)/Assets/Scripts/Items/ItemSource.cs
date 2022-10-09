@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 // This class is used to give the player resources
 public class ItemSource : BasicObject
 {
-    public string name => $"{itemBase.name} Source";
+    public string name => $"{itemBase.name}Source";
     private GameObject prefab;
     private GameObject sourceObject;
     private sItemBase itemBase;
@@ -13,6 +13,7 @@ public class ItemSource : BasicObject
     {
         itemBase = _itemBase;
         prefab = _prefab;
+        CameraRaycastCommand.onRaycastHit += CheckRaycastHit;
         InstantiateItemSource(_startingPos);
     }
 
@@ -20,15 +21,19 @@ public class ItemSource : BasicObject
     {
         sourceObject = GameObject.Instantiate(prefab);
         sourceObject.transform.position = _startingPos;
-
-        EventTriggerDecorator.AddTrigger(sourceObject, EventTriggerType.PointerClick,
-                                            (data) => OnPlayerInteract((PointerEventData) data));
     }
 
-    private void OnPlayerInteract(PointerEventData data)
+    private void CheckRaycastHit(RaycastHit hit)
+    {
+        if (hit.collider.CompareTag(name))
+        {
+            OnPlayerInteract();
+        }
+    }
+
+    private void OnPlayerInteract()
     {
         Inventory playerInventory = (Inventory) gameManager.GetObjectWithTag("Inventory");
         playerInventory.AddItemBase(itemBase, 1);
-        Debug.Log($"Added {itemBase.name} to the inventory");
     }
 }

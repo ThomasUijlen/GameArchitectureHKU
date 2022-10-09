@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6947140316356836973}
   m_Layer: 0
   m_Name: WoodSource
-  m_TagString: Untagged
+  m_TagString: WoodSource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
