@@ -13,16 +13,12 @@ public class WaterMovement : State, ILocomotion
 
     public Collider[] hitColliders;
 
-    private Oxygen oxygen;
-
     private MoveCommand command1;
     private MoveCommand command2;
     private MoveCommand command3;
     private MoveCommand command4;
     private MoveCommand command5;
     private MoveCommand command6;
-
-    private float radius = .1f;
 
     private Rigidbody rigidbody;
     private GameObject playerCamera;
